@@ -1,0 +1,82 @@
+<svg width="300" height="450" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="450" fill="#2c3e50"/>
+  
+  <!-- Wardrobe -->
+  <rect x="50" y="100" width="200" height="250" fill="#8b4513"/>
+  <rect x="60" y="110" width="180" height="230" fill="#654321"/>
+  
+  <!-- Wardrobe doors -->
+  <rect x="65" y="115" width="85" height="220" fill="#8b4513"/>
+  <rect x="155" y="115" width="85" height="220" fill="#8b4513"/>
+  
+  <!-- Door handles -->
+  <circle cx="140" cy="225" r="3" fill="#ffd700"/>
+  <circle cx="165" cy="225" r="3" fill="#ffd700"/>
+  
+  <!-- Magical light from inside -->
+  <ellipse cx="150" cy="225" rx="60" ry="80" fill="#f0f8ff" opacity="0.3"/>
+  <ellipse cx="150" cy="225" rx="40" ry="60" fill="#e6f3ff" opacity="0.5"/>
+  
+  <!-- Lamppost -->
+  <g transform="translate(150, 200)">
+    <rect x="-2" y="0" width="4" height="60" fill="#2c2c2c"/>
+    <circle cx="0" cy="-5" r="8" fill="#ffd700"/>
+    <circle cx="0" cy="-5" r="6" fill="#ffff99"/>
+    <!-- Light rays -->
+    <path d="M-15,-5 L-8,-5" stroke="#ffff99" stroke-width="2"/>
+    <path d="M8,-5 L15,-5" stroke="#ffff99" stroke-width="2"/>
+    <path d="M0,-20 L0,-13" stroke="#ffff99" stroke-width="2"/>
+    <path d="M0,8 L0,15" stroke="#ffff99" stroke-width="2"/>
+  </g>
+  
+  <!-- Snow -->
+  <circle cx="80" cy="180" r="2" fill="#fff" opacity="0.8"/>
+  <circle cx="120" cy="160" r="1.5" fill="#fff" opacity="0.8"/>
+  <circle cx="180" cy="170" r="2" fill="#fff" opacity="0.8"/>
+  <circle cx="220" cy="190" r="1" fill="#fff" opacity="0.8"/>
+  <circle cx="100" cy="200" r="1.5" fill="#fff" opacity="0.8"/>
+  <circle cx="200" cy="210" r="1" fill="#fff" opacity="0.8"/>
+  
+  <!-- Pine trees -->
+  <g transform="translate(90, 280)">
+    <polygon points="0,-30 -10,-10 10,-10" fill="#0f5132"/>
+    <polygon points="0,-20 -12,0 12,0" fill="#0f5132"/>
+    <rect x="-2" y="0" width="4" height="10" fill="#8b4513"/>
+  </g>
+  
+  <g transform="translate(210, 290)">
+    <polygon points="0,-25 -8,-8 8,-8" fill="#0f5132"/>
+    <polygon points="0,-15 -10,2 10,2" fill="#0f5132"/>
+    <rect x="-1.5" y="2" width="3" height="8" fill="#8b4513"/>
+  </g>
+  
+  <!-- Lion silhouette (Aslan) -->
+  <g transform="translate(150, 320)" opacity="0.6">
+    <ellipse cx="0" cy="0" rx="25" ry="15" fill="#daa520"/>
+    <circle cx="0" cy="-8" r="12" fill="#daa520"/>
+    <!-- Mane -->
+    <circle cx="-8" cy="-12" r="6" fill="#cd853f"/>
+    <circle cx="8" cy="-12" r="6" fill="#cd853f"/>
+    <circle cx="0" cy="-18" r="8" fill="#cd853f"/>
+  </g>
+  
+  <!-- Title area -->
+  <rect x="20" y="360" width="260" height="60" fill="#2c3e50" opacity="0.9"/>
+  
+  <!-- Title text -->
+  <text x="150" y="385" text-anchor="middle" fill="#f0f8ff" font-family="serif" font-size="16" font-weight="bold">AS CRÔNICAS</text>
+  <text x="150" y="405" text-anchor="middle" fill="#f0f8ff" font-family="serif" font-size="16" font-weight="bold">DE NÁRNIA</text>
+  
+  <!-- Author -->
+  <text x="150" y="430" text-anchor="middle" fill="#bdc3c7" font-family="serif" font-size="12">C.S. Lewis</text>
+  
+  <!-- Magical sparkles -->
+  <circle cx="70" cy="140" r="1" fill="#ffd700"/>
+  <circle cx="230" cy="150" r="1.5" fill="#ffd700"/>
+  <circle cx="110" cy="130" r="1" fill="#ffd700"/>
+  <circle cx="190" cy="140" r="1" fill="#ffd700"/>
+  
+  <!-- Decorative border -->
+  <rect x="10" y="10" width="280" height="430" fill="none" stroke="#ffd700" stroke-width="2"/>
+</svg>

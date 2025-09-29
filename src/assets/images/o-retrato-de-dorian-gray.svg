@@ -1,0 +1,51 @@
+<svg width="300" height="450" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="450" fill="#2c1810"/>
+  
+  <!-- Ornate frame -->
+  <rect x="40" y="120" width="220" height="280" fill="#8b4513" stroke="#654321" stroke-width="3"/>
+  <rect x="50" y="130" width="200" height="260" fill="#1a1a1a"/>
+  
+  <!-- Frame decorations -->
+  <circle cx="60" cy="140" r="5" fill="#daa520"/>
+  <circle cx="240" cy="140" r="5" fill="#daa520"/>
+  <circle cx="60" cy="380" r="5" fill="#daa520"/>
+  <circle cx="240" cy="380" r="5" fill="#daa520"/>
+  
+  <!-- Portrait silhouette (beautiful) -->
+  <g transform="translate(150, 200)">
+    <ellipse cx="0" cy="-20" rx="35" ry="45" fill="#f4c2a1"/>
+    <ellipse cx="0" cy="-30" rx="30" ry="35" fill="#f4c2a1"/>
+    <!-- Hair -->
+    <path d="M-30,-50 Q0,-70 30,-50 Q25,-30 20,-20 Q0,-25 -20,-20 Q-25,-30 -30,-50" fill="#8b4513"/>
+    <!-- Eyes -->
+    <circle cx="-10" cy="-25" r="2" fill="#4169e1"/>
+    <circle cx="10" cy="-25" r="2" fill="#4169e1"/>
+    <!-- Nose -->
+    <line x1="0" y1="-15" x2="0" y2="-5" stroke="#d4a574" stroke-width="1"/>
+    <!-- Mouth -->
+    <path d="M-5,0 Q0,5 5,0" stroke="#d4a574" stroke-width="1" fill="none"/>
+  </g>
+  
+  <!-- Corruption effect (dark overlay) -->
+  <g opacity="0.6">
+    <path d="M50,200 Q100,180 150,200 Q200,180 250,200 L250,390 L50,390 Z" fill="#000" opacity="0.3"/>
+    <circle cx="120" cy="250" r="3" fill="#8b0000"/>
+    <circle cx="180" cy="280" r="2" fill="#8b0000"/>
+    <path d="M100,300 Q150,290 200,300" stroke="#8b0000" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Title area -->
+  <rect x="20" y="30" width="260" height="70" fill="#2c1810" opacity="0.9"/>
+  
+  <!-- Title text -->
+  <text x="150" y="55" text-anchor="middle" fill="#daa520" font-family="serif" font-size="16" font-weight="bold">O RETRATO DE</text>
+  <text x="150" y="80" text-anchor="middle" fill="#daa520" font-family="serif" font-size="16" font-weight="bold">DORIAN GRAY</text>
+  
+  <!-- Author -->
+  <text x="150" y="420" text-anchor="middle" fill="#a0a0a0" font-family="serif" font-size="12">Oscar Wilde</text>
+  
+  <!-- Decorative Victorian elements -->
+  <path d="M20,100 Q30,90 40,100" stroke="#daa520" stroke-width="2" fill="none"/>
+  <path d="M260,100 Q270,90 280,100" stroke="#daa520" stroke-width="2" fill="none"/>
+</svg>

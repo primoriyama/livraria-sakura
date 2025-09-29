@@ -1,0 +1,154 @@
+@use '@angular/material' as mat;
+
+$header-bg: #1A1A1A;
+$header-text: #F5F5F5;
+$header-accent: #C08081;
+$font-logo: 'Noto Serif JP', serif;
+$font-body: 'Lato', sans-serif;
+$warn-color: #d9534f;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  background-color: $header-bg;
+  color: $header-text;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  min-height: 96px;
+  padding: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-content {
+  width: 85%;
+  max-width: 1800px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.logo {
+  margin-right: auto;
+}
+
+.logo a {
+  color: $header-text;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  font-family: $font-logo;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+  margin-right: 3rem;
+
+  a {
+    font-family: $font-body;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgba(245, 245, 245, 0.8);
+    text-decoration: none;
+    padding: 8px 0;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    background-color: transparent;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: $header-accent;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover,
+    &.active {
+      color: $header-text;
+      transform: translateY(-2px);
+    }
+
+    &.active::after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .mat-mdc-icon-button, .mat-mdc-button {
+    color: $header-text;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: $header-accent;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  .login-btn {
+    font-family: $font-body;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid rgba(245, 245, 245, 0.5);
+    padding: 8px 24px;
+    border-radius: 4px;
+
+    &:hover {
+      border-color: $header-accent;
+    }
+  }
+
+  .cart-icon-container {
+    position: relative;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: $warn-color;
+    color: black !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: $font-body;
+  }
+}
+
+:host ::ng-deep .mat-mdc-menu-item .mat-icon-no-color {
+  color: inherit !important;
+}
+
+@media (max-width: 992px) {
+  .main-nav {
+    display: none;
+  }
+}

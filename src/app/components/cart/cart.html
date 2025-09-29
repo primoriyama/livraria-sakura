@@ -1,0 +1,185 @@
+<div class="cart-container">
+  <div class="cart-header">
+    <h1>
+      <mat-icon>shopping_cart</mat-icon>
+      {{ 'CART.TITLE' | translate }}
+      @if (totalItems() > 0) {
+        <span class="item-count">{{ totalItems() }}</span>
+      }
+    </h1>
+
+    @if (!isEmpty()) {
+      <button
+        mat-stroked-button
+        color="warn"
+        (click)="clearCart()"
+        class="clear-button"
+      >
+        <mat-icon>delete</mat-icon>
+        {{ 'CART.CLEAR_CART' | translate }}
+      </button>
+    }
+  </div>
+
+  @if (isEmpty()) {
+    <div class="empty-cart">
+      <mat-card class="empty-card">
+        <mat-card-content>
+          <div class="empty-content">
+            <mat-icon class="empty-icon">shopping_cart</mat-icon>
+            <h2>{{ 'CART.EMPTY_TITLE' | translate }}</h2>
+            <p>{{ 'CART.EMPTY_MESSAGE' | translate }}</p>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="continueShopping()"
+              class="shop-button"
+            >
+              <mat-icon>book</mat-icon>
+              {{ 'CART.EXPLORE_BOOKS' | translate }}
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+
+  @if (!isEmpty()) {
+    <div class="cart-content">
+      <div class="cart-items">
+        <h2>{{ 'CART.ITEMS_IN_CART' | translate }}</h2>
+
+        @for (item of cartItems(); track item.book._id) {
+          <mat-card class="cart-item">
+            <div class="item-content">
+              <div class="item-image">
+                <img
+                  [src]="item.book.imagemUrl || '/assets/images/book-placeholder.jpg'"
+                  [alt]="item.book.titulo"
+                  (error)="$event.target.src='/assets/images/book-placeholder.jpg'"
+                >
+              </div>
+
+              <div class="item-details">
+                <div class="item-info">
+                  <h3>{{ item.book.titulo | translateTitle }}</h3>
+                  <p class="author">{{ item.book.autor }}</p>
+                  <p class="category">{{ item.book.categoria }}</p>
+
+                  @if (item.book.estoque <= 5) {
+                    <div class="stock-warning">
+                      <mat-icon>warning</mat-icon>
+                      {{ 'CART.LOW_STOCK_WARNING' | translate: {stock: item.book.estoque} }}
+                    </div>
+                  }
+                </div>
+
+                <div class="item-controls-wrapper">
+                  <div class="quantity-controls">
+                    <label>{{ 'CART.QUANTITY' | translate }}:</label>
+                    <div class="quantity-buttons">
+                      <button
+                        mat-icon-button
+                        (click)="updateQuantity(item, item.quantity - 1)"
+                        [disabled]="item.quantity <= 1"
+                      >
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                      <span class="quantity">{{ item.quantity }}</span>
+                      <button
+                        mat-icon-button
+                        (click)="updateQuantity(item, item.quantity + 1)"
+                        [disabled]="item.quantity >= item.book.estoque"
+                      >
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="item-price">
+                    <div class="unit-price">
+                      {{ formatPrice(item.book.preco) }} {{ 'CART.EACH' | translate }}
+                    </div>
+                    <div class="subtotal">
+                      {{ formatPrice(getItemSubtotal(item)) }}
+                    </div>
+                  </div>
+                  <div class="item-actions">
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="removeItem(item)"
+                      [matTooltip]="'CART.REMOVE_ITEM_TOOLTIP' | translate"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              </div>
+          </mat-card>
+        }
+      </div>
+
+      <div class="order-summary">
+        <mat-card class="summary-card">
+          <mat-card-header>
+            <mat-card-title>{{ 'CART.ORDER_SUMMARY' | translate }}</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="summary-line">
+              <span>{{ 'CART.SUBTOTAL' | translate: {count: totalItems()} }}:</span>
+              <span>{{ formatPrice(totalPrice()) }}</span>
+            </div>
+
+            <div class="summary-line">
+              <span>{{ 'CART.SHIPPING' | translate }}:</span>
+              <span>
+                @if (shipping() === 0) {
+                  <span class="free-shipping cart-free-shipping-text">{{ 'CART.FREE_SHIPPING' | translate }}</span>
+                } @else {
+                  {{ formatPrice(shipping()) }}
+                }
+              </span>
+            </div>
+
+            @if (shipping() > 0) {
+              <div class="shipping-info">
+                <mat-icon>info_outline</mat-icon>
+                {{ 'CART.FREE_SHIPPING_INFO' | translate }}
+              </div>
+            }
+
+            <mat-divider></mat-divider>
+
+            <div class="summary-line total">
+              <span>{{ 'CART.TOTAL' | translate }}:</span>
+              <span>{{ formatPrice(finalTotal()) }}</span>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="proceedToCheckout()"
+              class="checkout-button"
+            >
+              <mat-icon>payment</mat-icon>
+              {{ 'CART.CHECKOUT' | translate }}
+            </button>
+
+            <button
+              mat-stroked-button
+              (click)="continueShopping()"
+              class="continue-button"
+            >
+              <mat-icon>arrow_back</mat-icon>
+              {{ 'CART.CONTINUE_SHOPPING' | translate }}
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  }
+</div>

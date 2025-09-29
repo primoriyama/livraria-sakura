@@ -1,0 +1,550 @@
+<div class="admin-container">
+  <!-- Cabeçalho da Administração -->
+  <div class="admin-header">
+    <div class="header-content">
+      <h1>
+        <mat-icon>admin_panel_settings</mat-icon>
+        {{ 'ADMIN.TITLE' | translate }}
+      </h1>
+      <p>{{ 'ADMIN.SUBTITLE' | translate }}</p>
+    </div>
+    
+    <div class="header-actions">
+      <button mat-raised-button color="primary" routerLink="/admin/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        {{ 'ADMIN.DASHBOARD' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs de Administração -->
+  <mat-tab-group class="admin-tabs" animationDuration="300ms">
+    
+    <!-- Aba: Dashboard -->
+    <mat-tab label="{{ 'ADMIN.DASHBOARD' | translate }}">
+      <ng-template matTabContent>
+        <div class="tab-content">
+          @if (loading()) {
+            <div class="loading-container">
+              <mat-spinner diameter="50"></mat-spinner>
+              <p>{{ 'ADMIN.LOADING_DATA' | translate }}</p>
+            </div>
+          } @else {
+            <!-- Cards de Estatísticas -->
+            <div class="stats-grid">
+              <mat-card class="stat-card books-card">
+                <mat-card-content>
+                  <div class="stat-content">
+                    <div class="stat-icon">
+                      <mat-icon>library_books</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <h3>{{ stats().totalBooks }}</h3>
+                      <p>{{ 'ADMIN.TOTAL_BOOKS' | translate }}</p>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card class="stat-card users-card">
+                <mat-card-content>
+                  <div class="stat-content">
+                    <div class="stat-icon">
+                      <mat-icon>people</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <h3>{{ stats().totalUsers }}</h3>
+                      <p>{{ 'ADMIN.REGISTERED_USERS' | translate }}</p>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card class="stat-card orders-card">
+                <mat-card-content>
+                  <div class="stat-content">
+                    <div class="stat-icon">
+                      <mat-icon>shopping_cart</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <h3>{{ stats().totalOrders }}</h3>
+                      <p>{{ 'ADMIN.ORDERS_THIS_MONTH' | translate }}</p>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card class="stat-card revenue-card">
+                <mat-card-content>
+                  <div class="stat-content">
+                    <div class="stat-icon">
+                      <mat-icon>attach_money</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <h3>{{ formatPrice(stats().totalRevenue) }}</h3>
+                      <p>{{ 'ADMIN.REVENUE_THIS_MONTH' | translate }}</p>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card class="stat-card stock-card">
+                <mat-card-content>
+                  <div class="stat-content">
+                    <div class="stat-icon">
+                      <mat-icon>warning</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <h3>{{ stats().lowStockBooks }}</h3>
+                      <p>{{ 'ADMIN.LOW_STOCK' | translate }}</p>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card class="stat-card today-card">
+                <mat-card-content>
+                  <div class="stat-content">
+                    <div class="stat-icon">
+                      <mat-icon>today</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <h3>{{ stats().recentOrders }}</h3>
+                      <p>{{ 'ADMIN.ORDERS_TODAY' | translate }}</p>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="quick-actions">
+              <h2>{{ 'ADMIN.QUICK_ACTIONS' | translate }}</h2>
+              <div class="actions-grid">
+                <button mat-raised-button color="primary" (click)="loadDashboardData()">
+                  <mat-icon>refresh</mat-icon>
+                  {{ 'ADMIN.UPDATE_DATA' | translate }}
+                </button>
+                
+                <button mat-raised-button color="accent">
+                  <mat-icon>file_download</mat-icon>
+                  {{ 'ADMIN.EXPORT_REPORT' | translate }}
+                </button>
+                
+                <button mat-raised-button color="warn">
+                  <mat-icon>backup</mat-icon>
+                  {{ 'ADMIN.BACKUP_SYSTEM' | translate }}
+                </button>
+                
+                <button mat-raised-button>
+                  <mat-icon>notifications</mat-icon>
+                  {{ 'ADMIN.SEND_NOTIFICATIONS' | translate }}
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <!-- Aba: Gerenciar Livros -->
+    <mat-tab label="{{ 'ADMIN.BOOKS' | translate }}">
+      <ng-template matTabContent>
+        <div class="tab-content">
+          
+          <!-- Formulário de Livro -->
+          <mat-card class="book-form-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>{{ editingBook() ? 'edit' : 'add' }}</mat-icon>
+                {{ editingBook() ? ('ADMIN.EDIT_BOOK' | translate) : ('ADMIN.ADD_NEW_BOOK' | translate) }}
+              </mat-card-title>
+              <mat-card-subtitle>
+                {{ editingBook() ? ('ADMIN.UPDATE_BOOK_INFO' | translate) : ('ADMIN.FILL_BOOK_DATA' | translate) }}
+              </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <form [formGroup]="bookForm" (ngSubmit)="onSubmitBook()">
+                <!-- Informações Básicas -->
+                <div class="form-section">
+                  <h3>{{ 'ADMIN.BASIC_INFO' | translate }}</h3>
+                  
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'ADMIN.TITLE' | translate }}</mat-label>
+                      <input matInput formControlName="titulo" [placeholder]="'ADMIN.BOOK_TITLE_PLACEHOLDER' | translate">
+                      <mat-icon matSuffix>title</mat-icon>
+                      @if (bookForm.get('titulo')?.invalid && bookForm.get('titulo')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'titulo') }}</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'ADMIN.AUTHOR' | translate }}</mat-label>
+                      <input matInput formControlName="autor" [placeholder]="'ADMIN.AUTHOR_NAME_PLACEHOLDER' | translate">
+                      <mat-icon matSuffix>person</mat-icon>
+                      @if (bookForm.get('autor')?.invalid && bookForm.get('autor')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'autor') }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="third-width">
+                      <mat-label>{{ 'ADMIN.PRICE' | translate }}</mat-label>
+                      <input matInput type="number" formControlName="preco" placeholder="0.00" step="0.01">
+                      <span matTextPrefix>R$ </span>
+                      @if (bookForm.get('preco')?.invalid && bookForm.get('preco')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'preco') }}</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="third-width">
+                      <mat-label>{{ 'ADMIN.CATEGORY' | translate }}</mat-label>
+                      <mat-select formControlName="categoria">
+                        @for (category of categories; track category) {
+                          <mat-option [value]="category">{{ category }}</mat-option>
+                        }
+                      </mat-select>
+                      @if (bookForm.get('categoria')?.invalid && bookForm.get('categoria')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'categoria') }}</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="third-width">
+                      <mat-label>{{ 'ADMIN.STOCK' | translate }}</mat-label>
+                      <input matInput type="number" formControlName="estoque" placeholder="0">
+                      <mat-icon matSuffix>inventory</mat-icon>
+                      @if (bookForm.get('estoque')?.invalid && bookForm.get('estoque')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'estoque') }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>{{ 'ADMIN.DESCRIPTION' | translate }}</mat-label>
+                      <textarea matInput formControlName="descricao" rows="3" [placeholder]="'ADMIN.BOOK_DESCRIPTION_PLACEHOLDER' | translate"></textarea>
+                      @if (bookForm.get('descricao')?.invalid && bookForm.get('descricao')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'descricao') }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <!-- Detalhes Técnicos -->
+                <div class="form-section">
+                  <h3>{{ 'ADMIN.TECHNICAL_DETAILS' | translate }}</h3>
+                  
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="third-width">
+                      <mat-label>{{ 'ADMIN.ISBN' | translate }}</mat-label>
+                      <input matInput formControlName="isbn" placeholder="9788535902773">
+                      @if (bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'isbn') }}</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="third-width">
+                      <mat-label>{{ 'ADMIN.PUBLISHER' | translate }}</mat-label>
+                      <input matInput formControlName="editora" [placeholder]="'ADMIN.PUBLISHER_NAME_PLACEHOLDER' | translate">
+                      @if (bookForm.get('editora')?.invalid && bookForm.get('editora')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'editora') }}</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="third-width">
+                      <mat-label>{{ 'ADMIN.PUBLICATION_YEAR' | translate }}</mat-label>
+                      <input matInput type="number" formControlName="anoPublicacao" placeholder="2024">
+                      @if (bookForm.get('anoPublicacao')?.invalid && bookForm.get('anoPublicacao')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'anoPublicacao') }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'ADMIN.PAGE_COUNT' | translate }}</mat-label>
+                      <input matInput type="number" formControlName="numeroPaginas" placeholder="300">
+                      @if (bookForm.get('numeroPaginas')?.invalid && bookForm.get('numeroPaginas')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'numeroPaginas') }}</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'ADMIN.IMAGE_URL' | translate }}</mat-label>
+                      <input matInput formControlName="imagemUrl" [placeholder]="'ADMIN.IMAGE_URL_PLACEHOLDER' | translate">
+                      <mat-icon matSuffix>image</mat-icon>
+                      @if (bookForm.get('imagemUrl')?.invalid && bookForm.get('imagemUrl')?.touched) {
+                        <mat-error>{{ getErrorMessage(bookForm, 'imagemUrl') }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Upload de Imagem -->
+                  <div class="image-upload">
+                    <input type="file" #fileInput (change)="onImageUpload($event)" accept="image/*" style="display: none;">
+                    <button type="button" mat-stroked-button (click)="fileInput.click()">
+                      <mat-icon>cloud_upload</mat-icon>
+                      {{ 'ADMIN.UPLOAD_IMAGE' | translate }}
+                    </button>
+                    
+                    @if (bookForm.get('imagemUrl')?.value) {
+                      <div class="image-preview">
+                        <img [src]="bookForm.get('imagemUrl')?.value" alt="Preview">
+                      </div>
+                    }
+                  </div>
+                </div>
+              </form>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button 
+                mat-raised-button 
+                color="primary" 
+                (click)="onSubmitBook()"
+                [disabled]="loading() || bookForm.invalid"
+              >
+                @if (loading()) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                  {{ editingBook() ? ('ADMIN.UPDATING' | translate) : ('ADMIN.SAVING' | translate) }}
+                } @else {
+                  <mat-icon>{{ editingBook() ? 'save' : 'add' }}</mat-icon>
+                  {{ editingBook() ? ('ADMIN.UPDATE_BOOK' | translate) : ('ADMIN.ADD_BOOK' | translate) }}
+                }
+              </button>
+
+              @if (editingBook()) {
+                <button mat-stroked-button (click)="resetBookForm()">
+                  <mat-icon>cancel</mat-icon>
+                  {{ 'ADMIN.CANCEL' | translate }}
+                </button>
+              }
+            </mat-card-actions>
+          </mat-card>
+
+          <!-- Lista de Livros -->
+          <mat-card class="books-table-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>library_books</mat-icon>
+                {{ 'ADMIN.BOOKS_LIST' | translate }}
+              </mat-card-title>
+              <mat-card-subtitle>
+                {{ 'ADMIN.MANAGE_ALL_BOOKS' | translate }}
+              </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              @if (loading()) {
+                <div class="loading-container">
+                  <mat-spinner></mat-spinner>
+                  <p>{{ 'ADMIN.LOADING_BOOKS' | translate }}</p>
+                </div>
+              } @else if (books().length === 0) {
+                <div class="empty-state">
+                  <mat-icon>auto_stories</mat-icon>
+                  <h3>{{ 'ADMIN.NO_BOOKS_REGISTERED' | translate }}</h3>
+                  <p>{{ 'ADMIN.ADD_FIRST_BOOK' | translate }}</p>
+                </div>
+              } @else {
+                <div class="table-container">
+                  <table mat-table [dataSource]="books()" class="books-table">
+                    
+                    <!-- Coluna: Imagem -->
+                    <ng-container matColumnDef="imagemUrl">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.IMAGE' | translate }}</th>
+                      <td mat-cell *matCellDef="let book">
+                        <img [src]="book.imagemUrl || '/assets/images/book-placeholder.jpg'" [alt]="book.titulo" class="book-thumbnail">
+                      </td>
+                    </ng-container>
+
+                    <!-- Coluna: Título -->
+                    <ng-container matColumnDef="titulo">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.TITLE' | translate }}</th>
+                      <td mat-cell *matCellDef="let book">
+                        <div class="book-title">
+                          <strong>{{ book.titulo | translateTitle }}</strong>
+                          <small>{{ book.isbn }}</small>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <!-- Coluna: Autor -->
+                    <ng-container matColumnDef="autor">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.AUTHOR' | translate }}</th>
+                      <td mat-cell *matCellDef="let book">{{ book.autor }}</td>
+                    </ng-container>
+
+                    <!-- Coluna: Categoria -->
+                    <ng-container matColumnDef="categoria">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.CATEGORY' | translate }}</th>
+                      <td mat-cell *matCellDef="let book">
+                        <mat-chip>{{ book.categoria }}</mat-chip>
+                      </td>
+                    </ng-container>
+
+                    <!-- Coluna: Preço -->
+                    <ng-container matColumnDef="preco">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.PRICE' | translate }}</th>
+                      <td mat-cell *matCellDef="let book">{{ formatPrice(book.preco) }}</td>
+                    </ng-container>
+
+                    <!-- Coluna: Estoque -->
+                    <ng-container matColumnDef="estoque">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.STOCK' | translate }}</th>
+                      <td mat-cell *matCellDef="let book">
+                        <span [class]="book.estoque <= 5 ? 'low-stock' : 'normal-stock'">
+                          {{ book.estoque }}
+                        </span>
+                      </td>
+                    </ng-container>
+
+                    <!-- Coluna: Disponível -->
+                    <ng-container matColumnDef="disponivel">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.STATUS' | translate }}</th>
+                      <td mat-cell *matCellDef="let book">
+                        <mat-chip [color]="book.disponivel ? 'primary' : 'warn'" selected>
+                          {{ book.disponivel ? ('ADMIN.ACTIVE' | translate) : ('ADMIN.INACTIVE' | translate) }}
+                        </mat-chip>
+                      </td>
+                    </ng-container>
+
+                    <!-- Coluna: Ações -->
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.ACTIONS' | translate }}</th>
+                      <td mat-cell *matCellDef="let book">
+                        <div class="action-buttons">
+                          <button mat-icon-button color="primary" (click)="editBook(book)" [matTooltip]="'ADMIN.EDIT' | translate">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          
+                          <button 
+                            mat-icon-button 
+                            [color]="book.disponivel ? 'warn' : 'accent'"
+                            (click)="toggleBookAvailability(book)" 
+                            [matTooltip]="book.disponivel ? ('ADMIN.DEACTIVATE' | translate) : ('ADMIN.ACTIVATE' | translate)"
+                          >
+                            <mat-icon>{{ book.disponivel ? 'visibility_off' : 'visibility' }}</mat-icon>
+                          </button>
+                          
+                          <button mat-icon-button color="warn" (click)="deleteBook(book)" [matTooltip]="'ADMIN.DELETE' | translate">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="bookColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: bookColumns;"></tr>
+                  </table>
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <!-- Aba: Usuários -->
+    <mat-tab label="{{ 'ADMIN.USERS' | translate }}">
+      <ng-template matTabContent>
+        <div class="tab-content">
+          <mat-card class="users-table-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>people</mat-icon>
+                {{ 'ADMIN.REGISTERED_USERS' | translate }}
+              </mat-card-title>
+              <mat-card-subtitle>
+                {{ 'ADMIN.MANAGE_USERS_PERMISSIONS' | translate }}
+              </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              @if (users().length === 0) {
+                <div class="empty-state">
+                  <mat-icon>people</mat-icon>
+                  <h3>{{ 'ADMIN.NO_USERS_FOUND' | translate }}</h3>
+                  <p>{{ 'ADMIN.USERS_WILL_APPEAR_HERE' | translate }}</p>
+                </div>
+              } @else {
+                <div class="table-container">
+                  <table mat-table [dataSource]="users()" class="users-table">
+                    
+                    <!-- Coluna: Nome -->
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.NAME' | translate }}</th>
+                      <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+                    </ng-container>
+
+                    <!-- Coluna: Email -->
+                    <ng-container matColumnDef="email">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.EMAIL' | translate }}</th>
+                      <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+                    </ng-container>
+
+                    <!-- Coluna: Função -->
+                    <ng-container matColumnDef="role">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.ROLE' | translate }}</th>
+                      <td mat-cell *matCellDef="let user">
+                        <mat-chip [color]="user.role === 'admin' ? 'primary' : 'accent'" selected>
+                          {{ user.role === 'admin' ? ('ADMIN.ADMINISTRATOR' | translate) : ('ADMIN.USER' | translate) }}
+                        </mat-chip>
+                      </td>
+                    </ng-container>
+
+                    <!-- Coluna: Data de Cadastro -->
+                    <ng-container matColumnDef="createdAt">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.REGISTRATION' | translate }}</th>
+                      <td mat-cell *matCellDef="let user">{{ formatDate(user.createdAt) }}</td>
+                    </ng-container>
+
+                    <!-- Coluna: Último Login -->
+                    <ng-container matColumnDef="lastLogin">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.LAST_LOGIN' | translate }}</th>
+                      <td mat-cell *matCellDef="let user">
+                        {{ user.lastLogin ? formatDate(user.lastLogin) : ('ADMIN.NEVER' | translate) }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Coluna: Ações -->
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.ACTIONS' | translate }}</th>
+                      <td mat-cell *matCellDef="let user">
+                        <div class="action-buttons">
+                          @if (user.role === 'user') {
+                            <button mat-icon-button color="primary" (click)="manageUser(user, 'promote')" [matTooltip]="'ADMIN.PROMOTE_TO_ADMIN' | translate">
+                              <mat-icon>admin_panel_settings</mat-icon>
+                            </button>
+                          } @else {
+                            <button mat-icon-button color="warn" (click)="manageUser(user, 'demote')" [matTooltip]="'ADMIN.DEMOTE_TO_USER' | translate">
+                              <mat-icon>person</mat-icon>
+                            </button>
+                          }
+                          
+                          <button mat-icon-button color="accent" (click)="manageUser(user, 'activate')" [matTooltip]="'ADMIN.ACTIVATE' | translate">
+                            <mat-icon>check_circle</mat-icon>
+                          </button>
+                          
+                          <button mat-icon-button color="warn" (click)="manageUser(user, 'deactivate')" [matTooltip]="'ADMIN.DEACTIVATE' | translate">
+                            <mat-icon>block</mat-icon>
+                          </button>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="userColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: userColumns;"></tr>
+                  </table>
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,0 +1,325 @@
+<div class="book-form-container">
+  <!-- Cabeçalho do formulário -->
+  <div class="form-header">
+    <h1 style="color: #8B4A5C !important;">
+      <mat-icon>{{ isEditMode() ? 'edit' : 'add' }}</mat-icon>
+      {{ isEditMode() ? ('BOOK_FORM.EDIT_BOOK' | translate) : ('BOOK_FORM.ADD_NEW_BOOK' | translate) }}
+    </h1>
+    <p>{{ isEditMode() ? ('BOOK_FORM.UPDATE_BOOK_INFO' | translate) : ('BOOK_FORM.FILL_NEW_BOOK_DATA' | translate) }}</p>
+  </div>
+
+  <!-- Formulário principal -->
+  <mat-card class="form-card">
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Seção: Informações Básicas -->
+      <div class="form-section">
+        <h2>
+          <mat-icon>info</mat-icon>
+          {{ 'BOOK_FORM.BASIC_INFORMATION' | translate }}
+        </h2>
+        
+        <!-- Título do livro -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'BOOK_FORM.TITLE' | translate }}</mat-label>
+            <input matInput formControlName="titulo" [placeholder]="'BOOK_FORM.TITLE_PLACEHOLDER' | translate">
+            <mat-icon matSuffix>title</mat-icon>
+            @if (bookForm.get('titulo')?.invalid && bookForm.get('titulo')?.touched) {
+              <mat-error>{{ getErrorMessage('titulo') }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Autor e Categoria -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>{{ 'BOOK_FORM.AUTHOR' | translate }}</mat-label>
+            <input matInput formControlName="autor" [placeholder]="'BOOK_FORM.AUTHOR_PLACEHOLDER' | translate">
+            <mat-icon matSuffix>person</mat-icon>
+            @if (bookForm.get('autor')?.invalid && bookForm.get('autor')?.touched) {
+              <mat-error>{{ getErrorMessage('autor') }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>{{ 'BOOK_FORM.CATEGORY' | translate }}</mat-label>
+            <mat-select formControlName="categoria">
+              @for (category of categories; track category) {
+                <mat-option [value]="category">{{ category }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>category</mat-icon>
+            @if (bookForm.get('categoria')?.invalid && bookForm.get('categoria')?.touched) {
+              <mat-error>{{ getErrorMessage('categoria') }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Descrição -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ 'BOOK_FORM.DESCRIPTION' | translate }}</mat-label>
+            <textarea 
+              matInput 
+              formControlName="descricao" 
+              [placeholder]="'BOOK_FORM.DESCRIPTION_PLACEHOLDER' | translate"
+              rows="4">
+            </textarea>
+            <mat-icon matSuffix>description</mat-icon>
+            @if (bookForm.get('descricao')?.invalid && bookForm.get('descricao')?.touched) {
+              <mat-error>{{ getErrorMessage('descricao') }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Seção: Detalhes de Publicação -->
+      <div class="form-section">
+        <h2>
+          <mat-icon>book</mat-icon>
+          {{ 'BOOK_FORM.PUBLICATION_DETAILS' | translate }}
+        </h2>
+        
+        <!-- ISBN e Editora -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>{{ 'BOOK_FORM.ISBN' | translate }}</mat-label>
+            <input matInput formControlName="isbn" [placeholder]="'BOOK_FORM.ISBN_PLACEHOLDER' | translate">
+            <mat-icon matSuffix>qr_code</mat-icon>
+            @if (bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched) {
+              <mat-error>{{ getErrorMessage('isbn') }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>{{ 'BOOK_FORM.PUBLISHER' | translate }}</mat-label>
+            <input matInput formControlName="editora" [placeholder]="'BOOK_FORM.PUBLISHER_PLACEHOLDER' | translate">
+            <mat-icon matSuffix>business</mat-icon>
+            @if (bookForm.get('editora')?.invalid && bookForm.get('editora')?.touched) {
+              <mat-error>{{ getErrorMessage('editora') }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Ano, Páginas e Idioma -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="third-width">
+            <mat-label>{{ 'BOOK_FORM.PUBLICATION_YEAR' | translate }}</mat-label>
+            <input matInput type="number" formControlName="anoPublicacao" [placeholder]="'BOOK_FORM.PUBLICATION_YEAR_PLACEHOLDER' | translate">
+            <mat-icon matSuffix>calendar_today</mat-icon>
+            @if (bookForm.get('anoPublicacao')?.invalid && bookForm.get('anoPublicacao')?.touched) {
+              <mat-error>{{ getErrorMessage('anoPublicacao') }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="third-width">
+            <mat-label>{{ 'BOOK_FORM.PAGE_COUNT' | translate }}</mat-label>
+            <input matInput type="number" formControlName="numeroPaginas" [placeholder]="'BOOK_FORM.PAGE_COUNT_PLACEHOLDER' | translate">
+            <mat-icon matSuffix>pages</mat-icon>
+            @if (bookForm.get('numeroPaginas')?.invalid && bookForm.get('numeroPaginas')?.touched) {
+              <mat-error>{{ getErrorMessage('numeroPaginas') }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="third-width">
+            <mat-label>{{ 'BOOK_FORM.LANGUAGE' | translate }}</mat-label>
+            <mat-select formControlName="idioma">
+              <mat-option value="Português">{{ 'BOOK_FORM.LANGUAGE_PORTUGUESE' | translate }}</mat-option>
+              <mat-option value="Inglês">{{ 'BOOK_FORM.LANGUAGE_ENGLISH' | translate }}</mat-option>
+              <mat-option value="Espanhol">{{ 'BOOK_FORM.LANGUAGE_SPANISH' | translate }}</mat-option>
+              <mat-option value="Francês">{{ 'BOOK_FORM.LANGUAGE_FRENCH' | translate }}</mat-option>
+              <mat-option value="Alemão">{{ 'BOOK_FORM.LANGUAGE_GERMAN' | translate }}</mat-option>
+              <mat-option value="Italiano">{{ 'BOOK_FORM.LANGUAGE_ITALIAN' | translate }}</mat-option>
+            </mat-select>
+            <mat-icon matSuffix>language</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Seção: Preço e Estoque -->
+      <div class="form-section">
+        <h2>
+          <mat-icon>attach_money</mat-icon>
+          {{ 'BOOK_FORM.PRICING_INVENTORY' | translate }}
+        </h2>
+        
+        <!-- Preço e Estoque -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>{{ 'BOOK_FORM.PRICE' | translate }}</mat-label>
+            <input 
+              matInput 
+              type="number" 
+              step="0.01" 
+              formControlName="preco" 
+              [placeholder]="'BOOK_FORM.PRICE_PLACEHOLDER' | translate"
+              (input)="formatPriceInput($event)">
+            <span matPrefix>R$ </span>
+            <mat-icon matSuffix>monetization_on</mat-icon>
+            @if (bookForm.get('preco')?.invalid && bookForm.get('preco')?.touched) {
+              <mat-error>{{ getErrorMessage('preco') }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>{{ 'BOOK_FORM.STOCK' | translate }}</mat-label>
+            <input matInput type="number" formControlName="estoque" [placeholder]="'BOOK_FORM.STOCK_PLACEHOLDER' | translate">
+            <mat-icon matSuffix>inventory</mat-icon>
+            @if (bookForm.get('estoque')?.invalid && bookForm.get('estoque')?.touched) {
+              <mat-error>{{ getErrorMessage('estoque') }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Opções adicionais -->
+        <div class="form-row">
+          <div class="third-width checkbox-container">
+            <mat-checkbox formControlName="disponivel">
+              <mat-icon>visibility</mat-icon>
+              {{ 'BOOK_FORM.AVAILABLE' | translate }}
+            </mat-checkbox>
+          </div>
+
+          @if (bookForm.get('promocaoAtivo')?.value) {
+            <mat-form-field appearance="outline" class="third-width">
+              <mat-label>{{ 'BOOK_FORM.DISCOUNT_PERCENTAGE' | translate }}</mat-label>
+              <input matInput type="number" min="0" max="90" formControlName="promocaoDesconto" [placeholder]="'BOOK_FORM.DISCOUNT_PLACEHOLDER' | translate">
+              <span matSuffix>%</span>
+              <mat-icon matSuffix>percent</mat-icon>
+              @if (bookForm.get('promocaoDesconto')?.invalid && bookForm.get('promocaoDesconto')?.touched) {
+                <mat-error>{{ getErrorMessage('promocaoDesconto') }}</mat-error>
+              }
+            </mat-form-field>
+
+            <div class="third-width checkbox-container">
+              <mat-checkbox formControlName="destaque">
+                <mat-icon>star</mat-icon>
+                {{ 'BOOK_FORM.FEATURED_BOOK' | translate }}
+              </mat-checkbox>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Seção: Imagem do Livro -->
+      <div class="form-section">
+        <h2>
+          <mat-icon>image</mat-icon>
+          {{ 'BOOK_FORM.BOOK_IMAGE' | translate }}
+        </h2>
+        
+        <div class="image-upload-section">
+          <!-- Upload de arquivo -->
+          <div class="upload-area">
+            <input 
+              #fileInput 
+              type="file" 
+              accept="image/*" 
+              (change)="onFileSelected($event)"
+              style="display: none">
+            
+            <div class="upload-buttons">
+              <button 
+                type="button" 
+                mat-raised-button 
+                color="primary" 
+                (click)="fileInput.click()"
+                [disabled]="uploading()">
+                @if (uploading()) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                  {{ 'BOOK_FORM.UPLOADING' | translate }}
+                } @else {
+                  <mat-icon>cloud_upload</mat-icon>
+                  {{ 'BOOK_FORM.SELECT_IMAGE' | translate }}
+                }
+              </button>
+
+              <span class="upload-info">
+                {{ 'BOOK_FORM.ACCEPTED_FORMATS' | translate }}
+              </span>
+            </div>
+
+            <!-- URL Manual -->
+            <div class="url-input">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{ 'BOOK_FORM.IMAGE_URL' | translate }}</mat-label>
+                <input 
+                  matInput 
+                  formControlName="imagemUrl" 
+                  [placeholder]="'BOOK_FORM.IMAGE_URL_PLACEHOLDER' | translate"
+                  (blur)="validateImageUrl()">
+                <mat-icon matSuffix>link</mat-icon>
+                @if (bookForm.get('imagemUrl')?.invalid && bookForm.get('imagemUrl')?.touched) {
+                  <mat-error>{{ getErrorMessage('imagemUrl') }}</mat-error>
+                }
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Preview da Imagem -->
+          @if (bookForm.get('imagemUrl')?.value) {
+            <div class="image-preview">
+              <h3>{{ 'BOOK_FORM.IMAGE_PREVIEW' | translate }}</h3>
+              <div class="preview-container">
+                <img 
+                  [src]="bookForm.get('imagemUrl')?.value" 
+                  [alt]="bookForm.get('titulo')?.value || ('BOOK_FORM.BOOK_PREVIEW' | translate)"
+                  (error)="onImageError()"
+                  (load)="onImageLoad()">
+                
+                <button 
+                  type="button" 
+                  mat-icon-button 
+                  color="warn" 
+                  class="remove-image"
+                  (click)="removeImage()"
+                  [matTooltip]="'BOOK_FORM.REMOVE_IMAGE' | translate">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Ações do Formulário -->
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          mat-raised-button 
+          color="primary" 
+          [disabled]="bookForm.invalid || loading()">
+          @if (loading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+            {{ isEditMode() ? ('BOOK_FORM.UPDATING' | translate) : ('BOOK_FORM.SAVING' | translate) }}
+          } @else {
+            <mat-icon>{{ isEditMode() ? 'save' : 'add' }}</mat-icon>
+            {{ isEditMode() ? ('BOOK_FORM.UPDATE_BOOK' | translate) : ('BOOK_FORM.ADD_BOOK' | translate) }}
+          }
+        </button>
+
+        <button 
+          type="button" 
+          mat-stroked-button 
+          (click)="onCancel()"
+          [disabled]="loading()">
+          <mat-icon>cancel</mat-icon>
+          {{ 'BOOK_FORM.CANCEL' | translate }}
+        </button>
+
+        @if (isEditMode()) {
+          <button 
+            type="button" 
+            mat-stroked-button 
+            color="accent"
+            (click)="resetForm()"
+            [disabled]="loading()">
+            <mat-icon>refresh</mat-icon>
+            {{ 'BOOK_FORM.RESET' | translate }}
+          </button>
+        }
+      </div>
+    </form>
+  </mat-card>
+</div>

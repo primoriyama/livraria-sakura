@@ -1,0 +1,273 @@
+.user-list-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-section {
+  margin-bottom: 32px;
+  text-align: center;
+
+  h1 {
+    font-family: var(--font-heading);
+    color: #2c3e50;
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.users-table-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+
+  mat-card-header {
+    background-color: #f7e6e9 !important;
+    color: #333;
+    padding: 24px;
+
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0;
+
+      mat-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    mat-card-subtitle {
+      color: rgba(51, 51, 51, 0.7);
+      margin-top: 8px;
+      font-size: 1rem;
+    }
+  }
+
+  mat-card-content {
+    padding: 24px;
+  }
+}
+
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+
+  .search-field {
+    flex: 1;
+    max-width: 400px;
+  }
+
+  .add-user-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-weight: 500;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  color: #7f8c8d;
+
+  mat-spinner {
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px;
+  color: #7f8c8d;
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.users-table {
+  width: 100%;
+  background: white;
+
+  th {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  td {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.95rem;
+  }
+
+  tr:hover {
+    background-color: #f8f9fa;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  button {
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.admin {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+  }
+
+  &.user {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #bbdefb;
+  }
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.active {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+  }
+
+  &.inactive {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+  }
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .user-list-container {
+    padding: 16px;
+  }
+
+  .header-section h1 {
+    font-size: 2rem;
+  }
+
+  .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+
+    .search-field {
+      max-width: none;
+      margin-bottom: 16px;
+    }
+  }
+
+  .users-table {
+    th, td {
+      padding: 12px 8px;
+      font-size: 0.85rem;
+    }
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .role-badge, .status-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+}

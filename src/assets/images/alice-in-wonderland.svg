@@ -1,0 +1,68 @@
+<svg width="300" height="450" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="450" fill="#3498db"/>
+  
+  <!-- Clouds -->
+  <g fill="#ecf0f1" opacity="0.8">
+    <circle cx="60" cy="60" r="20"/>
+    <circle cx="80" cy="55" r="25"/>
+    <circle cx="100" cy="60" r="20"/>
+    <circle cx="220" cy="80" r="18"/>
+    <circle cx="240" cy="75" r="22"/>
+    <circle cx="260" cy="80" r="18"/>
+  </g>
+  
+  <!-- Rabbit hole -->
+  <ellipse cx="150" cy="400" rx="80" ry="30" fill="#2c3e50"/>
+  <ellipse cx="150" cy="395" rx="75" ry="25" fill="#34495e"/>
+  
+  <!-- Playing cards falling -->
+  <g fill="#ecf0f1" stroke="#e74c3c" stroke-width="2">
+    <rect x="80" y="150" width="20" height="30" rx="3" transform="rotate(15 90 165)"/>
+    <rect x="200" y="180" width="20" height="30" rx="3" transform="rotate(-20 210 195)"/>
+    <rect x="120" y="120" width="20" height="30" rx="3" transform="rotate(45 130 135)"/>
+    <rect x="180" y="220" width="20" height="30" rx="3" transform="rotate(-10 190 235)"/>
+  </g>
+  
+  <!-- Card symbols -->
+  <g fill="#e74c3c">
+    <path d="M90 160 Q85 155 90 150 Q95 155 90 160" transform="rotate(15 90 165)"/>
+    <circle cx="210" cy="195" r="3" transform="rotate(-20 210 195)"/>
+    <path d="M130 130 L125 140 L135 140 Z" transform="rotate(45 130 135)"/>
+    <path d="M190 230 Q185 225 190 220 Q195 225 190 230 Q190 235 190 230" transform="rotate(-10 190 235)"/>
+  </g>
+  
+  <!-- Mushrooms -->
+  <g>
+    <ellipse cx="50" cy="320" rx="15" ry="8" fill="#e74c3c"/>
+    <rect x="47" y="320" width="6" height="20" fill="#ecf0f1"/>
+    <circle cx="53" cy="315" r="2" fill="#ecf0f1"/>
+    
+    <ellipse cx="250" cy="300" rx="12" ry="6" fill="#9b59b6"/>
+    <rect x="248" y="300" width="4" height="15" fill="#ecf0f1"/>
+  </g>
+  
+  <!-- Cheshire Cat grin -->
+  <g transform="translate(150, 250)">
+    <path d="M-30 0 Q0 20 30 0" stroke="#e74c3c" stroke-width="3" fill="none"/>
+    <circle cx="-10" cy="-5" r="3" fill="#f39c12"/>
+    <circle cx="10" cy="-5" r="3" fill="#f39c12"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="150" y="100" text-anchor="middle" fill="#ecf0f1" font-family="serif" font-size="18" font-weight="bold">ALICE'S ADVENTURES</text>
+  <text x="150" y="125" text-anchor="middle" fill="#ecf0f1" font-family="serif" font-size="18" font-weight="bold">IN WONDERLAND</text>
+  
+  <!-- Author -->
+  <text x="150" y="350" text-anchor="middle" fill="#2c3e50" font-family="serif" font-size="16">LEWIS CARROLL</text>
+  
+  <!-- Decorative border -->
+  <rect x="10" y="10" width="280" height="430" fill="none" stroke="#f39c12" stroke-width="3"/>
+  
+  <!-- Tea cup -->
+  <g transform="translate(70, 280)">
+    <ellipse cx="0" cy="0" rx="12" ry="8" fill="#ecf0f1"/>
+    <rect x="-10" y="-5" width="20" height="10" fill="#3498db"/>
+    <path d="M12 -2 Q18 -2 18 2 Q18 6 12 6" stroke="#34495e" stroke-width="2" fill="none"/>
+  </g>
+</svg>

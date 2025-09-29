@@ -1,0 +1,118 @@
+<div class="user-list-container">
+  <div class="header-section">
+    <h1 style="color: #8B4A5C !important;">{{ 'ADMIN.USER_MANAGEMENT' | translate }}</h1>
+    <p>{{ 'ADMIN.USER_MANAGEMENT_SUBTITLE' | translate }}</p>
+  </div>
+
+  <mat-card class="users-table-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>people</mat-icon>
+        {{ 'ADMIN.REGISTERED_USERS' | translate }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ 'ADMIN.MANAGE_USERS_PERMISSIONS' | translate }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="table-controls">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>{{ 'ADMIN.SEARCH_USERS' | translate }}</mat-label>
+          <input matInput 
+                 [(ngModel)]="searchTerm" 
+                 (input)="onSearchChange()"
+                 placeholder="{{ 'ADMIN.SEARCH_BY_NAME_EMAIL' | translate }}">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <button mat-raised-button 
+                color="accent" 
+                (click)="navigateToAddUser()"
+                class="add-user-btn">
+          <mat-icon>person_add</mat-icon>
+          {{ 'ADMIN.ADD_USER' | translate }}
+        </button>
+      </div>
+
+      @if (isLoading()) {
+        <div class="loading-container">
+          <mat-spinner></mat-spinner>
+          <p>{{ 'ADMIN.LOADING_USERS' | translate }}</p>
+        </div>
+      } @else if (filteredUsers().length === 0) {
+        <div class="empty-state">
+          <mat-icon>people</mat-icon>
+          <h3>{{ 'ADMIN.NO_USERS_FOUND' | translate }}</h3>
+          <p>{{ 'ADMIN.USERS_WILL_APPEAR_HERE' | translate }}</p>
+        </div>
+      } @else {
+        <div class="table-container">
+          <table mat-table [dataSource]="filteredUsers()" class="users-table">
+            
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.NAME' | translate }}</th>
+              <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.EMAIL' | translate }}</th>
+              <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.ROLE' | translate }}</th>
+              <td mat-cell *matCellDef="let user">
+                <span class="role-badge" [class.admin]="user.role === 'admin'" [class.user]="user.role === 'user'">
+                  <mat-icon>{{ user.role === 'admin' ? 'admin_panel_settings' : 'person' }}</mat-icon>
+                  {{ user.role === 'admin' ? ('ADMIN.ADMINISTRATOR' | translate) : ('ADMIN.USER' | translate) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.STATUS' | translate }}</th>
+              <td mat-cell *matCellDef="let user">
+                <span class="status-badge" [class.active]="user.isActive" [class.inactive]="!user.isActive">
+                  <mat-icon>{{ user.isActive ? 'check_circle' : 'cancel' }}</mat-icon>
+                  {{ user.isActive ? ('ADMIN.ACTIVE' | translate) : ('ADMIN.INACTIVE' | translate) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.ACTIONS' | translate }}</th>
+              <td mat-cell *matCellDef="let user">
+                <div class="action-buttons">
+                  <button mat-icon-button 
+                          [color]="user.isActive ? 'warn' : 'primary'"
+                          (click)="toggleUserStatus(user)" 
+                          [matTooltip]="user.isActive ? ('ADMIN.DEACTIVATE_USER' | translate) : ('ADMIN.ACTIVATE_USER' | translate)">
+                    <mat-icon>{{ user.isActive ? 'toggle_off' : 'toggle_on' }}</mat-icon>
+                  </button>
+                  
+                  <button mat-icon-button 
+                          [color]="user.role === 'admin' ? 'warn' : 'primary'"
+                          (click)="toggleUserRole(user)" 
+                          [matTooltip]="user.role === 'admin' ? ('ADMIN.DEMOTE_TO_USER' | translate) : ('ADMIN.PROMOTE_TO_ADMIN' | translate)">
+                    <mat-icon>{{ user.role === 'admin' ? 'person' : 'admin_panel_settings' }}</mat-icon>
+                  </button>
+                  
+                  <button mat-icon-button 
+                          color="warn" 
+                          (click)="deleteUser(user)" 
+                          [matTooltip]="'ADMIN.DELETE_USER' | translate">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

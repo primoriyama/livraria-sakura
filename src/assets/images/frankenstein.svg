@@ -1,0 +1,62 @@
+<svg width="300" height="450" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="450" fill="#2c3e50"/>
+  
+  <!-- Lightning bolts -->
+  <g fill="#f1c40f">
+    <polygon points="80,50 90,100 85,100 95,150 75,120 80,120 70,70"/>
+    <polygon points="220,80 230,130 225,130 235,180 215,150 220,150 210,100"/>
+  </g>
+  
+  <!-- Laboratory equipment -->
+  <g fill="#34495e" stroke="#7f8c8d" stroke-width="2">
+    <!-- Beakers -->
+    <rect x="50" y="350" width="30" height="40" rx="5"/>
+    <rect x="220" y="360" width="25" height="35" rx="3"/>
+    
+    <!-- Test tubes -->
+    <rect x="100" y="340" width="8" height="50" rx="4"/>
+    <rect x="115" y="345" width="8" height="45" rx="4"/>
+    <rect x="130" y="350" width="8" height="40" rx="4"/>
+  </g>
+  
+  <!-- Liquid in beakers -->
+  <rect x="52" y="365" width="26" height="23" fill="#27ae60"/>
+  <rect x="222" y="375" width="21" height="18" fill="#e74c3c"/>
+  <rect x="102" y="365" width="4" height="23" fill="#9b59b6"/>
+  <rect x="117" y="370" width="4" height="18" fill="#f39c12"/>
+  <rect x="132" y="375" width="4" height="13" fill="#3498db"/>
+  
+  <!-- Monster silhouette -->
+  <g transform="translate(150, 220)" fill="#1a1a1a">
+    <ellipse cx="0" cy="0" rx="40" ry="60"/>
+    <rect x="-45" y="-20" width="90" height="80" rx="10"/>
+    <circle cx="-15" cy="-30" r="8"/>
+    <circle cx="15" cy="-30" r="8"/>
+    <rect x="-5" y="-10" width="10" height="15"/>
+    <rect x="-20" y="10" width="40" height="8"/>
+  </g>
+  
+  <!-- Stitches on monster -->
+  <g stroke="#7f8c8d" stroke-width="2">
+    <line x1="130" y1="190" x2="140" y2="190"/>
+    <line x1="160" y1="190" x2="170" y2="190"/>
+    <line x1="135" y1="210" x2="145" y2="210"/>
+    <line x1="155" y1="210" x2="165" y2="210"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="150" y="120" text-anchor="middle" fill="#ecf0f1" font-family="serif" font-size="24" font-weight="bold">FRANKENSTEIN</text>
+  
+  <!-- Subtitle -->
+  <text x="150" y="145" text-anchor="middle" fill="#bdc3c7" font-family="serif" font-size="12">OR THE MODERN PROMETHEUS</text>
+  
+  <!-- Author -->
+  <text x="150" y="420" text-anchor="middle" fill="#ecf0f1" font-family="serif" font-size="16">MARY SHELLEY</text>
+  
+  <!-- Electric sparks -->
+  <g stroke="#f1c40f" stroke-width="2" fill="none">
+    <path d="M120 160 Q125 165 130 160 Q135 155 140 160"/>
+    <path d="M160 160 Q165 165 170 160 Q175 155 180 160"/>
+  </g>
+</svg>

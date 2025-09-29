@@ -1,0 +1,320 @@
+<div class="profile-container">
+  <!-- Cabeçalho do Perfil -->
+  <div class="profile-header">
+    <div class="user-info">
+      <div class="avatar">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <div class="user-details">
+        <h1>{{ user()?.name || ('PROFILE.DEFAULT_USER' | translate) }}</h1>
+        <p>{{ user()?.email }}</p>
+      </div>
+    </div>
+    <button mat-stroked-button color="warn" (click)="onLogout()">
+      <mat-icon>logout</mat-icon>
+      {{ 'PROFILE.LOGOUT' | translate }}
+    </button>
+  </div>
+
+  <!-- Tabs do Perfil -->
+  <mat-tab-group class="profile-tabs" animationDuration="300ms">
+    <!-- Aba: Dados Pessoais -->
+    <mat-tab [label]="'PROFILE.PERSONAL_DATA' | translate">
+      <ng-template matTabContent>
+        <div class="tab-content">
+          <mat-card class="profile-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>person</mat-icon>
+                {{ 'PROFILE.PERSONAL_INFO' | translate }}
+              </mat-card-title>
+              <mat-card-subtitle>{{ 'PROFILE.PERSONAL_INFO_SUBTITLE' | translate }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <form [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()">
+                <!-- Dados Básicos -->
+                <div class="form-section">
+                  <h3>{{ 'PROFILE.BASIC_DATA' | translate }}</h3>
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>{{ 'PROFILE.FULL_NAME' | translate }}</mat-label>
+                      <input matInput formControlName="name" [placeholder]="'PROFILE.FULL_NAME_PLACEHOLDER' | translate">
+                      <mat-icon matSuffix>person</mat-icon>
+                      @if (profileForm.get('name')?.invalid && profileForm.get('name')?.touched) {
+                        <mat-error>{{ getErrorMessage('name', profileForm) }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'PROFILE.EMAIL' | translate }}</mat-label>
+                      <input matInput type="email" formControlName="email" [placeholder]="'PROFILE.EMAIL_PLACEHOLDER' | translate">
+                      <mat-icon matSuffix>email</mat-icon>
+                      @if (profileForm.get('email')?.invalid && profileForm.get('email')?.touched) {
+                        <mat-error>{{ getErrorMessage('email', profileForm) }}</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'PROFILE.PHONE' | translate }}</mat-label>
+                      <input matInput formControlName="phone" [placeholder]="'PROFILE.PHONE_PLACEHOLDER' | translate" (input)="formatPhone($event)">
+                      <mat-icon matSuffix>phone</mat-icon>
+                      @if (profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched) {
+                        <mat-error>{{ getErrorMessage('phone', profileForm) }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'PROFILE.BIRTH_DATE' | translate }}</mat-label>
+                      <input matInput type="date" formControlName="birthDate">
+                      <mat-icon matSuffix>cake</mat-icon>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <!-- Endereço -->
+                <div class="form-section" formGroupName="address">
+                  <h3>{{ 'PROFILE.ADDRESS' | translate }}</h3>
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="quarter-width">
+                      <mat-label>{{ 'PROFILE.ZIP_CODE' | translate }}</mat-label>
+                      <input matInput formControlName="zipCode" [placeholder]="'PROFILE.ZIP_CODE_PLACEHOLDER' | translate" (input)="formatZipCode($event)">
+                      <mat-icon matSuffix>location_on</mat-icon>
+                      @if (profileForm.get('address.zipCode')?.invalid && profileForm.get('address.zipCode')?.touched) {
+                        <mat-error>{{ getErrorMessage('address.zipCode', profileForm) }}</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'PROFILE.STREET' | translate }}</mat-label>
+                      <input matInput formControlName="street" [placeholder]="'PROFILE.STREET_PLACEHOLDER' | translate">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="quarter-width">
+                      <mat-label>{{ 'PROFILE.NUMBER' | translate }}</mat-label>
+                      <input matInput formControlName="number" [placeholder]="'PROFILE.NUMBER_PLACEHOLDER' | translate">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="third-width">
+                      <mat-label>{{ 'PROFILE.COMPLEMENT' | translate }}</mat-label>
+                      <input matInput formControlName="complement" [placeholder]="'PROFILE.COMPLEMENT_PLACEHOLDER' | translate">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="third-width">
+                      <mat-label>{{ 'PROFILE.NEIGHBORHOOD' | translate }}</mat-label>
+                      <input matInput formControlName="neighborhood" [placeholder]="'PROFILE.NEIGHBORHOOD_PLACEHOLDER' | translate">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="third-width">
+                      <mat-label>{{ 'PROFILE.CITY' | translate }}</mat-label>
+                      <input matInput formControlName="city" [placeholder]="'PROFILE.CITY_PLACEHOLDER' | translate">
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="quarter-width">
+                      <mat-label>{{ 'PROFILE.STATE' | translate }}</mat-label>
+                      <input matInput formControlName="state" [placeholder]="'PROFILE.STATE_PLACEHOLDER' | translate">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </form>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="onUpdateProfile()"
+                [disabled]="loading()"
+              >
+                @if (loading()) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                  {{ 'PROFILE.SAVING' | translate }}
+                } @else {
+                  <mat-icon>save</mat-icon>
+                  {{ 'PROFILE.SAVE_CHANGES' | translate }}
+                }
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <!-- Aba: Segurança -->
+    <mat-tab [label]="'PROFILE.SECURITY' | translate">
+      <ng-template matTabContent>
+        <div class="tab-content">
+          <mat-card class="security-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>security</mat-icon>
+                {{ 'PROFILE.CHANGE_PASSWORD' | translate }}
+              </mat-card-title>
+              <mat-card-subtitle>{{ 'PROFILE.KEEP_ACCOUNT_SECURE' | translate }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{ 'PROFILE.CURRENT_PASSWORD' | translate }}</mat-label>
+                    <input matInput type="password" formControlName="currentPassword" [placeholder]="'PROFILE.CURRENT_PASSWORD_PLACEHOLDER' | translate">
+                    <mat-icon matSuffix>lock</mat-icon>
+                    @if (passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched) {
+                      <mat-error>{{ getErrorMessage('currentPassword', passwordForm) }}</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="half-width">
+                    <mat-label>{{ 'PROFILE.NEW_PASSWORD' | translate }}</mat-label>
+                    <input matInput type="password" formControlName="newPassword" [placeholder]="'PROFILE.NEW_PASSWORD_PLACEHOLDER' | translate">
+                    <mat-icon matSuffix>lock_outline</mat-icon>
+                    @if (passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched) {
+                      <mat-error>{{ getErrorMessage('newPassword', passwordForm) }}</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="half-width">
+                    <mat-label>{{ 'PROFILE.CONFIRM_PASSWORD' | translate }}</mat-label>
+                    <input matInput type="password" formControlName="confirmPassword" [placeholder]="'PROFILE.CONFIRM_PASSWORD_PLACEHOLDER' | translate">
+                    <mat-icon matSuffix>lock_outline</mat-icon>
+                    @if (passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched) {
+                      <mat-error>{{ getErrorMessage('confirmPassword', passwordForm) }}</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="password-tips">
+                  <h4>{{ 'PROFILE.PASSWORD_TIPS' | translate }}</h4>
+                  <ul>
+                    <li>{{ 'PROFILE.PASSWORD_TIP_1' | translate }}</li>
+                    <li>{{ 'PROFILE.PASSWORD_TIP_2' | translate }}</li>
+                    <li>{{ 'PROFILE.PASSWORD_TIP_3' | translate }}</li>
+                    <li>{{ 'PROFILE.PASSWORD_TIP_4' | translate }}</li>
+                  </ul>
+                </div>
+              </form>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="onChangePassword()"
+                [disabled]="loading()"
+              >
+                @if (loading()) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                  {{ 'PROFILE.CHANGING' | translate }}
+                } @else {
+                  <ng-container>
+                    <mat-icon>security</mat-icon>
+                  </ng-container>
+                  {{ 'PROFILE.CHANGE_PASSWORD' | translate }}
+                }
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <!-- Aba: Meus Pedidos -->
+    <mat-tab [label]="'PROFILE.MY_ORDERS' | translate">
+      <ng-template matTabContent>
+        <div class="tab-content">
+          <mat-card class="orders-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>shopping_bag</mat-icon>
+                {{ 'PROFILE.ORDER_HISTORY' | translate }}
+              </mat-card-title>
+              <mat-card-subtitle>{{ 'PROFILE.TRACK_ORDERS' | translate }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              @if (loading()) {
+                <div class="loading-container">
+                  <mat-spinner></mat-spinner>
+                  <p>{{ 'PROFILE.LOADING_ORDERS' | translate }}</p>
+                </div>
+              } @else if (orders().length === 0) {
+                <div class="empty-orders">
+                  <mat-icon>shopping_bag</mat-icon>
+                  <h3>{{ 'PROFILE.NO_ORDERS_FOUND' | translate }}</h3>
+                  <p>{{ 'PROFILE.NO_ORDERS_MESSAGE' | translate }}</p>
+                  <button mat-raised-button color="primary" routerLink="/">
+                    <mat-icon>auto_stories</mat-icon>
+                    {{ 'PROFILE.EXPLORE_BOOKS' | translate }}
+                  </button>
+                </div>
+              } @else {
+                <div class="orders-list">
+                  @for (order of orders(); track order._id) {
+                    <div class="order-item">
+                      <div class="order-header">
+                        <div class="order-info">
+                          <h4>{{ 'PROFILE.ORDER' | translate }} #{{ order._id }}</h4>
+                          <p>{{ order.date | date:'dd/MM/yyyy' }}</p>
+                        </div>
+                        <div class="order-status">
+                          <mat-chip [color]="getStatusColor(order.status)" selected>
+                            {{ getStatusText(order.status) }}
+                          </mat-chip>
+                        </div>
+                        <div class="order-total">
+                          <strong>{{ formatPrice(order.total) }}</strong>
+                        </div>
+                      </div>
+
+                      <div class="order-items">
+                        @for (item of order.items; track item.book._id) {
+                          <div class="order-book">
+                            <img [src]="item.book.imagemUrl || '/assets/images/book-placeholder.jpg'" [alt]="item.book.titulo">
+                            <div class="book-info">
+                              <h5>{{ item.book.titulo | translateTitle }}</h5>
+                              <p>{{ item.book.autor }}</p>
+                              <span>{{ 'PROFILE.QUANTITY' | translate }}: {{ item.quantity }}</span>
+                            </div>
+                            <div class="book-price">
+                              {{ formatPrice(item.book.preco * item.quantity) }}
+                            </div>
+                          </div>
+                        }
+                      </div>
+
+                      <div class="order-actions">
+                        <button mat-stroked-button (click)="viewOrderDetails(order)">
+                          <mat-icon>visibility</mat-icon>
+                          {{ 'PROFILE.VIEW_DETAILS' | translate }}
+                        </button>
+                        @if (order.status === 'delivered') {
+                          <button mat-stroked-button color="primary">
+                            <mat-icon>rate_review</mat-icon>
+                            {{ 'PROFILE.RATE' | translate }}
+                          </button>
+                        }
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

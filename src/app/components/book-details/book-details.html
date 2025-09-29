@@ -1,0 +1,176 @@
+<div class="book-details-container">
+  <!-- Botão Voltar -->
+  <div class="back-button">
+    <button mat-button (click)="goBack()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+      {{ 'BOOK_DETAILS.BACK' | translate }}
+    </button>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-icon class="loading-icon">hourglass_empty</mat-icon>
+      <p>{{ 'BOOK_DETAILS.LOADING' | translate }}</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error()) {
+    <div class="error-container">
+      <mat-icon class="error-icon">error</mat-icon>
+      <h3>{{ 'BOOK_DETAILS.ERROR_TITLE' | translate }}</h3>
+      <p>{{ error() }}</p>
+      <button mat-raised-button color="primary" (click)="goBack()">
+        {{ 'BOOK_DETAILS.BACK_HOME' | translate }}
+      </button>
+    </div>
+  }
+
+  <!-- Book Details -->
+  @if (book() && !loading() && !error()) {
+    <div class="book-details">
+      <mat-card class="book-card">
+        <div class="book-content">
+          <!-- Imagem do Livro -->
+          <div class="book-image-section">
+            <img
+              [src]="book()!.imagemUrl"
+              [alt]="book()!.titulo"
+              class="book-image"
+              (error)="$event.target.src='assets/images/book-placeholder.jpg'">
+
+            @if (!isAvailable()) {
+              <div class="out-of-stock-overlay">
+                <span>{{ 'BOOK_DETAILS.OUT_OF_STOCK' | translate }}</span>
+              </div>
+            }
+          </div>
+
+          <!-- Informações do Livro -->
+          <div class="book-info-section">
+            <mat-card-header>
+              <mat-card-title class="book-title">{{ book()!.titulo | translateTitle }}</mat-card-title>
+              <mat-card-subtitle class="book-author">por {{ book()!.autor }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content class="book-details-content">
+              <!-- Preço -->
+              <div class="price-section">
+                <span class="price">{{ formatPrice(book()!.preco) }}</span>
+              </div>
+
+              <!-- Categoria -->
+              <div class="category-section">
+                <mat-chip-set>
+                  <mat-chip>{{ book()!.categoria }}</mat-chip>
+                </mat-chip-set>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <!-- Descrição -->
+              @if (book()!.descricao) {
+                <div class="description-section">
+                  <h3>{{ 'BOOK_DETAILS.DESCRIPTION' | translate }}</h3>
+                  <p class="description">{{ book()!.descricao }}</p>
+                </div>
+                <mat-divider></mat-divider>
+              }
+
+              <!-- Informações Técnicas -->
+              <div class="technical-info">
+                <h3>{{ 'BOOK_DETAILS.TECHNICAL_INFO' | translate }}</h3>
+                <div class="info-grid">
+                  @if (book()!.isbn) {
+                    <div class="info-item">
+                      <strong>{{ 'BOOK_DETAILS.ISBN' | translate }}:</strong>
+                      <span>{{ book()!.isbn }}</span>
+                    </div>
+                  }
+                  @if (book()!.editora) {
+                    <div class="info-item">
+                      <strong>{{ 'BOOK_DETAILS.PUBLISHER' | translate }}:</strong>
+                      <span>{{ book()!.editora }}</span>
+                    </div>
+                  }
+                  @if (book()!.anoPublicacao) {
+                    <div class="info-item">
+                      <strong>{{ 'BOOK_DETAILS.YEAR' | translate }}:</strong>
+                      <span>{{ book()!.anoPublicacao }}</span>
+                    </div>
+                  }
+                  @if (book()!.numeroPaginas) {
+                    <div class="info-item">
+                      <strong>{{ 'BOOK_DETAILS.PAGES' | translate }}:</strong>
+                      <span>{{ book()!.numeroPaginas }}</span>
+                    </div>
+                  }
+                  @if (book()!.createdAt) {
+                    <div class="info-item">
+                      <strong>Data de Criação:</strong>
+                      <span>{{ formatDate(book()!.createdAt) }}</span>
+                    </div>
+                  }
+                  <div class="info-item">
+                    <strong>{{ 'BOOK_DETAILS.STOCK' | translate }}:</strong>
+                    <span [class.low-stock]="book()!.estoque <= 5 && book()!.estoque > 0"
+                    [class.out-of-stock]="book()!.estoque === 0">
+                @if (book()!.estoque === 0) {
+                  {{ 'BOOK_DETAILS.OUT_OF_STOCK' | translate }}
+                } @else if (book()!.estoque <= 5) {
+                  {{ 'BOOK_DETAILS.LOW_STOCK' | translate:{ count: book()!.estoque } }}
+                } @else {
+                  {{ 'BOOK_DETAILS.IN_STOCK' | translate:{ count: book()!.estoque } }}
+                }
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+
+            <!-- Ações -->
+            <mat-card-actions class="book-actions">
+              @if (isAvailable()) {
+                @if (!isInCart()) {
+                  <button mat-raised-button
+                          color="accent"
+                          (click)="addToCart()"
+                          class="add-to-cart-btn">
+                    <mat-icon>add_shopping_cart</mat-icon>
+                    {{ 'BOOK_DETAILS.ADD_TO_CART' | translate }}
+                  </button>
+                } @else {
+                  <div class="cart-controls">
+                    <div class="cart-quantity">
+                       {{ 'BOOK_DETAILS.IN_CART' | translate: {count: getItemQuantity()} }}
+                     </div>
+                    <button mat-raised-button
+                            color="accent"
+                            (click)="addToCart()"
+                            class="add-more-btn">
+                      <mat-icon>add</mat-icon>
+                      {{ 'BOOK_DETAILS.ADD_MORE' | translate }}
+                    </button>
+                    <button mat-icon-button
+                            (click)="removeFromCart()"
+                            color="warn"
+                            class="remove-from-cart-btn"
+                            matTooltip="{{ 'BOOK_DETAILS.REMOVE_FROM_CART' | translate }}">
+                      <mat-icon>remove_shopping_cart</mat-icon>
+                    </button>
+                  </div>
+                }
+              } @else {
+                <button mat-raised-button disabled class="out-of-stock-btn">
+                  <mat-icon>block</mat-icon>
+                  {{ 'BOOK_DETAILS.OUT_OF_STOCK' | translate }}
+                </button>
+              }
+            </mat-card-actions>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  }
+</div>

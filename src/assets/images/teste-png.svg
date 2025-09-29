@@ -1,0 +1,27 @@
+<svg width="300" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simulando uma capa de livro estilo PNG -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Fundo -->
+  <rect width="300" height="400" fill="url(#bgGradient)"/>
+  
+  <!-- Título -->
+  <rect x="20" y="60" width="260" height="100" fill="rgba(255,255,255,0.9)" rx="10"/>
+  <text x="150" y="95" text-anchor="middle" fill="#333" font-family="Arial, sans-serif" font-size="18" font-weight="bold">TESTE PNG</text>
+  <text x="150" y="120" text-anchor="middle" fill="#666" font-family="Arial, sans-serif" font-size="14">Arquivo SVG</text>
+  <text x="150" y="140" text-anchor="middle" fill="#666" font-family="Arial, sans-serif" font-size="12">simulando PNG</text>
+  
+  <!-- Decoração central -->
+  <circle cx="150" cy="220" r="50" fill="rgba(255,255,255,0.2)"/>
+  <text x="150" y="235" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="30">🖼️</text>
+  
+  <!-- Rodapé -->
+  <rect x="20" y="320" width="260" height="60" fill="rgba(0,0,0,0.3)" rx="10"/>
+  <text x="150" y="345" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">FORMATO: SVG</text>
+  <text x="150" y="365" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">EXTENSÃO: .svg</text>
+</svg>

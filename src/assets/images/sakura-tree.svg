@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <!-- Gradientes para as flores -->
+    <radialGradient id="flowerGradient" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#FFE4E1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFB6C1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF69B4;stop-opacity:0.8" />
+    </radialGradient>
+    
+    <!-- Gradiente para o tronco -->
+    <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#A0522D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradiente para os galhos -->
+    <linearGradient id="branchGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#654321;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B4513;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradiente de fundo -->
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E6F3FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F0F8FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Fundo -->
+  <rect width="800" height="600" fill="url(#backgroundGradient)"/>
+  
+  <!-- Tronco principal -->
+  <rect x="390" y="400" width="20" height="200" fill="url(#trunkGradient)" rx="10"/>
+  
+  <!-- Galhos principais -->
+  <path d="M400 450 Q350 420 320 400" stroke="url(#branchGradient)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M400 450 Q450 420 480 400" stroke="url(#branchGradient)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M400 420 Q300 380 250 350" stroke="url(#branchGradient)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M400 420 Q500 380 550 350" stroke="url(#branchGradient)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M400 400 Q360 360 330 320" stroke="url(#branchGradient)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M400 400 Q440 360 470 320" stroke="url(#branchGradient)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Galhos secundários -->
+  <path d="M320 400 Q280 380 260 360" stroke="url(#branchGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M480 400 Q520 380 540 360" stroke="url(#branchGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M250 350 Q220 330 200 310" stroke="url(#branchGradient)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M550 350 Q580 330 600 310" stroke="url(#branchGradient)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Flores de sakura - Grupo 1 (lado esquerdo) -->
+  <g transform="translate(260,360)">
+    <circle cx="0" cy="0" r="8" fill="url(#flowerGradient)" opacity="0.9"/>
+    <circle cx="-6" cy="-6" r="3" fill="#FFE4E1"/>
+    <circle cx="6" cy="-6" r="3" fill="#FFE4E1"/>
+    <circle cx="-6" cy="6" r="3" fill="#FFE4E1"/>
+    <circle cx="6" cy="6" r="3" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="2" fill="#FFD700"/>
+  </g>
+  
+  <g transform="translate(280,340)">
+    <circle cx="0" cy="0" r="7" fill="url(#flowerGradient)" opacity="0.8"/>
+    <circle cx="-5" cy="-5" r="2.5" fill="#FFE4E1"/>
+    <circle cx="5" cy="-5" r="2.5" fill="#FFE4E1"/>
+    <circle cx="-5" cy="5" r="2.5" fill="#FFE4E1"/>
+    <circle cx="5" cy="5" r="2.5" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="1.5" fill="#FFD700"/>
+  </g>
+  
+  <g transform="translate(240,380)">
+    <circle cx="0" cy="0" r="6" fill="url(#flowerGradient)" opacity="0.9"/>
+    <circle cx="-4" cy="-4" r="2" fill="#FFE4E1"/>
+    <circle cx="4" cy="-4" r="2" fill="#FFE4E1"/>
+    <circle cx="-4" cy="4" r="2" fill="#FFE4E1"/>
+    <circle cx="4" cy="4" r="2" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="1" fill="#FFD700"/>
+  </g>
+  
+  <!-- Flores de sakura - Grupo 2 (lado direito) -->
+  <g transform="translate(540,360)">
+    <circle cx="0" cy="0" r="8" fill="url(#flowerGradient)" opacity="0.9"/>
+    <circle cx="-6" cy="-6" r="3" fill="#FFE4E1"/>
+    <circle cx="6" cy="-6" r="3" fill="#FFE4E1"/>
+    <circle cx="-6" cy="6" r="3" fill="#FFE4E1"/>
+    <circle cx="6" cy="6" r="3" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="2" fill="#FFD700"/>
+  </g>
+  
+  <g transform="translate(520,340)">
+    <circle cx="0" cy="0" r="7" fill="url(#flowerGradient)" opacity="0.8"/>
+    <circle cx="-5" cy="-5" r="2.5" fill="#FFE4E1"/>
+    <circle cx="5" cy="-5" r="2.5" fill="#FFE4E1"/>
+    <circle cx="-5" cy="5" r="2.5" fill="#FFE4E1"/>
+    <circle cx="5" cy="5" r="2.5" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="1.5" fill="#FFD700"/>
+  </g>
+  
+  <g transform="translate(560,380)">
+    <circle cx="0" cy="0" r="6" fill="url(#flowerGradient)" opacity="0.9"/>
+    <circle cx="-4" cy="-4" r="2" fill="#FFE4E1"/>
+    <circle cx="4" cy="-4" r="2" fill="#FFE4E1"/>
+    <circle cx="-4" cy="4" r="2" fill="#FFE4E1"/>
+    <circle cx="4" cy="4" r="2" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="1" fill="#FFD700"/>
+  </g>
+  
+  <!-- Flores de sakura - Grupo 3 (centro superior) -->
+  <g transform="translate(380,320)">
+    <circle cx="0" cy="0" r="9" fill="url(#flowerGradient)" opacity="0.9"/>
+    <circle cx="-7" cy="-7" r="3.5" fill="#FFE4E1"/>
+    <circle cx="7" cy="-7" r="3.5" fill="#FFE4E1"/>
+    <circle cx="-7" cy="7" r="3.5" fill="#FFE4E1"/>
+    <circle cx="7" cy="7" r="3.5" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="2.5" fill="#FFD700"/>
+  </g>
+  
+  <g transform="translate(420,320)">
+    <circle cx="0" cy="0" r="8" fill="url(#flowerGradient)" opacity="0.8"/>
+    <circle cx="-6" cy="-6" r="3" fill="#FFE4E1"/>
+    <circle cx="6" cy="-6" r="3" fill="#FFE4E1"/>
+    <circle cx="-6" cy="6" r="3" fill="#FFE4E1"/>
+    <circle cx="6" cy="6" r="3" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="2" fill="#FFD700"/>
+  </g>
+  
+  <!-- Flores menores espalhadas -->
+  <g transform="translate(300,320)">
+    <circle cx="0" cy="0" r="5" fill="url(#flowerGradient)" opacity="0.7"/>
+    <circle cx="-3" cy="-3" r="1.5" fill="#FFE4E1"/>
+    <circle cx="3" cy="-3" r="1.5" fill="#FFE4E1"/>
+    <circle cx="-3" cy="3" r="1.5" fill="#FFE4E1"/>
+    <circle cx="3" cy="3" r="1.5" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="1" fill="#FFD700"/>
+  </g>
+  
+  <g transform="translate(500,320)">
+    <circle cx="0" cy="0" r="5" fill="url(#flowerGradient)" opacity="0.7"/>
+    <circle cx="-3" cy="-3" r="1.5" fill="#FFE4E1"/>
+    <circle cx="3" cy="-3" r="1.5" fill="#FFE4E1"/>
+    <circle cx="-3" cy="3" r="1.5" fill="#FFE4E1"/>
+    <circle cx="3" cy="3" r="1.5" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="1" fill="#FFD700"/>
+  </g>
+  
+  <g transform="translate(350,300)">
+    <circle cx="0" cy="0" r="4" fill="url(#flowerGradient)" opacity="0.6"/>
+    <circle cx="-2" cy="-2" r="1" fill="#FFE4E1"/>
+    <circle cx="2" cy="-2" r="1" fill="#FFE4E1"/>
+    <circle cx="-2" cy="2" r="1" fill="#FFE4E1"/>
+    <circle cx="2" cy="2" r="1" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="0.5" fill="#FFD700"/>
+  </g>
+  
+  <g transform="translate(450,300)">
+    <circle cx="0" cy="0" r="4" fill="url(#flowerGradient)" opacity="0.6"/>
+    <circle cx="-2" cy="-2" r="1" fill="#FFE4E1"/>
+    <circle cx="2" cy="-2" r="1" fill="#FFE4E1"/>
+    <circle cx="-2" cy="2" r="1" fill="#FFE4E1"/>
+    <circle cx="2" cy="2" r="1" fill="#FFE4E1"/>
+    <circle cx="0" cy="0" r="0.5" fill="#FFD700"/>
+  </g>
+  
+  <!-- Pétalas caindo -->
+  <ellipse cx="200" cy="250" rx="3" ry="6" fill="#FFB6C1" opacity="0.6" transform="rotate(45 200 250)"/>
+  <ellipse cx="600" cy="280" rx="2.5" ry="5" fill="#FFB6C1" opacity="0.5" transform="rotate(-30 600 280)"/>
+  <ellipse cx="150" cy="300" rx="2" ry="4" fill="#FFB6C1" opacity="0.4" transform="rotate(60 150 300)"/>
+  <ellipse cx="650" cy="320" rx="2" ry="4" fill="#FFB6C1" opacity="0.4" transform="rotate(-60 650 320)"/>
+  <ellipse cx="100" cy="350" rx="1.5" ry="3" fill="#FFB6C1" opacity="0.3" transform="rotate(30 100 350)"/>
+  <ellipse cx="700" cy="360" rx="1.5" ry="3" fill="#FFB6C1" opacity="0.3" transform="rotate(-45 700 360)"/>
+</svg>

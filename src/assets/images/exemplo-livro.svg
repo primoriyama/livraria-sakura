@@ -1,0 +1,21 @@
+<svg width="300" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fundo do livro -->
+  <rect width="300" height="400" fill="#2c3e50" stroke="#34495e" stroke-width="2"/>
+  
+  <!-- Título -->
+  <rect x="20" y="50" width="260" height="80" fill="#3498db" rx="5"/>
+  <text x="150" y="85" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">EXEMPLO</text>
+  <text x="150" y="105" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">DE LIVRO</text>
+  
+  <!-- Autor -->
+  <text x="150" y="160" text-anchor="middle" fill="#ecf0f1" font-family="Arial, sans-serif" font-size="12">Por: Autor Exemplo</text>
+  
+  <!-- Decoração -->
+  <circle cx="150" cy="220" r="40" fill="#e74c3c" opacity="0.8"/>
+  <text x="150" y="230" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="24">📚</text>
+  
+  <!-- Rodapé -->
+  <rect x="20" y="320" width="260" height="60" fill="#95a5a6" rx="5"/>
+  <text x="150" y="345" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">EDITORA EXEMPLO</text>
+  <text x="150" y="365" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">2024</text>
+</svg>

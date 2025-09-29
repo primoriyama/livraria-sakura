@@ -1,0 +1,101 @@
+<div class="not-found-container">
+  <!-- Seção Principal do Erro 404 -->
+  <div class="error-section">
+    <div class="error-illustration">
+      <div class="error-number">404</div>
+      <div class="error-icon">
+        <mat-icon>sentiment_very_dissatisfied</mat-icon>
+      </div>
+    </div>
+
+    <div class="error-content">
+      <h1>{{ 'NOT_FOUND.TITLE' | translate }}</h1>
+      <p class="error-message">
+        {{ 'NOT_FOUND.MESSAGE' | translate }}
+      </p>
+
+      <!-- Ações Principais -->
+      <div class="primary-actions">
+        <button mat-raised-button color="primary" routerLink="/">
+          <mat-icon>home</mat-icon>
+          {{ 'NOT_FOUND.BACK_HOME' | translate }}
+        </button>
+        
+        <button mat-stroked-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          {{ 'NOT_FOUND.PREVIOUS_PAGE' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção de Sugestões -->
+  <div class="suggestions-section">
+    <h2>{{ 'NOT_FOUND.SUGGESTIONS_TITLE' | translate }}</h2>
+    
+    <div class="suggestions-grid">
+      @for (suggestion of suggestions; track suggestion.route) {
+        <mat-card class="suggestion-card" [routerLink]="suggestion.route">
+          <mat-card-content>
+            <div class="suggestion-icon">
+              <mat-icon>{{ suggestion.icon }}</mat-icon>
+            </div>
+            <h3>{{ suggestion.titleKey | translate }}</h3>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </div>
+
+  <!-- Seção de Ajuda -->
+  <div class="help-section">
+    <mat-card class="help-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>help_outline</mat-icon>
+          {{ 'NOT_FOUND.HELP.TITLE' | translate }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ 'NOT_FOUND.HELP.SUBTITLE' | translate }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>
+          {{ 'NOT_FOUND.HELP.MESSAGE' | translate }}
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-stroked-button color="accent" (click)="reportProblem()">
+          <mat-icon>bug_report</mat-icon>
+          {{ 'NOT_FOUND.HELP.REPORT_PROBLEM' | translate }}
+        </button>
+        
+        <button mat-stroked-button routerLink="/about">
+          <mat-icon>contact_support</mat-icon>
+          {{ 'NOT_FOUND.HELP.CONTACT_US' | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Seção de Busca Alternativa -->
+  <div class="search-section">
+    <mat-card class="search-card">
+      <mat-card-content>
+        <div class="search-content">
+          <mat-icon>search</mat-icon>
+          <div class="search-text">
+            <h3>{{ 'NOT_FOUND.SEARCH.TITLE' | translate }}</h3>
+            <p>{{ 'NOT_FOUND.SEARCH.MESSAGE' | translate }}</p>
+          </div>
+          <button mat-raised-button color="primary" routerLink="/">
+            <mat-icon>auto_stories</mat-icon>
+            {{ 'NOT_FOUND.SEARCH.EXPLORE_BOOKS' | translate }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

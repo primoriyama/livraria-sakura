@@ -1,0 +1,453 @@
+<div class="checkout-container">
+  <!-- Cabeçalho -->
+  <div class="checkout-header">
+    <h1>
+      <mat-icon>payment</mat-icon>
+      {{ 'CHECKOUT.TITLE' | translate }}
+    </h1>
+    <p>{{ 'CHECKOUT.SUBTITLE' | translate }}</p>
+  </div>
+
+  <!-- Pedido concluído -->
+  @if (orderCompleted()) {
+    <div class="order-success">
+      <mat-card class="success-card">
+        <mat-card-content>
+          <div class="success-content">
+            <mat-icon class="success-icon">check_circle</mat-icon>
+            <h2>{{ 'CHECKOUT.ORDER_SUCCESS' | translate }}</h2>
+            <p>{{ 'CHECKOUT.ORDER_SUCCESS_MESSAGE' | translate }}</p>
+            <div class="order-details">
+              <p><strong>{{ 'CHECKOUT.TOTAL' | translate }}:</strong> {{ formatPrice(totalPrice()) }}</p>
+              <p><strong>{{ 'CHECKOUT.ITEMS' | translate }}:</strong> {{ totalItems() }} {{ 'CHECKOUT.BOOKS' | translate }}</p>
+            </div>
+            <button mat-raised-button color="primary" routerLink="/">
+              <mat-icon>home</mat-icon>
+              {{ 'CHECKOUT.BACK_HOME' | translate }}
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  } @else {
+    <!-- Processo de checkout -->
+    <div class="checkout-content">
+      <!-- Stepper -->
+      <mat-stepper [selectedIndex]="currentStep()" orientation="horizontal" class="checkout-stepper">
+        <!-- Etapa 1: Endereço de Entrega -->
+        <mat-step [completed]="addressForm.valid">
+          <ng-template matStepLabel>{{ 'CHECKOUT.DELIVERY_ADDRESS' | translate }}</ng-template>
+          
+          <mat-card class="step-card">
+            <mat-card-header>
+              <mat-card-title>{{ 'CHECKOUT.DELIVERY_DATA' | translate }}</mat-card-title>
+              <mat-card-subtitle>{{ 'CHECKOUT.DELIVERY_SUBTITLE' | translate }}</mat-card-subtitle>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <form [formGroup]="addressForm" class="address-form">
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{ 'CHECKOUT.FULL_NAME' | translate }}</mat-label>
+                    <input matInput formControlName="fullName" placeholder="{{ 'CHECKOUT.FULL_NAME_PLACEHOLDER' | translate }}">
+                    <mat-icon matSuffix>person</mat-icon>
+                    @if (addressForm.get('fullName')?.invalid && addressForm.get('fullName')?.touched) {
+                      <mat-error>{{ getErrorMessage(addressForm, 'fullName') }}</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="half-width">
+                    <mat-label>{{ 'CHECKOUT.EMAIL' | translate }}</mat-label>
+                    <input matInput type="email" formControlName="email" placeholder="{{ 'CHECKOUT.EMAIL_PLACEHOLDER' | translate }}">
+                    <mat-icon matSuffix>email</mat-icon>
+                    @if (addressForm.get('email')?.invalid && addressForm.get('email')?.touched) {
+                      <mat-error>{{ getErrorMessage(addressForm, 'email') }}</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="half-width">
+                    <mat-label>{{ 'CHECKOUT.PHONE' | translate }}</mat-label>
+                    <input matInput formControlName="phone" placeholder="{{ 'CHECKOUT.PHONE_PLACEHOLDER' | translate }}" (input)="formatPhone($event)">
+                    <mat-icon matSuffix>phone</mat-icon>
+                    @if (addressForm.get('phone')?.invalid && addressForm.get('phone')?.touched) {
+                      <mat-error>{{ getErrorMessage(addressForm, 'phone') }}</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="quarter-width">
+                    <mat-label>{{ 'CHECKOUT.ZIP_CODE' | translate }}</mat-label>
+                    <input matInput formControlName="zipCode" placeholder="{{ 'CHECKOUT.ZIP_CODE_PLACEHOLDER' | translate }}" (input)="formatZipCode($event)">
+                    <mat-icon matSuffix>location_on</mat-icon>
+                    @if (addressForm.get('zipCode')?.invalid && addressForm.get('zipCode')?.touched) {
+                      <mat-error>{{ getErrorMessage(addressForm, 'zipCode') }}</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="half-width">
+                    <mat-label>{{ 'CHECKOUT.STREET' | translate }}</mat-label>
+                    <input matInput formControlName="street" placeholder="{{ 'CHECKOUT.STREET_PLACEHOLDER' | translate }}">
+                    @if (addressForm.get('street')?.invalid && addressForm.get('street')?.touched) {
+                      <mat-error>{{ getErrorMessage(addressForm, 'street') }}</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="quarter-width">
+                    <mat-label>{{ 'CHECKOUT.NUMBER' | translate }}</mat-label>
+                    <input matInput formControlName="number" placeholder="{{ 'CHECKOUT.NUMBER_PLACEHOLDER' | translate }}">
+                    @if (addressForm.get('number')?.invalid && addressForm.get('number')?.touched) {
+                      <mat-error>{{ getErrorMessage(addressForm, 'number') }}</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="third-width">
+                    <mat-label>{{ 'CHECKOUT.COMPLEMENT' | translate }}</mat-label>
+                    <input matInput formControlName="complement" placeholder="{{ 'CHECKOUT.COMPLEMENT_PLACEHOLDER' | translate }}">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="third-width">
+                    <mat-label>{{ 'CHECKOUT.NEIGHBORHOOD' | translate }}</mat-label>
+                    <input matInput formControlName="neighborhood" placeholder="{{ 'CHECKOUT.NEIGHBORHOOD_PLACEHOLDER' | translate }}">
+                    @if (addressForm.get('neighborhood')?.invalid && addressForm.get('neighborhood')?.touched) {
+                      <mat-error>{{ getErrorMessage(addressForm, 'neighborhood') }}</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="third-width">
+                    <mat-label>{{ 'CHECKOUT.CITY' | translate }}</mat-label>
+                    <input matInput formControlName="city" placeholder="{{ 'CHECKOUT.CITY_PLACEHOLDER' | translate }}">
+                    @if (addressForm.get('city')?.invalid && addressForm.get('city')?.touched) {
+                      <mat-error>{{ getErrorMessage(addressForm, 'city') }}</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="quarter-width">
+                    <mat-label>{{ 'CHECKOUT.STATE' | translate }}</mat-label>
+                    <mat-select formControlName="state">
+                      <mat-option value="SP">São Paulo</mat-option>
+                      <mat-option value="RJ">Rio de Janeiro</mat-option>
+                      <mat-option value="MG">Minas Gerais</mat-option>
+                      <mat-option value="RS">Rio Grande do Sul</mat-option>
+                      <mat-option value="PR">Paraná</mat-option>
+                      <mat-option value="SC">Santa Catarina</mat-option>
+                      <mat-option value="BA">Bahia</mat-option>
+                      <mat-option value="GO">Goiás</mat-option>
+                      <mat-option value="PE">Pernambuco</mat-option>
+                      <mat-option value="CE">Ceará</mat-option>
+                    </mat-select>
+                    @if (addressForm.get('state')?.invalid && addressForm.get('state')?.touched) {
+                      <mat-error>{{ getErrorMessage(addressForm, 'state') }}</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </form>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="nextStep()">
+                {{ 'CHECKOUT.CONTINUE' | translate }}
+                <mat-icon>arrow_forward</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-step>
+
+        <!-- Etapa 2: Forma de Pagamento -->
+        <mat-step [completed]="paymentForm.valid">
+          <ng-template matStepLabel>{{ 'CHECKOUT.PAYMENT_METHOD' | translate }}</ng-template>
+          
+          <mat-card class="step-card">
+            <mat-card-header>
+              <mat-card-title>{{ 'CHECKOUT.PAYMENT_DATA' | translate }}</mat-card-title>
+              <mat-card-subtitle>{{ 'CHECKOUT.PAYMENT_SUBTITLE' | translate }}</mat-card-subtitle>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <!-- Opções de entrega -->
+              <div class="shipping-options">
+                <h3>{{ 'CHECKOUT.SHIPPING_OPTIONS' | translate }}</h3>
+                <mat-radio-group [value]="selectedShipping().id" (change)="selectShippingOption($event.value)">
+                  @for (option of shippingOptions; track option.id) {
+                    <mat-radio-button [value]="option.id" class="shipping-option">
+                      <div class="option-content">
+                        <div class="option-info">
+                          <strong>{{ option.name }}</strong>
+                          <span class="delivery-time">{{ option.estimatedDays }}</span>
+                        </div>
+                        <div class="option-price">
+                          @if (subtotal() >= 100 && option.id === 'standard') {
+                            <span class="free">{{ 'CHECKOUT.FREE' | translate }}</span>
+                          } @else {
+                            {{ formatPrice(option.price) }}
+                          }
+                        </div>
+                      </div>
+                    </mat-radio-button>
+                  }
+                </mat-radio-group>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <!-- Métodos de pagamento -->
+              <div class="payment-methods">
+                <h3>{{ 'CHECKOUT.PAYMENT_METHODS' | translate }}</h3>
+                <mat-radio-group [value]="selectedPayment().id" (change)="selectPaymentMethod($event.value)">
+                  @for (method of paymentMethods; track method.id) {
+                    <mat-radio-button [value]="method.id" class="payment-method">
+                      <div class="method-content">
+                        <mat-icon>{{ method.icon }}</mat-icon>
+                        <span>{{ method.name }}</span>
+                      </div>
+                    </mat-radio-button>
+                  }
+                </mat-radio-group>
+              </div>
+
+              <!-- Dados do cartão (se cartão selecionado) -->
+              @if (selectedPayment().id === 'credit' || selectedPayment().id === 'debit') {
+                <form [formGroup]="paymentForm" class="payment-form">
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>{{ 'CHECKOUT.CARD_NUMBER' | translate }}</mat-label>
+                      <input matInput formControlName="cardNumber" placeholder="{{ 'CHECKOUT.CARD_NUMBER_PLACEHOLDER' | translate }}" (input)="formatCardNumber($event)">
+                      <mat-icon matSuffix>credit_card</mat-icon>
+                      @if (paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched) {
+                        <mat-error>{{ getErrorMessage(paymentForm, 'cardNumber') }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>{{ 'CHECKOUT.CARD_NAME' | translate }}</mat-label>
+                      <input matInput formControlName="cardName" placeholder="{{ 'CHECKOUT.CARD_NAME_PLACEHOLDER' | translate }}">
+                      <mat-icon matSuffix>person</mat-icon>
+                      @if (paymentForm.get('cardName')?.invalid && paymentForm.get('cardName')?.touched) {
+                        <mat-error>{{ getErrorMessage(paymentForm, 'cardName') }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'CHECKOUT.CARD_EXPIRY' | translate }}</mat-label>
+                      <input matInput formControlName="cardExpiry" placeholder="{{ 'CHECKOUT.CARD_EXPIRY_PLACEHOLDER' | translate }}" (input)="formatCardExpiry($event)">
+                      <mat-icon matSuffix>date_range</mat-icon>
+                      @if (paymentForm.get('cardExpiry')?.invalid && paymentForm.get('cardExpiry')?.touched) {
+                        <mat-error>{{ getErrorMessage(paymentForm, 'cardExpiry') }}</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="half-width">
+                      <mat-label>{{ 'CHECKOUT.CVV' | translate }}</mat-label>
+                      <input matInput formControlName="cardCvv" placeholder="{{ 'CHECKOUT.CVV_PLACEHOLDER' | translate }}" maxlength="4">
+                      <mat-icon matSuffix>security</mat-icon>
+                      @if (paymentForm.get('cardCvv')?.invalid && paymentForm.get('cardCvv')?.touched) {
+                        <mat-error>{{ getErrorMessage(paymentForm, 'cardCvv') }}</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  @if (selectedPayment().id === 'credit') {
+                    <div class="form-row">
+                      <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>{{ 'CHECKOUT.INSTALLMENTS' | translate }}</mat-label>
+                        <mat-select formControlName="installments">
+                          @for (installment of installmentOptions; track installment.value) {
+                            <mat-option [value]="installment.value">
+                              {{ installment.label }}
+                              @if (installment.value === 1) {
+                                <span class="no-interest"> ({{ 'CHECKOUT.NO_INTEREST' | translate }})</span>
+                              }
+                            </mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  }
+                </form>
+              }
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button mat-stroked-button (click)="previousStep()">
+                <mat-icon>arrow_back</mat-icon>
+                {{ 'CHECKOUT.BACK' | translate }}
+              </button>
+              <button mat-raised-button color="primary" (click)="nextStep()">
+                {{ 'CHECKOUT.CONTINUE' | translate }}
+                <mat-icon>arrow_forward</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-step>
+
+        <!-- Etapa 3: Confirmação -->
+        <mat-step>
+          <ng-template matStepLabel>{{ 'CHECKOUT.CONFIRMATION' | translate }}</ng-template>
+          
+          <mat-card class="step-card">
+            <mat-card-header>
+              <mat-card-title>{{ 'CHECKOUT.CONFIRM_ORDER' | translate }}</mat-card-title>
+              <mat-card-subtitle>{{ 'CHECKOUT.REVIEW_DATA' | translate }}</mat-card-subtitle>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <div class="confirmation-content">
+                @defer (when cartItems().length > 0 && totalPrice() > 0) {
+                  <!-- Resumo dos itens -->
+                  <div class="order-items">
+                    <h3>{{ 'CHECKOUT.ORDER_ITEMS' | translate }}</h3>
+                    @for (item of cartItems(); track item.book._id) {
+                      <div class="order-item">
+                        <img [src]="item.book.imagemUrl || '/assets/images/book-placeholder.jpg'" [alt]="item.book.titulo">
+                        <div class="item-details">
+                          <h4>{{ item.book.titulo | translateTitle }}</h4>
+                          <p>{{ item.book.autor }}</p>
+                          <span class="quantity">{{ 'CHECKOUT.QUANTITY' | translate }}: {{ item.quantity }}</span>
+                        </div>
+                        <div class="item-price">
+                          {{ formatPrice(item.book.preco * item.quantity) }}
+                        </div>
+                      </div>
+                    }
+                  </div>
+
+                  <mat-divider></mat-divider>
+
+                  <!-- Resumo do pedido -->
+                  <div class="order-summary">
+                    <h3>{{ 'CHECKOUT.ORDER_SUMMARY' | translate }}</h3>
+                    <div class="summary-line">
+                      <span>{{ 'CHECKOUT.SUBTOTAL' | translate }}:</span>
+                      <span>{{ formatPrice(subtotal()) }}</span>
+                    </div>
+                    <div class="summary-line">
+                      <span>{{ 'CHECKOUT.SHIPPING' | translate }} ({{ selectedShipping().name }}):</span>
+                      <span>
+                        @if (shippingCost() === 0) {
+                          <span class="free">{{ 'CHECKOUT.FREE' | translate }}</span>
+                        } @else {
+                          {{ formatPrice(shippingCost()) }}
+                        }
+                      </span>
+                    </div>
+                    <div class="summary-line total">
+                      <span>{{ 'CHECKOUT.TOTAL' | translate }}:</span>
+                      <span>{{ formatPrice(totalPrice()) }}</span>
+                    </div>
+                  </div>
+                } @loading {
+                  <div class="order-summary-loading">
+                    <mat-spinner diameter="40"></mat-spinner>
+                    <p>{{ 'CHECKOUT.LOADING_ORDER' | translate }}</p>
+                  </div>
+                } @placeholder {
+                  <div class="order-summary-skeleton">
+                    <!-- Skeleton para itens -->
+                    <div class="skeleton-section">
+                      <div class="skeleton-title"></div>
+                      @for (item of [1,2,3]; track item) {
+                        <div class="order-item-skeleton">
+                          <div class="skeleton-image"></div>
+                          <div class="skeleton-details">
+                            <div class="skeleton-book-title"></div>
+                            <div class="skeleton-author"></div>
+                            <div class="skeleton-quantity"></div>
+                          </div>
+                          <div class="skeleton-price"></div>
+                        </div>
+                      }
+                    </div>
+                    
+                    <!-- Skeleton para resumo -->
+                    <div class="skeleton-section">
+                      <div class="skeleton-title"></div>
+                      @for (line of [1,2,3]; track line) {
+                        <div class="skeleton-summary-line">
+                          <div class="skeleton-label"></div>
+                          <div class="skeleton-value"></div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                } @error {
+                  <div class="order-summary-error">
+                    <mat-icon>error_outline</mat-icon>
+                    <h3>{{ 'CHECKOUT.ERROR_LOAD_ORDER' | translate }}</h3>
+                    <button mat-raised-button color="primary" (click)="refreshOrderSummary()">
+                      {{ 'CHECKOUT.RETRY' | translate }}
+                    </button>
+                  </div>
+                }
+
+                <mat-divider></mat-divider>
+
+                <!-- Endereço de entrega -->
+                <div class="delivery-info">
+                  <h3>{{ 'CHECKOUT.DELIVERY_ADDRESS' | translate }}</h3>
+                  <div class="address-details">
+                    <p><strong>{{ addressForm.get('fullName')?.value }}</strong></p>
+                    <p>{{ addressForm.get('street')?.value }}, {{ addressForm.get('number')?.value }}</p>
+                    @if (addressForm.get('complement')?.value) {
+                      <p>{{ addressForm.get('complement')?.value }}</p>
+                    }
+                    <p>{{ addressForm.get('neighborhood')?.value }} - {{ addressForm.get('city')?.value }}/{{ addressForm.get('state')?.value }}</p>
+                    <p>{{ 'CHECKOUT.ZIP_CODE' | translate }}: {{ addressForm.get('zipCode')?.value }}</p>
+                  </div>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <!-- Forma de pagamento -->
+                <div class="payment-info">
+                  <h3>{{ 'CHECKOUT.PAYMENT_METHOD' | translate }}</h3>
+                  <div class="payment-details">
+                    <p><strong>{{ selectedPayment().name }}</strong></p>
+                    @if (selectedPayment().id === 'credit' || selectedPayment().id === 'debit') {
+                      <p>**** **** **** {{ paymentForm.get('cardNumber')?.value?.slice(-4) }}</p>
+                      <p>{{ paymentForm.get('cardName')?.value }}</p>
+                    }
+                    @if (selectedPayment().id === 'credit' && paymentForm.get('installments')?.value > 1) {
+                      <p>{{ paymentForm.get('installments')?.value }}x de {{ formatPrice(totalPrice() / paymentForm.get('installments')?.value) }}</p>
+                    }
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button mat-stroked-button (click)="previousStep()">
+                <mat-icon>arrow_back</mat-icon>
+                {{ 'CHECKOUT.BACK' | translate }}
+              </button>
+              <button 
+                mat-raised-button 
+                color="primary" 
+                (click)="completeOrder()"
+                [disabled]="loading()"
+                class="complete-order-btn"
+              >
+                @if (loading()) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                  {{ 'CHECKOUT.PROCESSING' | translate }}
+                } @else {
+                  <mat-icon>check</mat-icon>
+                  {{ 'CHECKOUT.COMPLETE_ORDER' | translate }}
+                }
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-step>
+      </mat-stepper>
+    </div>
+  }
+</div>

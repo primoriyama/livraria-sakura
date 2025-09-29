@@ -1,0 +1,150 @@
+<div class="home-container">
+
+  <section class="hero-section">
+    <div class="container">
+      <h1>{{ 'HOME.WELCOME' | translate }}</h1>
+      <p>{{ 'HOME.SUBTITLE' | translate }}</p>
+    </div>
+  </section>
+
+  <section class="filters-section">
+    <div class="container">
+      <div class="filters-grid">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>{{ 'HOME.SEARCH' | translate }}</mat-label>
+          <input matInput
+                 [value]="searchTerm()"
+                 (input)="updateSearchTerm($event.target.value || '')"
+                 [placeholder]="'HOME.SEARCH_PLACEHOLDER' | translate">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="category-field">
+          <mat-label>{{ 'HOME.CATEGORY' | translate }}</mat-label>
+          <mat-select [value]="selectedCategory()"
+                      (selectionChange)="updateCategory($event.value)">
+            <mat-option value="">{{ 'HOME.ALL_CATEGORIES' | translate }}</mat-option>
+            @for (category of categories(); track category) {
+              <mat-option [value]="category">{{ category }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-stroked-button color="warn" class="clear-filters-btn">
+          <mat-icon>clear</mat-icon>
+          {{ 'HOME.CLEAR_FILTERS' | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog-section">
+    <div class="container">
+      <div class="results-info">
+        <p>{{ 'HOME.BOOKS_FOUND' | translate: {count: filteredBooks().length} }}</p>
+      </div>
+
+      @defer (when !loading() && filteredBooks().length > 0) {
+        <div class="books-grid">
+          @for (book of filteredBooks(); track book._id) {
+              <mat-card class="custom-card book-card" [class.out-of-stock]="!isAvailable(book)">
+                <div class="book-image">
+                  @if (book.imagemUrl) {
+                    <img mat-card-image [src]="book.imagemUrl" [alt]="book.titulo" loading="lazy" (error)="onImageError($event)">
+                  } @else {
+                    <div class="no-image">
+                      <mat-icon>book</mat-icon>
+                    </div>
+                  }
+                  @if (!isAvailable(book)) {
+                    <div class="out-of-stock-overlay">
+                      <span>{{ 'HOME.OUT_OF_STOCK' | translate }}</span>
+                    </div>
+                  }
+                </div>
+
+                <mat-card-content>
+                  <h3 class="book-title">{{ book.titulo | translateTitle }}</h3>
+                  <p class="book-author">{{ book.autor }}</p>
+                  @if (book.descricao) {
+                    <p class="book-description">{{ book.descricao }}</p>
+                  }
+                  <div class="book-price">{{ formatPrice(book.preco) }}</div>
+                  @if (book.estoque <= 5 && book.estoque > 0) {
+                    <p class="low-stock">
+                      {{ 'HOME.LOW_STOCK' | translate: {count: book.estoque} }}
+                    </p>
+                  }
+                </mat-card-content>
+
+                <mat-card-actions>
+                  <button mat-stroked-button color="warn" [routerLink]="['/book', book._id]">
+                    {{ 'HOME.VIEW_DETAILS' | translate }}
+                  </button>
+                  @if (isAvailable(book)) {
+                    <button mat-raised-button color="accent" (click)="addToCart(book)">
+                      <mat-icon>add_shopping_cart</mat-icon>
+                      {{ 'HOME.ADD_TO_CART' | translate }}
+                    </button>
+                  }
+                </mat-card-actions>
+
+                @if (isAdmin()) {
+                    <div class="admin-actions">
+                        <button mat-icon-button color="accent" [routerLink]="['/admin/edit-book', book._id]">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="deleteBook(book)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                }
+              </mat-card>
+            }
+          </div>
+        } @loading {
+          <div class="loading-container">
+            <mat-spinner></mat-spinner>
+            <p>{{ 'HOME.LOADING' | translate }}</p>
+          </div>
+        } @placeholder {
+          <div class="books-grid-skeleton">
+            @for (item of [1,2,3,4,5,6]; track item) {
+              <div class="book-card-skeleton">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-content">
+                  <div class="skeleton-title"></div>
+                  <div class="skeleton-author"></div>
+                  <div class="skeleton-price"></div>
+                </div>
+              </div>
+            }
+          </div>
+        } @error {
+          <div class="error-container">
+            <mat-icon>error_outline</mat-icon>
+            <h3>{{ 'HOME.ERROR_LOAD_BOOKS' | translate }}</h3>
+            <button mat-raised-button color="primary" (click)="loadBooks()">
+              {{ 'HOME.RETRY' | translate }}
+            </button>
+          </div>
+        }
+
+        @if (!loading() && filteredBooks().length === 0) {
+          <div class="no-results">
+            <mat-icon>search_off</mat-icon>
+            <h3>{{ 'HOME.NO_RESULTS_TITLE' | translate }}</h3>
+            <p>{{ 'HOME.NO_RESULTS_MESSAGE' | translate }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+  @if (isAdmin()) {
+    <div class="admin-fab">
+      <button mat-fab color="accent" [routerLink]="['/admin/add-book']" [matTooltip]="'HOME.ADD_BOOK_TOOLTIP' | translate">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  }
+</div>

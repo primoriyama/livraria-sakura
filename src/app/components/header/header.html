@@ -1,0 +1,77 @@
+<mat-toolbar color="primary" class="header">
+  <div class="header-content">
+    <div class="logo">
+      <a routerLink="/" class="logo-link">
+        <span class="logo-text">Livraria Sakura</span>
+      </a>
+    </div>
+
+    <nav class="main-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        INÍCIO
+      </a>
+      <a routerLink="/about" routerLinkActive="active">
+        Sobre
+      </a>
+      @if (isAdmin()) {
+        <a routerLink="/admin" routerLinkActive="active">
+          Administração
+        </a>
+      }
+    </nav>
+
+    <div class="user-actions">
+      <button mat-icon-button (click)="goToCart()" class="cart-btn">
+        <div class="cart-icon-container">
+          <mat-icon>shopping_cart</mat-icon>
+          @if (cartItemCount() > 0) {
+            <span class="cart-badge">{{ cartItemCount() }}</span>
+          }
+        </div>
+      </button>
+
+      @if (isAuthenticated()) {
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu-btn">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu" panelClass="user-menu-panel">
+          <div class="user-info">
+            <span>{{ currentUser()?.name }}</span>
+            <small>{{ currentUser()?.email }}</small>
+          </div>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="goToProfile()">
+            <mat-icon class="user-menu-icon">person</mat-icon>
+            {{ 'HEADER.PROFILE' | translate }}
+          </button>
+          @if (isAdmin()) {
+            <button mat-menu-item (click)="goToAdmin()">
+              <mat-icon class="user-menu-icon">admin_panel_settings</mat-icon>
+              {{ 'HEADER.ADMIN' | translate }}
+            </button>
+          }
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon class="user-menu-icon">logout</mat-icon>
+            {{ 'HEADER.LOGOUT' | translate }}
+          </button>
+        </mat-menu>
+      } @else {
+        <a mat-button routerLink="/login" class="login-btn">
+          {{ 'HEADER.LOGIN' | translate }}
+        </a>
+      }
+
+      <button mat-icon-button [matMenuTriggerFor]="languageMenu" class="language-btn">
+        <mat-icon>language</mat-icon>
+      </button>
+      <mat-menu #languageMenu="matMenu">
+        @for (lang of languages; track lang.code) {
+          <button mat-menu-item (click)="changeLanguage(lang.code)">
+            <span [class.active]="currentLanguage === lang.code">{{ lang.name }}</span>
+          </button>
+        }
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,225 @@
+$font-heading: 'Noto Serif JP', serif;
+
+.about-container {
+  section:first-child {
+    padding-top: 32px;
+  }
+}
+
+.hero-section {
+  background-color: #f7e6e9 !important;
+  text-align: center;
+  padding: 80px 40px;
+  border-radius: 12px;
+  margin-bottom: 64px;
+
+  .hero-content {
+    .hero-title {
+      font-family: $font-heading;
+      font-size: 3rem;
+      line-height: 1.2;
+      color: var(--color-text-primary);
+      margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+.story-section {
+  .story-card {
+    mat-card-header {
+      padding: 24px;
+      background-color: #f7e6e9 !important;
+      text-align: center !important;
+      display: flex !important;
+      justify-content: center !important;
+      mat-card-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        font-size: 2.25rem;
+        font-family: $font-heading;
+        margin: 0 auto;
+        width: fit-content;
+        text-align: center !important;
+      }
+    }
+  }
+  .story-content {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    padding: 32px;
+
+    .story-text {
+      flex: 1;
+      p { font-size: 1.1rem; line-height: 1.8; }
+    }
+    .story-image {
+      flex: 0 0 300px;
+      img { width: 100%; border-radius: 8px; }
+    }
+  }
+}
+
+.stats-section {
+  background-color: #f7e6e9 !important;
+  padding: 64px 0;
+  margin-bottom: 64px;
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+
+  .stat-card {
+    text-align: center;
+    .stat-number {
+      font-family: $font-heading;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+    .stat-label {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+.values-section {
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .value-card {
+    text-align: center;
+    padding: 24px;
+    .value-icon mat-icon {
+      font-size: 3rem;
+      width: 3rem;
+      height: 3rem;
+      color: var(--color-warn);
+      margin-bottom: 16px;
+    }
+    h3 {
+      font-family: $font-heading;
+      font-size: 1.3rem;
+    }
+    p {
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+.mission-section {
+  .mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .mission-card, .vision-card {
+    padding: 24px;
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.5rem;
+      font-family: $font-heading;
+    }
+  }
+}
+
+.commitments-section {
+  .commitments-card {
+    background-color: #f7e6e9 !important;
+  }
+
+  mat-card-header {
+    padding: 24px;
+    text-align: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 2.25rem;
+      font-family: $font-heading;
+      margin: 0 auto;
+      width: fit-content;
+      text-align: center !important;
+    }
+  }
+
+  .commitments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 32px;
+    padding: 32px;
+  }
+
+  .commitment-item {
+    text-align: center;
+    h4 { font-size: 1.1rem; }
+    p { font-size: 0.95rem; color: var(--color-text-secondary); }
+    mat-icon {
+      font-size: 2.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      color: var(--color-accent);
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.stats-section h2,
+.values-section h2,
+.commitments-section h2 {
+  font-family: $font-heading;
+  text-align: center;
+  margin: 0 auto 48px auto;
+  width: fit-content;
+  font-size: 2.25rem;
+}
+
+@media (max-width: 968px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px;
+  }
+  .hero-image {
+    flex-basis: auto;
+    width: 100%;
+    max-width: 400px;
+  }
+  .story-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .stats-section h2,
+  .values-section h2,
+  .commitments-section h2 {
+    font-size: 2rem;
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid, .mission-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .commitments-grid, .values-grid {
+    grid-template-columns: 1fr;
+  }
+}

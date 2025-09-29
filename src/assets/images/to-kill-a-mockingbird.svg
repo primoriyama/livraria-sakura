@@ -1,0 +1,28 @@
+<svg width="300" height="450" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="450" fill="#2c3e50"/>
+  
+  <!-- Tree silhouette -->
+  <path d="M150 350 Q120 320 100 280 Q90 260 95 240 Q100 220 120 210 Q140 200 160 210 Q180 220 185 240 Q190 260 180 280 Q160 320 150 350" fill="#34495e"/>
+  
+  <!-- Tree trunk -->
+  <rect x="145" y="350" width="10" height="80" fill="#5d4e37"/>
+  
+  <!-- Mockingbird silhouette -->
+  <g transform="translate(180, 250)">
+    <ellipse cx="0" cy="0" rx="15" rx="8" fill="#ecf0f1"/>
+    <path d="M-15 -3 Q-25 -8 -30 -5 Q-25 -2 -15 0" fill="#ecf0f1"/>
+    <path d="M15 -3 Q25 -8 30 -5 Q25 -2 15 0" fill="#ecf0f1"/>
+    <circle cx="-5" cy="-2" r="1" fill="#2c3e50"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="150" y="80" text-anchor="middle" fill="#ecf0f1" font-family="serif" font-size="24" font-weight="bold">TO KILL A</text>
+  <text x="150" y="110" text-anchor="middle" fill="#ecf0f1" font-family="serif" font-size="24" font-weight="bold">MOCKINGBIRD</text>
+  
+  <!-- Author -->
+  <text x="150" y="400" text-anchor="middle" fill="#bdc3c7" font-family="serif" font-size="16">HARPER LEE</text>
+  
+  <!-- Decorative border -->
+  <rect x="10" y="10" width="280" height="430" fill="none" stroke="#ecf0f1" stroke-width="2"/>
+</svg>

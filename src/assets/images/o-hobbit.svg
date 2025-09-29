@@ -1,0 +1,82 @@
+<svg width="300" height="450" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="450" fill="#2d5016"/>
+  
+  <!-- Rolling hills -->
+  <path d="M0,300 Q75,250 150,280 Q225,250 300,290 L300,450 L0,450 Z" fill="#4a7c59"/>
+  <path d="M0,320 Q100,280 200,300 Q250,290 300,310 L300,450 L0,450 Z" fill="#5d8f6b"/>
+  
+  <!-- Hobbit hole -->
+  <ellipse cx="150" cy="320" rx="60" ry="40" fill="#8b4513"/>
+  <ellipse cx="150" cy="320" rx="55" ry="35" fill="#654321"/>
+  
+  <!-- Round door -->
+  <circle cx="150" cy="320" r="25" fill="#228b22"/>
+  <circle cx="150" cy="320" r="20" fill="#32cd32"/>
+  <circle cx="160" cy="320" r="2" fill="#ffd700"/>
+  
+  <!-- Door frame -->
+  <circle cx="150" cy="320" r="25" fill="none" stroke="#8b4513" stroke-width="3"/>
+  
+  <!-- Windows -->
+  <circle cx="120" cy="310" r="8" fill="#ffffe0"/>
+  <circle cx="180" cy="310" r="8" fill="#ffffe0"/>
+  <path d="M120,302 L120,318 M112,310 L128,310" stroke="#8b4513" stroke-width="2"/>
+  <path d="M180,302 L180,318 M172,310 L188,310" stroke="#8b4513" stroke-width="2"/>
+  
+  <!-- Chimney -->
+  <rect x="140" y="280" width="8" height="25" fill="#8b4513"/>
+  <ellipse cx="144" cy="280" rx="6" ry="3" fill="#654321"/>
+  
+  <!-- Smoke -->
+  <path d="M144,275 Q148,270 146,265 Q142,260 146,255" stroke="#d3d3d3" stroke-width="2" fill="none" opacity="0.7"/>
+  
+  <!-- Garden -->
+  <circle cx="100" cy="350" r="3" fill="#ff6347"/>
+  <circle cx="110" cy="355" r="2" fill="#ff6347"/>
+  <circle cx="190" cy="350" r="3" fill="#ff6347"/>
+  <circle cx="200" cy="355" r="2" fill="#ff6347"/>
+  
+  <!-- Flowers -->
+  <circle cx="80" cy="340" r="2" fill="#ff69b4"/>
+  <circle cx="220" cy="345" r="2" fill="#ff69b4"/>
+  <circle cx="90" cy="365" r="1.5" fill="#9370db"/>
+  <circle cx="210" cy="365" r="1.5" fill="#9370db"/>
+  
+  <!-- Path -->
+  <ellipse cx="150" cy="380" rx="40" ry="8" fill="#daa520"/>
+  <ellipse cx="150" cy="390" rx="35" ry="6" fill="#daa520"/>
+  
+  <!-- Trees -->
+  <g transform="translate(50, 280)">
+    <rect x="-3" y="0" width="6" height="40" fill="#8b4513"/>
+    <circle cx="0" cy="-10" r="20" fill="#228b22"/>
+    <circle cx="-8" cy="-15" r="12" fill="#32cd32"/>
+    <circle cx="8" cy="-12" r="15" fill="#32cd32"/>
+  </g>
+  
+  <g transform="translate(250, 290)">
+    <rect x="-2" y="0" width="4" height="30" fill="#8b4513"/>
+    <circle cx="0" cy="-8" r="15" fill="#228b22"/>
+    <circle cx="-6" cy="-12" r="10" fill="#32cd32"/>
+  </g>
+  
+  <!-- Title area -->
+  <rect x="20" y="50" width="260" height="80" fill="#2d5016" opacity="0.9"/>
+  
+  <!-- Title text -->
+  <text x="150" y="80" text-anchor="middle" fill="#ffd700" font-family="serif" font-size="28" font-weight="bold">O HOBBIT</text>
+  <text x="150" y="105" text-anchor="middle" fill="#c0c0c0" font-family="serif" font-size="14">ou Lá e de Volta Outra Vez</text>
+  
+  <!-- Author -->
+  <text x="150" y="420" text-anchor="middle" fill="#c0c0c0" font-family="serif" font-size="12">J.R.R. Tolkien</text>
+  
+  <!-- Decorative border -->
+  <rect x="10" y="10" width="280" height="430" fill="none" stroke="#ffd700" stroke-width="2"/>
+  
+  <!-- Corner decorations -->
+  <circle cx="25" cy="25" r="3" fill="#ffd700"/>
+  <circle cx="275" cy="25" r="3" fill="#ffd700"/>
+  <circle cx="25" cy="425" r="3" fill="#ffd700"/>
+  <circle cx="275" cy="425" r="3" fill="#ffd700"/>
+</svg>

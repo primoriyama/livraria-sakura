@@ -1,0 +1,48 @@
+<svg width="300" height="450" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="450" fill="#1a1a2e"/>
+  
+  <!-- Dark Victorian street -->
+  <rect x="0" y="350" width="300" height="100" fill="#0f0f23"/>
+  
+  <!-- Fog effect -->
+  <ellipse cx="150" cy="400" rx="200" ry="30" fill="#2a2a3e" opacity="0.7"/>
+  <ellipse cx="100" cy="380" rx="150" ry="20" fill="#3a3a4e" opacity="0.5"/>
+  
+  <!-- Street lamp -->
+  <rect x="240" y="280" width="8" height="120" fill="#4a4a4a"/>
+  <circle cx="244" cy="280" r="15" fill="#ffeb3b" opacity="0.8"/>
+  <circle cx="244" cy="280" r="20" fill="#ffeb3b" opacity="0.3"/>
+  
+  <!-- Split face silhouette -->
+  <g transform="translate(150, 200)">
+    <!-- Good side (left) -->
+    <path d="M-40,-60 Q-50,-40 -45,0 Q-40,40 -20,50 L0,50 L0,-60 Z" fill="#6a6a8a"/>
+    
+    <!-- Evil side (right) -->
+    <path d="M0,-60 L0,50 L20,50 Q40,40 45,0 Q50,-40 40,-60 Z" fill="#2d1b2d"/>
+    
+    <!-- Eyes -->
+    <circle cx="-25" cy="-20" r="3" fill="#87ceeb"/>
+    <circle cx="25" cy="-20" r="3" fill="#ff4444"/>
+    
+    <!-- Mouth line -->
+    <line x1="-20" y1="10" x2="20" y2="10" stroke="#333" stroke-width="2"/>
+  </g>
+  
+  <!-- Title area -->
+  <rect x="20" y="30" width="260" height="80" fill="#2a2a3e" opacity="0.9"/>
+  
+  <!-- Title text -->
+  <text x="150" y="55" text-anchor="middle" fill="#e0e0e0" font-family="serif" font-size="18" font-weight="bold">O MÉDICO</text>
+  <text x="150" y="75" text-anchor="middle" fill="#e0e0e0" font-family="serif" font-size="18" font-weight="bold">E O</text>
+  <text x="150" y="95" text-anchor="middle" fill="#e0e0e0" font-family="serif" font-size="18" font-weight="bold">MONSTRO</text>
+  
+  <!-- Author -->
+  <text x="150" y="420" text-anchor="middle" fill="#a0a0a0" font-family="serif" font-size="12">Robert Louis Stevenson</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="50" cy="150" r="2" fill="#666" opacity="0.5"/>
+  <circle cx="250" cy="180" r="1.5" fill="#666" opacity="0.5"/>
+  <circle cx="80" cy="320" r="1" fill="#666" opacity="0.5"/>
+</svg>

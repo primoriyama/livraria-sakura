@@ -1,0 +1,152 @@
+<div class="admin-dashboard">
+  <div class="dashboard-header">
+    <h1>{{ 'ADMIN.DASHBOARD_TITLE' | translate }}</h1>
+    <p>{{ 'ADMIN.DASHBOARD_SUBTITLE' | translate }}</p>
+  </div>
+
+  @defer (when !isLoading() && userStats().totalUsers >= 0) {
+    <div class="stats-grid">
+      <mat-card class="custom-card stat-card users-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon>people</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ userStats().totalUsers }}</h3>
+              <p>{{ 'ADMIN.TOTAL_USERS' | translate }}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="custom-card stat-card active-users-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon>person_check</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ userStats().activeUsers }}</h3>
+              <p>{{ 'ADMIN.ACTIVE_USERS' | translate }}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="custom-card stat-card admin-users-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon>admin_panel_settings</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ userStats().adminUsers }}</h3>
+              <p>{{ 'ADMIN.ADMIN_USERS' | translate }}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="custom-card stat-card new-users-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon>person_add</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ userStats().newUsersThisMonth }}</h3>
+              <p>{{ 'ADMIN.NEW_USERS_MONTH' | translate }}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="custom-card stat-card books-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon>library_books</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ bookStats.totalBooks }}</h3>
+              <p>{{ 'ADMIN.TOTAL_BOOKS' | translate }}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="custom-card stat-card low-stock-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-icon">
+              <mat-icon>warning</mat-icon>
+            </div>
+            <div class="stat-info">
+              <h3>{{ bookStats.lowStockBooks }}</h3>
+              <p>{{ 'ADMIN.LOW_STOCK_BOOKS' | translate }}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="actions-section">
+      <h2>{{ 'ADMIN.QUICK_ACTIONS' | translate }}</h2>
+      <div class="actions-grid">
+        <button mat-raised-button color="primary" (click)="navigateToUsers()" class="action-btn-primary">
+          <mat-icon>people</mat-icon>
+          {{ 'ADMIN.MANAGE_USERS' | translate }}
+        </button>
+
+        <button mat-raised-button color="accent" (click)="navigateToAddUser()" class="action-btn-primary">
+          <mat-icon>person_add</mat-icon>
+          {{ 'ADMIN.ADD_USER' | translate }}
+        </button>
+
+        <button mat-raised-button color="primary" (click)="navigateToAddBook()" class="action-btn-primary">
+          <mat-icon>library_add</mat-icon>
+          {{ 'ADMIN.ADD_BOOK' | translate }}
+        </button>
+
+        <button mat-raised-button (click)="refreshStats()" class="refresh-btn">
+          <mat-icon>refresh</mat-icon>
+          {{ 'ADMIN.REFRESH_STATS' | translate }}
+        </button>
+      </div>
+    </div>
+  } @loading {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>{{ 'ADMIN.LOADING_STATS' | translate }}</p>
+    </div>
+  } @placeholder {
+    <div class="stats-grid-skeleton">
+      @for (item of [1,2,3,4,5,6]; track item) {
+        <div class="stat-card-skeleton">
+          <div class="skeleton-icon"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-number"></div>
+            <div class="skeleton-label"></div>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="actions-section-skeleton">
+      <div class="skeleton-title"></div>
+      <div class="actions-grid-skeleton">
+        @for (item of [1,2,3,4]; track item) {
+          <div class="skeleton-button"></div>
+        }
+      </div>
+    </div>
+  } @error {
+    <div class="error-container">
+      <mat-icon>error_outline</mat-icon>
+      <h3>{{ 'ADMIN.ERROR_LOAD_STATS' | translate }}</h3>
+      <button mat-raised-button color="primary" (click)="refreshStats()">
+        {{ 'ADMIN.RETRY' | translate }}
+      </button>
+    </div>
+  }
+</div>

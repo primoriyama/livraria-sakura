@@ -1,0 +1,130 @@
+<div class="about-container">
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">{{ 'ABOUT.HERO_TITLE' | translate }}</h1>
+      <p class="hero-subtitle">
+        {{ 'ABOUT.HERO_SUBTITLE' | translate }}
+      </p>
+    </div>
+  </section>
+
+  <section class="story-section">
+    <mat-card class="story-card custom-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>local_florist</mat-icon>
+          {{ 'ABOUT.CONCEPT' | translate }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="story-content">
+          <div class="story-text">
+            <p>
+              {{ 'ABOUT.CONCEPT_TEXT' | translate }}
+            </p>
+          </div>
+          <div class="story-image">
+            <img src="https://images.unsplash.com/photo-1522383225653-ed111181a951?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1260&q=80" alt="Flores de sakura florescendo - Conceito da Livraria Sakura" />
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <section class="stats-section">
+      <h2>{{ 'ABOUT.STATS_TITLE' | translate }}</h2>
+    <div class="stats-grid">
+      @for (stat of stats; track stat.labelKey) {
+        <div class="stat-card">
+          <div class="stat-number">{{ stat.number }}</div>
+          <div class="stat-label">{{ stat.labelKey | translate }}</div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="values-section">
+      <h2>{{ 'ABOUT.VALUES_TITLE' | translate }}</h2>
+    <div class="values-grid">
+      @for (value of values; track value.titleKey) {
+        <mat-card class="value-card custom-card">
+          <mat-card-content>
+            <div class="value-icon">
+              <mat-icon>{{ value.icon }}</mat-icon>
+            </div>
+            <h3>{{ value.titleKey | translate }}</h3>
+            <p>{{ value.descriptionKey | translate }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </section>
+
+  <section class="mission-section">
+    <div class="mission-grid">
+      <mat-card class="mission-card custom-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>flag</mat-icon>
+            {{ 'ABOUT.MISSION' | translate }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{ 'ABOUT.MISSION_TEXT' | translate }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="vision-card custom-card">
+        <mat-card-header>
+          <mat-card-title>
+              <mat-icon>visibility</mat-icon>
+              {{ 'ABOUT.VISION' | translate }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              {{ 'ABOUT.VISION_TEXT' | translate }}
+            </p>
+          </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <section class="commitments-section">
+    <mat-card class="commitments-card custom-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>handshake</mat-icon>
+          {{ 'ABOUT.COMMITMENTS_TITLE' | translate }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="commitments-grid">
+          <div class="commitment-item">
+            <mat-icon>eco</mat-icon>
+            <h4>{{ 'ABOUT.COMMITMENTS.SUSTAINABILITY.TITLE' | translate }}</h4>
+            <p>{{ 'ABOUT.COMMITMENTS.SUSTAINABILITY.DESCRIPTION' | translate }}</p>
+          </div>
+          <div class="commitment-item">
+            <mat-icon>school</mat-icon>
+            <h4>{{ 'ABOUT.COMMITMENTS.EDUCATION.TITLE' | translate }}</h4>
+            <p>{{ 'ABOUT.COMMITMENTS.EDUCATION.DESCRIPTION' | translate }}</p>
+          </div>
+          <div class="commitment-item">
+            <mat-icon>groups</mat-icon>
+            <h4>{{ 'ABOUT.COMMITMENTS.COMMUNITY.TITLE' | translate }}</h4>
+            <p>{{ 'ABOUT.COMMITMENTS.COMMUNITY.DESCRIPTION' | translate }}</p>
+          </div>
+          <div class="commitment-item">
+            <mat-icon>accessibility</mat-icon>
+            <h4>{{ 'ABOUT.COMMITMENTS.ACCESSIBILITY.TITLE' | translate }}</h4>
+            <p>{{ 'ABOUT.COMMITMENTS.ACCESSIBILITY.DESCRIPTION' | translate }}</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+</div>
