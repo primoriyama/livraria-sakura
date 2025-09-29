@@ -8,10 +8,9 @@ const checkAdmin = async () => {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/livraria-sakura');
     console.log('✅ Conectado ao MongoDB');
 
-    // Verificar usuários admin
     const adminUsers = await User.find({ role: 'admin' });
     console.log(`👑 Usuários admin encontrados: ${adminUsers.length}`);
-    
+
     if (adminUsers.length > 0) {
       console.log('\n📋 Lista de admins:');
       adminUsers.forEach((admin, index) => {
@@ -21,7 +20,6 @@ const checkAdmin = async () => {
       console.log('❌ Nenhum usuário admin encontrado');
     }
 
-    // Verificar total de usuários
     const totalUsers = await User.countDocuments();
     console.log(`\n👥 Total de usuários: ${totalUsers}`);
 

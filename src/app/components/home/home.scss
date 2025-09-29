@@ -155,13 +155,13 @@
 
   .book-author {
     font-size: 0.9rem;
-    color: #666; // Aplicando cor cinza conforme solicitado
+    color: #666;
     margin-bottom: 8px;
   }
 
   .book-description {
     font-size: 0.85rem;
-    color: #666; // Aplicando cor cinza conforme solicitado
+    color: #666;
     line-height: 1.4;
     margin-bottom: 12px;
     display: -webkit-box;
@@ -199,28 +199,26 @@
       border-radius: 8px;
       font-weight: 500;
       transition: all 0.3s ease;
-      
-      // Estilização específica para botão "Ver Detalhes" (mat-stroked-button color="warn")
+
       &[mat-stroked-button][color="warn"] {
-        color: #8B4A5C !important; // Cor rosa do admin
-        border-color: #8B4A5C !important; // Borda rosa do admin
+        color: #8B4A5C !important;
+        border-color: #8B4A5C !important;
         background-color: transparent;
-        
+
         &:hover {
           background-color: rgba(139, 74, 92, 0.1);
         }
       }
-      
-      // Estilização específica para botão "Adicionar ao Carrinho" (mat-raised-button color="accent")
+
       &[mat-raised-button][color="accent"] {
-        background-color: #550000 !important; // Cor bordô conforme solicitado
-        color: white !important; // Fonte branca conforme solicitado
+        background-color: #550000 !important;
+        color: white !important;
         border: none;
-        
+
         &:hover {
-          background-color: #440000 !important; // Tom mais escuro no hover
+          background-color: #440000 !important; 
         }
-        
+
         &:disabled {
           background-color: #cccccc !important;
           color: #666666 !important;

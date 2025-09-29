@@ -11,9 +11,6 @@ export class ConfirmDialogService {
   private dialog = inject(MatDialog);
   private translate = inject(TranslateService);
 
-  /**
-   * Abre um diálogo de confirmação genérico
-   */
   confirm(data: ConfirmDialogData): Observable<boolean> {
     const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(
       ConfirmDialogComponent,
@@ -30,11 +27,8 @@ export class ConfirmDialogService {
     return dialogRef.afterClosed();
   }
 
-  /**
-   * Diálogo de confirmação para exclusão
-   */
   confirmDelete(itemName?: string): Observable<boolean> {
-    const message = itemName 
+    const message = itemName
       ? this.translate.instant('DIALOG.CONFIRM_DELETE_ITEM', { item: itemName })
       : this.translate.instant('DIALOG.CONFIRM_DELETE_GENERIC');
 
@@ -48,11 +42,8 @@ export class ConfirmDialogService {
     });
   }
 
-  /**
-   * Diálogo de confirmação para remoção do carrinho
-   */
   confirmRemoveFromCart(itemName?: string): Observable<boolean> {
-    const message = itemName 
+    const message = itemName
       ? this.translate.instant('DIALOG.CONFIRM_REMOVE_ITEM', { item: itemName })
       : this.translate.instant('DIALOG.CONFIRM_REMOVE_GENERIC');
 
@@ -66,9 +57,6 @@ export class ConfirmDialogService {
     });
   }
 
-  /**
-   * Diálogo de confirmação para limpar carrinho
-   */
   confirmClearCart(): Observable<boolean> {
     return this.confirm({
       title: this.translate.instant('DIALOG_TITLES.CLEAR_CART'),
@@ -80,9 +68,6 @@ export class ConfirmDialogService {
     });
   }
 
-  /**
-   * Diálogo de confirmação para logout
-   */
   confirmLogout(): Observable<boolean> {
     return this.confirm({
       title: this.translate.instant('DIALOG_TITLES.LOGOUT'),
@@ -94,11 +79,8 @@ export class ConfirmDialogService {
     });
   }
 
-  /**
-   * Diálogo de confirmação para cancelar pedido
-   */
   confirmCancelOrder(orderNumber?: string): Observable<boolean> {
-    const message = orderNumber 
+    const message = orderNumber
       ? this.translate.instant('DIALOG.CONFIRM_CANCEL_ORDER_NUMBER', { orderNumber })
       : this.translate.instant('DIALOG.CONFIRM_CANCEL_ORDER');
 
@@ -112,9 +94,6 @@ export class ConfirmDialogService {
     });
   }
 
-  /**
-   * Diálogo de confirmação para alterações não salvas
-   */
   confirmUnsavedChanges(): Observable<boolean> {
     return this.confirm({
       title: this.translate.instant('DIALOG_TITLES.UNSAVED_CHANGES'),
@@ -126,9 +105,6 @@ export class ConfirmDialogService {
     });
   }
 
-  /**
-   * Diálogo de confirmação para ativar/desativar usuário
-   */
   confirmToggleUserStatus(userName: string, isActive: boolean): Observable<boolean> {
     const messageKey = isActive ? 'DIALOG.CONFIRM_DEACTIVATE_USER' : 'DIALOG.CONFIRM_ACTIVATE_USER';
     const titleKey = isActive ? 'DIALOG_TITLES.DEACTIVATE_USER' : 'DIALOG_TITLES.ACTIVATE_USER';
@@ -144,9 +120,6 @@ export class ConfirmDialogService {
     });
   }
 
-  /**
-   * Diálogo de confirmação para alterar disponibilidade do livro
-   */
   confirmToggleBookAvailability(bookTitle: string, isAvailable: boolean): Observable<boolean> {
     const messageKey = isAvailable ? 'DIALOG.CONFIRM_MAKE_UNAVAILABLE' : 'DIALOG.CONFIRM_MAKE_AVAILABLE';
     const titleKey = 'DIALOG_TITLES.TOGGLE_BOOK_AVAILABILITY';

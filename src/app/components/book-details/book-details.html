@@ -1,5 +1,4 @@
 <div class="book-details-container">
-  <!-- Botão Voltar -->
   <div class="back-button">
     <button mat-button (click)="goBack()" class="back-btn">
       <mat-icon>arrow_back</mat-icon>
@@ -7,7 +6,6 @@
     </button>
   </div>
 
-  <!-- Loading -->
   @if (loading()) {
     <div class="loading-container">
       <mat-icon class="loading-icon">hourglass_empty</mat-icon>
@@ -15,7 +13,6 @@
     </div>
   }
 
-  <!-- Error -->
   @if (error()) {
     <div class="error-container">
       <mat-icon class="error-icon">error</mat-icon>
@@ -27,12 +24,10 @@
     </div>
   }
 
-  <!-- Book Details -->
   @if (book() && !loading() && !error()) {
     <div class="book-details">
       <mat-card class="book-card">
         <div class="book-content">
-          <!-- Imagem do Livro -->
           <div class="book-image-section">
             <img
               [src]="book()!.imagemUrl"
@@ -47,7 +42,6 @@
             }
           </div>
 
-          <!-- Informações do Livro -->
           <div class="book-info-section">
             <mat-card-header>
               <mat-card-title class="book-title">{{ book()!.titulo | translateTitle }}</mat-card-title>
@@ -55,12 +49,10 @@
             </mat-card-header>
 
             <mat-card-content class="book-details-content">
-              <!-- Preço -->
               <div class="price-section">
                 <span class="price">{{ formatPrice(book()!.preco) }}</span>
               </div>
 
-              <!-- Categoria -->
               <div class="category-section">
                 <mat-chip-set>
                   <mat-chip>{{ book()!.categoria }}</mat-chip>
@@ -69,7 +61,6 @@
 
               <mat-divider></mat-divider>
 
-              <!-- Descrição -->
               @if (book()!.descricao) {
                 <div class="description-section">
                   <h3>{{ 'BOOK_DETAILS.DESCRIPTION' | translate }}</h3>
@@ -78,7 +69,6 @@
                 <mat-divider></mat-divider>
               }
 
-              <!-- Informações Técnicas -->
               <div class="technical-info">
                 <h3>{{ 'BOOK_DETAILS.TECHNICAL_INFO' | translate }}</h3>
                 <div class="info-grid">
@@ -129,7 +119,6 @@
               </div>
             </mat-card-content>
 
-            <!-- Ações -->
             <mat-card-actions class="book-actions">
               @if (isAvailable()) {
                 @if (!isInCart()) {

@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Book = require('../models/Book');
 
-// Títulos de ficção que esperamos encontrar
 const expectedFictionTitles = [
   "To Kill a Mockingbird",
-  "1984", 
+  "1984",
   "Pride and Prejudice",
   "The Great Gatsby",
   "The Catcher in the Rye",
@@ -36,7 +35,7 @@ const checkFictionTitles = async () => {
 
     console.log('\n🔍 Verificando títulos de ficção esperados:');
     let foundCount = 0;
-    
+
     for (const expectedTitle of expectedFictionTitles) {
       const book = books.find(b => b.titulo === expectedTitle);
       if (book) {

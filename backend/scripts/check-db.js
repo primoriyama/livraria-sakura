@@ -18,7 +18,6 @@ const checkDatabase = async () => {
       const unavailableBooks = await Book.countDocuments({ disponivel: false });
       console.log(`❌ Livros indisponíveis: ${unavailableBooks}`);
 
-      // Mostrar alguns livros
       const sampleBooks = await Book.find().limit(3);
       console.log('\n📖 Exemplos de livros:');
       sampleBooks.forEach((book, index) => {

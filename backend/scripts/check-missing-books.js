@@ -6,7 +6,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/livraria-
 const bookSchema = new mongoose.Schema({}, {strict: false});
 const Book = mongoose.model('Book', bookSchema);
 
-// Lista dos 20 livros que deveriam estar no banco
 const expectedBooks = {
   "To Kill a Mockingbird": "O Sol é Para Todos",
   "1984": "1984",
@@ -33,19 +32,19 @@ const expectedBooks = {
 async function checkMissingBooks() {
   try {
     console.log('📚 Verificando livros da lista de 20...\n');
-    
+
     const foundBooks = [];
     const missingBooks = [];
-    
+
     for (const [englishTitle, portugueseTitle] of Object.entries(expectedBooks)) {
       // Buscar por título em inglês
       let book = await Book.findOne({ titulo: englishTitle });
-      
+
       // Se não encontrou, buscar por título em português
       if (!book) {
         book = await Book.findOne({ titulo: portugueseTitle });
       }
-      
+
       if (book) {
         foundBooks.push({
           expected: `${englishTitle} / ${portugueseTitle}`,
@@ -58,22 +57,22 @@ async function checkMissingBooks() {
         });
       }
     }
-    
+
     console.log(`✅ LIVROS ENCONTRADOS (${foundBooks.length}/20):`);
     foundBooks.forEach(book => {
       console.log(`  - ${book.found}`);
     });
-    
+
     console.log(`\n❌ LIVROS FALTANDO (${missingBooks.length}/20):`);
     missingBooks.forEach(book => {
       console.log(`  - ${book.english} / ${book.portuguese}`);
     });
-    
+
     console.log(`\n📊 RESUMO:`);
     console.log(`  - Encontrados: ${foundBooks.length}`);
     console.log(`  - Faltando: ${missingBooks.length}`);
     console.log(`  - Total esperado: 20`);
-    
+
   } catch (error) {
     console.error('❌ Erro:', error);
   } finally {

@@ -36,7 +36,6 @@ export interface Book {
   vendas?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  // Virtuals
   precoComDesconto?: number;
   notaMedia?: number;
   emEstoque?: boolean;

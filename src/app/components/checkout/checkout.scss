@@ -39,7 +39,6 @@
   }
 }
 
-// Pedido concluído
 .order-success {
   display: flex;
   justify-content: center;
@@ -107,7 +106,6 @@
   }
 }
 
-// Stepper
 .checkout-stepper {
   margin-bottom: 32px;
 
@@ -164,7 +162,6 @@
   }
 }
 
-// Cards das etapas
 .step-card {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
@@ -240,7 +237,6 @@
         }
       }
 
-      // Sobrescrever cor dos botões "Continuar" (primary)
       &.mat-mdc-raised-button.mat-primary {
         background-color: #8B4A5C !important;
         color: white !important;
@@ -253,7 +249,6 @@
   }
 }
 
-// Formulários
 .address-form,
 .payment-form {
   .form-row {
@@ -314,7 +309,6 @@
   }
 }
 
-// Opções de entrega
 .shipping-options {
   margin-bottom: 32px;
 
@@ -393,7 +387,6 @@
   }
 }
 
-// Métodos de pagamento
 .payment-methods {
   margin-bottom: 32px;
 
@@ -448,7 +441,6 @@
   }
 }
 
-// Confirmação
 .confirmation-content {
   .order-items {
     margin-bottom: 32px;
@@ -564,13 +556,11 @@
   }
 }
 
-// Dividers
 mat-divider {
   margin: 32px 0;
   border-color: var(--border-color, #e0e0e0);
 }
 
-// Animações
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -586,7 +576,6 @@ mat-divider {
   animation: fadeIn 0.5s ease-out;
 }
 
-// Dark mode support
 @media (prefers-color-scheme: dark) {
   .checkout-container {
     --background-card: #2d2d2d;
@@ -597,7 +586,6 @@ mat-divider {
   }
 }
 
-// Skeleton loaders para deferrable views
 .order-summary-loading {
   display: flex;
   flex-direction: column;
@@ -722,7 +710,6 @@ mat-divider {
   }
 }
 
-// Container de erro
 .order-summary-error {
   text-align: center;
   padding: 3rem;

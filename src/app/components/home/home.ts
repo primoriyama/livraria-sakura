@@ -76,12 +76,12 @@ export class HomeComponent implements OnInit {
 
     return books.filter(book => {
       const translatedTitle = this.getTranslatedTitle(book.titulo).toLowerCase();
-      const matchesSearch = !search || 
+      const matchesSearch = !search ||
         translatedTitle.includes(search) ||
         (book.autor?.toLowerCase().includes(search) ?? false);
-      
+
       const matchesCategory = !category || book.categoria === category;
-      
+
       return matchesSearch && matchesCategory;
     });
   });
@@ -113,8 +113,8 @@ export class HomeComponent implements OnInit {
       error: (error) => {
         console.error('Erro ao carregar livros:', error);
         this.snackBar.open(
-          this.translate.instant('HOME.ERROR_LOAD_BOOKS'), 
-          this.translate.instant('COMMON.CLOSE'), 
+          this.translate.instant('HOME.ERROR_LOAD_BOOKS'),
+          this.translate.instant('COMMON.CLOSE'),
           { duration: 3000 }
         );
         this._loading.set(false);
@@ -156,9 +156,9 @@ export class HomeComponent implements OnInit {
       if (confirmed) {
         this.cartService.removeFromCart(book._id!);
         this.snackBar.open(
-          this.translate.instant('HOME.BOOK_REMOVED_FROM_CART', { title: translatedTitle }), 
-          this.translate.instant('COMMON.CLOSE'), 
-          { 
+          this.translate.instant('HOME.BOOK_REMOVED_FROM_CART', { title: translatedTitle }),
+          this.translate.instant('COMMON.CLOSE'),
+          {
             duration: 2000,
             panelClass: ['info-snackbar']
           }
@@ -182,9 +182,9 @@ export class HomeComponent implements OnInit {
         this.bookService.deleteBook(book._id).subscribe({
           next: () => {
             this.snackBar.open(
-              this.translate.instant('HOME.BOOK_DELETED_SUCCESS'), 
-              this.translate.instant('COMMON.CLOSE'), 
-              { 
+              this.translate.instant('HOME.BOOK_DELETED_SUCCESS'),
+              this.translate.instant('COMMON.CLOSE'),
+              {
                 duration: 3000,
                 panelClass: ['success-snackbar']
               }
@@ -194,9 +194,9 @@ export class HomeComponent implements OnInit {
           error: (error) => {
             console.error('Erro ao deletar livro:', error);
             this.snackBar.open(
-              this.translate.instant('HOME.ERROR_DELETE_BOOK'), 
-              this.translate.instant('COMMON.CLOSE'), 
-              { 
+              this.translate.instant('HOME.ERROR_DELETE_BOOK'),
+              this.translate.instant('COMMON.CLOSE'),
+              {
                 duration: 3000,
                 panelClass: ['error-snackbar']
               }
@@ -227,26 +227,23 @@ export class HomeComponent implements OnInit {
       console.log('Chave de tradução que estamos procurando:', `'BOOK_TITLES.${title}'`);
       HomeComponent.hasLoggedTitle = true;
     }
-    
+
     const key = 'BOOK_TITLES.' + title;
     const translation = this.translate.instant(key);
-    
+
     return translation === key ? title : translation;
   }
 
   onImageError(event: any): void {
-    // Substituir imagem quebrada por um ícone de livro
     const img = event.target;
     const parent = img.parentElement;
-    
-    // Remover a imagem quebrada
+
     img.remove();
-    
-    // Criar div com ícone de livro
+
     const noImageDiv = document.createElement('div');
     noImageDiv.className = 'no-image';
     noImageDiv.innerHTML = '<mat-icon>book</mat-icon>';
-    
+
     parent.appendChild(noImageDiv);
   }
 }

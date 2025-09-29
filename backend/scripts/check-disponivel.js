@@ -8,9 +8,8 @@ const checkDisponivel = async () => {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/livraria-sakura');
     console.log('✅ Conectado ao MongoDB');
 
-    // Verificar alguns livros e o tipo do campo disponivel
     const sampleBooks = await Book.find().limit(5);
-    
+
     console.log('\n📖 Verificando campo "disponivel":');
     sampleBooks.forEach((book, index) => {
       console.log(`${index + 1}. ${book.titulo}`);
@@ -18,15 +17,14 @@ const checkDisponivel = async () => {
       console.log('');
     });
 
-    // Testar consultas diferentes
     console.log('🔍 Testando consultas:');
-    
+
     const countTrue = await Book.countDocuments({ disponivel: true });
     console.log(`disponivel: true (boolean) -> ${countTrue} livros`);
-    
+
     const countStringTrue = await Book.countDocuments({ disponivel: 'true' });
     console.log(`disponivel: 'true' (string) -> ${countStringTrue} livros`);
-    
+
     const countAll = await Book.countDocuments({});
     console.log(`Todos os livros -> ${countAll} livros`);
 

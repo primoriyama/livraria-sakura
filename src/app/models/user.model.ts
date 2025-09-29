@@ -19,7 +19,7 @@ export interface User {
 
 export interface LoginRequest {
   email: string;
-  password: string; // Corrigido
+  password: string; 
 }
 
 export interface LoginResponse {

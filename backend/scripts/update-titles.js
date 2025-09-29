@@ -2,9 +2,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Book = require('../models/Book');
 
-// Mapeamento dos títulos atuais para os títulos em inglês
 const titleMapping = {
-  // Títulos de ficção clássica que devem ser convertidos para inglês
   "O Sol é Para Todos": "To Kill a Mockingbird",
   "1984": "1984",
   "Orgulho e Preconceito": "Pride and Prejudice",
@@ -40,13 +38,13 @@ const updateTitles = async () => {
 
     for (const book of books) {
       const currentTitle = book.titulo;
-      
+
       // Verificar se o título atual precisa ser convertido
       if (titleMapping[currentTitle]) {
         const newTitle = titleMapping[currentTitle];
-        
+
         console.log(`🔄 Atualizando: "${currentTitle}" → "${newTitle}"`);
-        
+
         await Book.findByIdAndUpdate(book._id, { titulo: newTitle });
         updatedCount++;
       } else {

@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Book = require('../models/Book');
 
-// Mapeamento dos livros com suas novas imagens SVG
 const bookImageUpdates = [
   {
     titulo: "To Kill a Mockingbird",
@@ -40,7 +39,6 @@ const bookImageUpdates = [
 
 const updateBookImages = async () => {
   try {
-    // Conectar ao MongoDB
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/livraria-sakura');
     console.log('✅ Conectado ao MongoDB');
 
@@ -76,7 +74,6 @@ const updateBookImages = async () => {
   } catch (error) {
     console.error('❌ Erro:', error);
   } finally {
-    // Fechar conexão
     await mongoose.connection.close();
     console.log('\n🔌 Conexão encerrada');
   }

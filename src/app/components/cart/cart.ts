@@ -42,24 +42,19 @@ export class CartComponent {
   private confirmDialog = inject(ConfirmDialogService);
   private translate = inject(TranslateService);
 
-  // Signals do carrinho
   cartItems = this.cartService.cartItems;
   totalItems = this.cartService.itemCount;
   totalPrice = this.cartService.total;
-  
-  // Estado local
+
   loading = signal(false);
 
-  // Computed para verificar se o carrinho está vazio
   isEmpty = computed(() => this.cartItems().length === 0);
 
-  // Computed para calcular frete (simulado)
   shipping = computed(() => {
     const total = this.totalPrice();
     return total >= 100 ? 0 : 15.90;
   });
 
-  // Computed para total final
   finalTotal = computed(() => this.totalPrice() + this.shipping());
 
   updateQuantity(item: CartItem, newQuantity: number): void {
@@ -80,8 +75,8 @@ export class CartComponent {
     if (item.book._id) {
       this.cartService.updateQuantity(item.book._id, newQuantity);
       this.snackBar.open(
-        this.translate.instant('CART.MESSAGES.QUANTITY_UPDATED'), 
-        this.translate.instant('CART.MESSAGES.CLOSE'), 
+        this.translate.instant('CART.MESSAGES.QUANTITY_UPDATED'),
+        this.translate.instant('CART.MESSAGES.CLOSE'),
         { duration: 2000 }
       );
     }
@@ -92,8 +87,8 @@ export class CartComponent {
       if (confirmed && item.book._id) {
         this.cartService.removeFromCart(item.book._id);
         this.snackBar.open(
-          this.translate.instant('CART.MESSAGES.ITEM_REMOVED'), 
-          this.translate.instant('CART.MESSAGES.UNDO'), 
+          this.translate.instant('CART.MESSAGES.ITEM_REMOVED'),
+          this.translate.instant('CART.MESSAGES.UNDO'),
           { duration: 3000 }
         ).onAction().subscribe(() => {
           this.cartService.addToCart(item.book, item.quantity);
@@ -107,8 +102,8 @@ export class CartComponent {
       if (confirmed) {
         this.cartService.clearCart();
         this.snackBar.open(
-          this.translate.instant('CART.MESSAGES.CART_CLEARED'), 
-          this.translate.instant('CART.MESSAGES.CLOSE'), 
+          this.translate.instant('CART.MESSAGES.CART_CLEARED'),
+          this.translate.instant('CART.MESSAGES.CLOSE'),
           { duration: 2000 }
         );
       }
@@ -118,12 +113,12 @@ export class CartComponent {
   proceedToCheckout(): void {
     if (!this.authService.isAuthenticated()) {
       this.snackBar.open(
-        this.translate.instant('CART.MESSAGES.LOGIN_REQUIRED'), 
-        this.translate.instant('CART.MESSAGES.LOGIN'), 
+        this.translate.instant('CART.MESSAGES.LOGIN_REQUIRED'),
+        this.translate.instant('CART.MESSAGES.LOGIN'),
         { duration: 4000 }
       ).onAction().subscribe(() => {
-        this.router.navigate(['/login'], { 
-          queryParams: { returnUrl: '/checkout' } 
+        this.router.navigate(['/login'], {
+          queryParams: { returnUrl: '/checkout' }
         });
       });
       return;
@@ -131,15 +126,14 @@ export class CartComponent {
 
     if (this.isEmpty()) {
       this.snackBar.open(
-        this.translate.instant('CART.MESSAGES.ADD_ITEMS_FIRST'), 
-        this.translate.instant('CART.MESSAGES.CLOSE'), 
+        this.translate.instant('CART.MESSAGES.ADD_ITEMS_FIRST'),
+        this.translate.instant('CART.MESSAGES.CLOSE'),
         { duration: 3000 }
       );
       return;
     }
 
-    // Verificar disponibilidade dos itens
-    const unavailableItems = this.cartItems().filter(item => 
+    const unavailableItems = this.cartItems().filter(item =>
       item.quantity > item.book.estoque
     );
 

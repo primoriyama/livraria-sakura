@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Pipe({
   name: 'translateTitle',
   standalone: true,
-  pure: false // Permite que o pipe seja executado novamente quando as traduções mudarem
+  pure: false
 })
 export class TranslateTitlePipe implements PipeTransform {
 
@@ -16,12 +16,11 @@ export class TranslateTitlePipe implements PipeTransform {
 
   transform(title: string): string {
     if (!title) return '';
-    
-    // Aguarda o carregamento das traduções
+
     if (!this.translateService.currentLang) {
-      return title; // Retorna o título original enquanto carrega
+      return title; 
     }
-    
+
     const translatedTitle = this.translationService.translateBookTitle(title);
     return translatedTitle;
   }

@@ -8,8 +8,8 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [
     RouterOutlet,
-    HeaderComponent,  // <-- Restaurado: Necessário para o <app-header>
-    TranslateModule   // <-- Restaurado: Necessário para o pipe | translate no footer
+    HeaderComponent,
+    TranslateModule   
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

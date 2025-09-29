@@ -3,20 +3,17 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
-  // Rota principal - Home/Catálogo
   {
     path: '',
     loadComponent: () => import('./components/home/home').then(m => m.HomeComponent)
   },
 
-  // Detalhes do livro
   {
     path: 'book/:id',
     loadComponent: () => import('./components/book-details/book-details').then(m => m.BookDetailsComponent),
     canActivate: [AuthGuard]
   },
 
-  // Autenticação
   {
     path: 'login',
     loadComponent: () => import('./components/login/login').then(m => m.LoginComponent)
@@ -26,34 +23,29 @@ export const routes: Routes = [
     loadComponent: () => import('./components/register/register').then(m => m.RegisterComponent)
   },
 
-  // Carrinho de compras
   {
     path: 'cart',
     loadComponent: () => import('./components/cart/cart').then(m => m.CartComponent),
     canActivate: [AuthGuard]
   },
 
-  // Checkout
   {
     path: 'checkout',
     loadComponent: () => import('./components/checkout/checkout').then(m => m.CheckoutComponent),
     canActivate: [AuthGuard]
   },
 
-  // Sobre
   {
     path: 'about',
     loadComponent: () => import('./components/about/about').then(m => m.AboutComponent)
   },
 
-  // Perfil do usuário (protegido)
   {
     path: 'profile',
     loadComponent: () => import('./components/profile/profile').then(m => m.ProfileComponent),
     canActivate: [AuthGuard]
   },
 
-  // Rotas de administração (protegidas)
   {
     path: 'admin',
     canActivate: [AdminGuard],
@@ -81,7 +73,6 @@ export const routes: Routes = [
     ]
   },
 
-  // Rota 404 - Página não encontrada
   {
     path: '**',
     loadComponent: () => import('./components/not-found/not-found').then(m => m.NotFoundComponent)

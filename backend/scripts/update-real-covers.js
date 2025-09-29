@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-// Conectar ao MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/livraria-sakura');
 
-// Schema do livro
 const bookSchema = new mongoose.Schema({
   titulo: String,
   autor: String,
@@ -27,7 +25,6 @@ const bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model('Book', bookSchema);
 
-// URLs de capas reais dos livros
 const realBookCovers = [
   {
     titulo: "Alice's Adventures in Wonderland",
@@ -46,22 +43,22 @@ const realBookCovers = [
 async function updateBookCovers() {
   try {
     console.log('🔄 Atualizando capas dos livros...');
-    
+
     for (const bookUpdate of realBookCovers) {
       const result = await Book.updateOne(
         { titulo: bookUpdate.titulo },
         { $set: { imagemUrl: bookUpdate.imagemUrl } }
       );
-      
+
       if (result.matchedCount > 0) {
         console.log(`✅ Atualizada capa do livro: ${bookUpdate.titulo}`);
       } else {
         console.log(`❌ Livro não encontrado: ${bookUpdate.titulo}`);
       }
     }
-    
+
     console.log('🎉 Atualização de capas concluída!');
-    
+
   } catch (error) {
     console.error('❌ Erro ao atualizar capas:', error);
   } finally {

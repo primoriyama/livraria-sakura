@@ -1,5 +1,4 @@
 <div class="profile-container">
-  <!-- Cabeçalho do Perfil -->
   <div class="profile-header">
     <div class="user-info">
       <div class="avatar">
@@ -16,9 +15,7 @@
     </button>
   </div>
 
-  <!-- Tabs do Perfil -->
   <mat-tab-group class="profile-tabs" animationDuration="300ms">
-    <!-- Aba: Dados Pessoais -->
     <mat-tab [label]="'PROFILE.PERSONAL_DATA' | translate">
       <ng-template matTabContent>
         <div class="tab-content">
@@ -33,7 +30,6 @@
 
             <mat-card-content>
               <form [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()">
-                <!-- Dados Básicos -->
                 <div class="form-section">
                   <h3>{{ 'PROFILE.BASIC_DATA' | translate }}</h3>
                   <div class="form-row">
@@ -78,7 +74,6 @@
 
                 <mat-divider></mat-divider>
 
-                <!-- Endereço -->
                 <div class="form-section" formGroupName="address">
                   <h3>{{ 'PROFILE.ADDRESS' | translate }}</h3>
                   <div class="form-row">
@@ -150,7 +145,6 @@
       </ng-template>
     </mat-tab>
 
-    <!-- Aba: Segurança -->
     <mat-tab [label]="'PROFILE.SECURITY' | translate">
       <ng-template matTabContent>
         <div class="tab-content">
@@ -231,7 +225,6 @@
       </ng-template>
     </mat-tab>
 
-    <!-- Aba: Meus Pedidos -->
     <mat-tab [label]="'PROFILE.MY_ORDERS' | translate">
       <ng-template matTabContent>
         <div class="tab-content">

@@ -1,5 +1,4 @@
 <div class="not-found-container">
-  <!-- Seção Principal do Erro 404 -->
   <div class="error-section">
     <div class="error-illustration">
       <div class="error-number">404</div>
@@ -14,13 +13,12 @@
         {{ 'NOT_FOUND.MESSAGE' | translate }}
       </p>
 
-      <!-- Ações Principais -->
       <div class="primary-actions">
         <button mat-raised-button color="primary" routerLink="/">
           <mat-icon>home</mat-icon>
           {{ 'NOT_FOUND.BACK_HOME' | translate }}
         </button>
-        
+
         <button mat-stroked-button (click)="goBack()">
           <mat-icon>arrow_back</mat-icon>
           {{ 'NOT_FOUND.PREVIOUS_PAGE' | translate }}
@@ -29,10 +27,9 @@
     </div>
   </div>
 
-  <!-- Seção de Sugestões -->
   <div class="suggestions-section">
     <h2>{{ 'NOT_FOUND.SUGGESTIONS_TITLE' | translate }}</h2>
-    
+
     <div class="suggestions-grid">
       @for (suggestion of suggestions; track suggestion.route) {
         <mat-card class="suggestion-card" [routerLink]="suggestion.route">
@@ -47,7 +44,6 @@
     </div>
   </div>
 
-  <!-- Seção de Ajuda -->
   <div class="help-section">
     <mat-card class="help-card">
       <mat-card-header>
@@ -71,7 +67,7 @@
           <mat-icon>bug_report</mat-icon>
           {{ 'NOT_FOUND.HELP.REPORT_PROBLEM' | translate }}
         </button>
-        
+
         <button mat-stroked-button routerLink="/about">
           <mat-icon>contact_support</mat-icon>
           {{ 'NOT_FOUND.HELP.CONTACT_US' | translate }}
@@ -80,7 +76,6 @@
     </mat-card>
   </div>
 
-  <!-- Seção de Busca Alternativa -->
   <div class="search-section">
     <mat-card class="search-card">
       <mat-card-content>

@@ -148,7 +148,6 @@
   }
 }
 
-// Seletores mais específicos para sobrescrever Angular Material
 .register-container .register-card .register-form .register-button,
 .register-container .register-card .register-form button.register-button,
 .register-container .register-wrapper .register-card .register-form .register-button,
@@ -170,7 +169,6 @@ button.mat-mdc-raised-button.register-button,
   }
 }
 
-// Animação fadeInUp
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -182,7 +180,6 @@ button.mat-mdc-raised-button.register-button,
   }
 }
 
-// Animação de rotação para o spinner
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -193,8 +190,6 @@ button.mat-mdc-raised-button.register-button,
 }
 
 
-
-// Responsividade
 @media (max-width: 768px) {
   .register-container {
     padding: 10px;

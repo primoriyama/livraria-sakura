@@ -9,7 +9,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-not-found',
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterModule,
     MatButtonModule,
     MatIconModule,
@@ -20,8 +20,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrls: ['./not-found.scss']
 })
 export class NotFoundComponent {
-  
-  // Sugestões de páginas populares
+
   suggestions = [
     { titleKey: 'NOT_FOUND.SUGGESTIONS.CATALOG', route: '/', icon: 'auto_stories' },
     { titleKey: 'NOT_FOUND.SUGGESTIONS.ABOUT', route: '/about', icon: 'info' },
@@ -31,14 +30,11 @@ export class NotFoundComponent {
 
   constructor(private translate: TranslateService) {}
 
-  // Função para voltar na história do navegador
   goBack(): void {
     window.history.back();
   }
 
-  // Função para reportar problema
   reportProblem(): void {
-    // Aqui poderia abrir um modal ou redirecionar para suporte
     console.log('Problema reportado');
   }
 }

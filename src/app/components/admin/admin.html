@@ -1,5 +1,4 @@
 <div class="admin-container">
-  <!-- Cabeçalho da Administração -->
   <div class="admin-header">
     <div class="header-content">
       <h1>
@@ -8,7 +7,7 @@
       </h1>
       <p>{{ 'ADMIN.SUBTITLE' | translate }}</p>
     </div>
-    
+
     <div class="header-actions">
       <button mat-raised-button color="primary" routerLink="/admin/dashboard">
         <mat-icon>dashboard</mat-icon>
@@ -17,10 +16,8 @@
     </div>
   </div>
 
-  <!-- Tabs de Administração -->
   <mat-tab-group class="admin-tabs" animationDuration="300ms">
-    
-    <!-- Aba: Dashboard -->
+
     <mat-tab label="{{ 'ADMIN.DASHBOARD' | translate }}">
       <ng-template matTabContent>
         <div class="tab-content">
@@ -30,7 +27,6 @@
               <p>{{ 'ADMIN.LOADING_DATA' | translate }}</p>
             </div>
           } @else {
-            <!-- Cards de Estatísticas -->
             <div class="stats-grid">
               <mat-card class="stat-card books-card">
                 <mat-card-content>
@@ -117,7 +113,6 @@
               </mat-card>
             </div>
 
-            <!-- Ações Rápidas -->
             <div class="quick-actions">
               <h2>{{ 'ADMIN.QUICK_ACTIONS' | translate }}</h2>
               <div class="actions-grid">
@@ -125,17 +120,17 @@
                   <mat-icon>refresh</mat-icon>
                   {{ 'ADMIN.UPDATE_DATA' | translate }}
                 </button>
-                
+
                 <button mat-raised-button color="accent">
                   <mat-icon>file_download</mat-icon>
                   {{ 'ADMIN.EXPORT_REPORT' | translate }}
                 </button>
-                
+
                 <button mat-raised-button color="warn">
                   <mat-icon>backup</mat-icon>
                   {{ 'ADMIN.BACKUP_SYSTEM' | translate }}
                 </button>
-                
+
                 <button mat-raised-button>
                   <mat-icon>notifications</mat-icon>
                   {{ 'ADMIN.SEND_NOTIFICATIONS' | translate }}
@@ -147,12 +142,10 @@
       </ng-template>
     </mat-tab>
 
-    <!-- Aba: Gerenciar Livros -->
     <mat-tab label="{{ 'ADMIN.BOOKS' | translate }}">
       <ng-template matTabContent>
         <div class="tab-content">
-          
-          <!-- Formulário de Livro -->
+
           <mat-card class="book-form-card">
             <mat-card-header>
               <mat-card-title>
@@ -166,10 +159,9 @@
 
             <mat-card-content>
               <form [formGroup]="bookForm" (ngSubmit)="onSubmitBook()">
-                <!-- Informações Básicas -->
                 <div class="form-section">
                   <h3>{{ 'ADMIN.BASIC_INFO' | translate }}</h3>
-                  
+
                   <div class="form-row">
                     <mat-form-field appearance="outline" class="half-width">
                       <mat-label>{{ 'ADMIN.TITLE' | translate }}</mat-label>
@@ -233,10 +225,9 @@
                   </div>
                 </div>
 
-                <!-- Detalhes Técnicos -->
                 <div class="form-section">
                   <h3>{{ 'ADMIN.TECHNICAL_DETAILS' | translate }}</h3>
-                  
+
                   <div class="form-row">
                     <mat-form-field appearance="outline" class="third-width">
                       <mat-label>{{ 'ADMIN.ISBN' | translate }}</mat-label>
@@ -282,14 +273,13 @@
                     </mat-form-field>
                   </div>
 
-                  <!-- Upload de Imagem -->
                   <div class="image-upload">
                     <input type="file" #fileInput (change)="onImageUpload($event)" accept="image/*" style="display: none;">
                     <button type="button" mat-stroked-button (click)="fileInput.click()">
                       <mat-icon>cloud_upload</mat-icon>
                       {{ 'ADMIN.UPLOAD_IMAGE' | translate }}
                     </button>
-                    
+
                     @if (bookForm.get('imagemUrl')?.value) {
                       <div class="image-preview">
                         <img [src]="bookForm.get('imagemUrl')?.value" alt="Preview">
@@ -301,9 +291,9 @@
             </mat-card-content>
 
             <mat-card-actions>
-              <button 
-                mat-raised-button 
-                color="primary" 
+              <button
+                mat-raised-button
+                color="primary"
                 (click)="onSubmitBook()"
                 [disabled]="loading() || bookForm.invalid"
               >
@@ -325,7 +315,6 @@
             </mat-card-actions>
           </mat-card>
 
-          <!-- Lista de Livros -->
           <mat-card class="books-table-card">
             <mat-card-header>
               <mat-card-title>
@@ -352,8 +341,7 @@
               } @else {
                 <div class="table-container">
                   <table mat-table [dataSource]="books()" class="books-table">
-                    
-                    <!-- Coluna: Imagem -->
+
                     <ng-container matColumnDef="imagemUrl">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.IMAGE' | translate }}</th>
                       <td mat-cell *matCellDef="let book">
@@ -361,7 +349,6 @@
                       </td>
                     </ng-container>
 
-                    <!-- Coluna: Título -->
                     <ng-container matColumnDef="titulo">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.TITLE' | translate }}</th>
                       <td mat-cell *matCellDef="let book">
@@ -372,13 +359,11 @@
                       </td>
                     </ng-container>
 
-                    <!-- Coluna: Autor -->
                     <ng-container matColumnDef="autor">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.AUTHOR' | translate }}</th>
                       <td mat-cell *matCellDef="let book">{{ book.autor }}</td>
                     </ng-container>
 
-                    <!-- Coluna: Categoria -->
                     <ng-container matColumnDef="categoria">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.CATEGORY' | translate }}</th>
                       <td mat-cell *matCellDef="let book">
@@ -386,13 +371,11 @@
                       </td>
                     </ng-container>
 
-                    <!-- Coluna: Preço -->
                     <ng-container matColumnDef="preco">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.PRICE' | translate }}</th>
                       <td mat-cell *matCellDef="let book">{{ formatPrice(book.preco) }}</td>
                     </ng-container>
 
-                    <!-- Coluna: Estoque -->
                     <ng-container matColumnDef="estoque">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.STOCK' | translate }}</th>
                       <td mat-cell *matCellDef="let book">
@@ -402,7 +385,6 @@
                       </td>
                     </ng-container>
 
-                    <!-- Coluna: Disponível -->
                     <ng-container matColumnDef="disponivel">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.STATUS' | translate }}</th>
                       <td mat-cell *matCellDef="let book">
@@ -412,7 +394,6 @@
                       </td>
                     </ng-container>
 
-                    <!-- Coluna: Ações -->
                     <ng-container matColumnDef="actions">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.ACTIONS' | translate }}</th>
                       <td mat-cell *matCellDef="let book">
@@ -420,16 +401,16 @@
                           <button mat-icon-button color="primary" (click)="editBook(book)" [matTooltip]="'ADMIN.EDIT' | translate">
                             <mat-icon>edit</mat-icon>
                           </button>
-                          
-                          <button 
-                            mat-icon-button 
+
+                          <button
+                            mat-icon-button
                             [color]="book.disponivel ? 'warn' : 'accent'"
-                            (click)="toggleBookAvailability(book)" 
+                            (click)="toggleBookAvailability(book)"
                             [matTooltip]="book.disponivel ? ('ADMIN.DEACTIVATE' | translate) : ('ADMIN.ACTIVATE' | translate)"
                           >
                             <mat-icon>{{ book.disponivel ? 'visibility_off' : 'visibility' }}</mat-icon>
                           </button>
-                          
+
                           <button mat-icon-button color="warn" (click)="deleteBook(book)" [matTooltip]="'ADMIN.DELETE' | translate">
                             <mat-icon>delete</mat-icon>
                           </button>
@@ -448,7 +429,6 @@
       </ng-template>
     </mat-tab>
 
-    <!-- Aba: Usuários -->
     <mat-tab label="{{ 'ADMIN.USERS' | translate }}">
       <ng-template matTabContent>
         <div class="tab-content">
@@ -473,20 +453,17 @@
               } @else {
                 <div class="table-container">
                   <table mat-table [dataSource]="users()" class="users-table">
-                    
-                    <!-- Coluna: Nome -->
+
                     <ng-container matColumnDef="name">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.NAME' | translate }}</th>
                       <td mat-cell *matCellDef="let user">{{ user.name }}</td>
                     </ng-container>
 
-                    <!-- Coluna: Email -->
                     <ng-container matColumnDef="email">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.EMAIL' | translate }}</th>
                       <td mat-cell *matCellDef="let user">{{ user.email }}</td>
                     </ng-container>
 
-                    <!-- Coluna: Função -->
                     <ng-container matColumnDef="role">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.ROLE' | translate }}</th>
                       <td mat-cell *matCellDef="let user">
@@ -496,13 +473,11 @@
                       </td>
                     </ng-container>
 
-                    <!-- Coluna: Data de Cadastro -->
                     <ng-container matColumnDef="createdAt">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.REGISTRATION' | translate }}</th>
                       <td mat-cell *matCellDef="let user">{{ formatDate(user.createdAt) }}</td>
                     </ng-container>
 
-                    <!-- Coluna: Último Login -->
                     <ng-container matColumnDef="lastLogin">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.LAST_LOGIN' | translate }}</th>
                       <td mat-cell *matCellDef="let user">
@@ -510,7 +485,6 @@
                       </td>
                     </ng-container>
 
-                    <!-- Coluna: Ações -->
                     <ng-container matColumnDef="actions">
                       <th mat-header-cell *matHeaderCellDef>{{ 'ADMIN.ACTIONS' | translate }}</th>
                       <td mat-cell *matCellDef="let user">
@@ -524,11 +498,11 @@
                               <mat-icon>person</mat-icon>
                             </button>
                           }
-                          
+
                           <button mat-icon-button color="accent" (click)="manageUser(user, 'activate')" [matTooltip]="'ADMIN.ACTIVATE' | translate">
                             <mat-icon>check_circle</mat-icon>
                           </button>
-                          
+
                           <button mat-icon-button color="warn" (click)="manageUser(user, 'deactivate')" [matTooltip]="'ADMIN.DEACTIVATE' | translate">
                             <mat-icon>block</mat-icon>
                           </button>

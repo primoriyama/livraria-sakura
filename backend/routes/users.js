@@ -5,7 +5,6 @@ const { authenticateToken, requireAdmin, requireOwnershipOrAdmin } = require('..
 
 const router = express.Router();
 
-// Função para tratar erros de validação
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -17,7 +16,6 @@ const handleValidationErrors = (req, res, next) => {
   next();
 };
 
-// GET /api/users - Listar usuários (Admin apenas)
 router.get('/', authenticateToken, requireAdmin, [
   query('page').optional().isInt({ min: 1 }).withMessage('Página deve ser um número positivo'),
   query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limite deve ser entre 1 e 100'),
@@ -38,7 +36,6 @@ router.get('/', authenticateToken, requireAdmin, [
       order = 'desc'
     } = req.query;
 
-    // Construir filtros
     const filters = {};
 
     if (role) filters.role = role;
@@ -50,13 +47,11 @@ router.get('/', authenticateToken, requireAdmin, [
       ];
     }
 
-    // Configurar ordenação
     const sortOrder = order === 'desc' ? -1 : 1;
     const sortOptions = { [sort]: sortOrder };
 
-    // Executar consulta com paginação
     const skip = (parseInt(page) - 1) * parseInt(limit);
-    
+
     const [users, total] = await Promise.all([
       User.find(filters)
         .sort(sortOptions)
@@ -88,7 +83,6 @@ router.get('/', authenticateToken, requireAdmin, [
   }
 });
 
-// GET /api/users/stats - Estatísticas de usuários (Admin apenas)
 router.get('/stats', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const [
@@ -100,10 +94,10 @@ router.get('/stats', authenticateToken, requireAdmin, async (req, res) => {
       User.countDocuments(),
       User.countDocuments({ isActive: true }),
       User.countDocuments({ role: 'admin' }),
-      User.countDocuments({ 
-        createdAt: { 
+      User.countDocuments({
+        createdAt: {
           $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) // últimos 30 dias
-        } 
+        }
       })
     ]);
 
@@ -126,7 +120,6 @@ router.get('/stats', authenticateToken, requireAdmin, async (req, res) => {
   }
 });
 
-// GET /api/users/:id - Obter usuário por ID
 router.get('/:id', authenticateToken, requireOwnershipOrAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -149,7 +142,6 @@ router.get('/:id', authenticateToken, requireOwnershipOrAdmin, async (req, res) 
   }
 });
 
-// PUT /api/users/:id - Atualizar usuário
 router.put('/:id', authenticateToken, requireOwnershipOrAdmin, [
   body('name')
     .optional()
@@ -185,11 +177,10 @@ router.put('/:id', authenticateToken, requireOwnershipOrAdmin, [
       });
     }
 
-    // Verificar se email já existe em outro usuário
     if (email && email !== user.email) {
-      const existingUser = await User.findOne({ 
-        email, 
-        _id: { $ne: req.params.id } 
+      const existingUser = await User.findOne({
+        email,
+        _id: { $ne: req.params.id }
       });
       if (existingUser) {
         return res.status(409).json({
@@ -199,7 +190,6 @@ router.put('/:id', authenticateToken, requireOwnershipOrAdmin, [
       }
     }
 
-    // ===== CORREÇÃO APLICADA AQUI =====
     const isAdmin = req.user.role === 'admin';
     const isOwner = req.user._id.toString() === req.params.id;
 
@@ -210,7 +200,6 @@ router.put('/:id', authenticateToken, requireOwnershipOrAdmin, [
       });
     }
 
-    // Impedir que admin remova próprio privilégio
     if (isOwner && role === 'user' && req.user.role === 'admin') {
       return res.status(400).json({
         message: 'Você não pode remover seus próprios privilégios de administrador',
@@ -218,14 +207,12 @@ router.put('/:id', authenticateToken, requireOwnershipOrAdmin, [
       });
     }
 
-    // Atualizar campos permitidos
     if (name) user.name = name;
     if (email) user.email = email;
     if (phone) user.phone = phone;
     if (address) user.address = { ...user.address, ...address };
     if (preferences) user.preferences = { ...user.preferences, ...preferences };
-    
-    // Campos apenas para admin
+
     if (isAdmin) {
       if (role !== undefined) user.role = role;
       if (isActive !== undefined) user.isActive = isActive;
@@ -246,7 +233,6 @@ router.put('/:id', authenticateToken, requireOwnershipOrAdmin, [
   }
 });
 
-// DELETE /api/users/:id - Deletar usuário (Admin apenas)
 router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -258,7 +244,6 @@ router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
       });
     }
 
-    // Impedir que admin delete a si mesmo
     if (req.user._id.toString() === req.params.id) {
       return res.status(400).json({
         message: 'Você não pode deletar sua própria conta',
@@ -280,7 +265,6 @@ router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
   }
 });
 
-// POST /api/users/:id/toggle-status - Alternar status do usuário (Admin apenas)
 router.post('/:id/toggle-status', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -292,7 +276,6 @@ router.post('/:id/toggle-status', authenticateToken, requireAdmin, async (req, r
       });
     }
 
-    // Impedir que admin desative a si mesmo
     if (req.user._id.toString() === req.params.id) {
       return res.status(400).json({
         message: 'Você não pode alterar o status da sua própria conta',
@@ -316,7 +299,6 @@ router.post('/:id/toggle-status', authenticateToken, requireAdmin, async (req, r
   }
 });
 
-// POST /api/users/:id/toggle-role - Alternar role do usuário (Admin apenas)
 router.post('/:id/toggle-role', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -328,7 +310,6 @@ router.post('/:id/toggle-role', authenticateToken, requireAdmin, async (req, res
       });
     }
 
-    // Impedir que admin altere próprio role
     if (req.user._id.toString() === req.params.id) {
       return res.status(400).json({
         message: 'Você não pode alterar seu próprio role',
@@ -352,7 +333,6 @@ router.post('/:id/toggle-role', authenticateToken, requireAdmin, async (req, res
   }
 });
 
-// POST /api/users/:id/unlock - Desbloquear usuário (Admin apenas)
 router.post('/:id/unlock', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -385,7 +365,6 @@ router.post('/:id/unlock', authenticateToken, requireAdmin, async (req, res) => 
   }
 });
 
-// GET /api/users/:id/activity - Obter atividade do usuário (Owner ou Admin)
 router.get('/:id/activity', authenticateToken, requireOwnershipOrAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id)

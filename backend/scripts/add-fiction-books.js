@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Book = require('../models/Book');
 
-// Livros de ficção clássica para adicionar
 const fictionBooks = [
   {
     titulo: "To Kill a Mockingbird",
@@ -393,13 +392,12 @@ const addFictionBooks = async () => {
 
     console.log(`📚 Adicionando ${fictionBooks.length} livros de ficção clássica...`);
 
-    // Verificar se os livros já existem
     let addedCount = 0;
     let skippedCount = 0;
 
     for (const bookData of fictionBooks) {
       const existingBook = await Book.findOne({ titulo: bookData.titulo });
-      
+
       if (existingBook) {
         console.log(`⏭️  Pulando (já existe): "${bookData.titulo}"`);
         skippedCount++;
@@ -416,7 +414,6 @@ const addFictionBooks = async () => {
     console.log(`⏭️  Livros já existentes: ${skippedCount}`);
     console.log(`📚 Total processado: ${fictionBooks.length}`);
 
-    // Verificar total de livros no banco
     const totalBooks = await Book.countDocuments();
     console.log(`📖 Total de livros no banco agora: ${totalBooks}`);
 

@@ -34,15 +34,12 @@ export class HeaderComponent {
   private router = inject(Router);
   private translate = inject(TranslateService);
 
-  // Signals do AuthService
   currentUser = this.authService.currentUser;
   isAuthenticated = this.authService.isAuthenticated;
   isAdmin = this.authService.isAdmin;
 
-  // Signals do CartService
   cartItemCount = this.cartService.itemCount;
 
-  // Idiomas disponíveis
   languages = [
     { code: 'pt', name: 'Português' },
     { code: 'en', name: 'English' }
@@ -51,47 +48,38 @@ export class HeaderComponent {
   currentLanguage = 'pt';
 
   constructor() {
-    // Configurar idioma inicial
     const savedLanguage = localStorage.getItem('language') || 'pt';
     this.currentLanguage = savedLanguage;
-    
-    // Definir idioma padrão e usar o idioma salvo
+
     this.translate.setDefaultLang('pt');
     this.translate.use(savedLanguage);
 
-    // Debug temporário
     console.log('Header: cartItemCount inicial:', this.cartItemCount());
-    
-    // Effect para debug
+
     effect(() => {
       console.log('Header: cartItemCount mudou para:', this.cartItemCount());
     });
   }
 
-  // Alternar idioma
   changeLanguage(language: string): void {
     this.currentLanguage = language;
     this.translate.use(language);
     localStorage.setItem('language', language);
   }
 
-  // Logout
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/']);
   }
 
-  // Navegar para o carrinho
   goToCart(): void {
     this.router.navigate(['/cart']);
   }
 
-  // Navegar para o perfil
   goToProfile(): void {
     this.router.navigate(['/profile']);
   }
 
-  // Navegar para admin
   goToAdmin(): void {
     this.router.navigate(['/admin']);
   }

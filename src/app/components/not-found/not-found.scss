@@ -9,7 +9,6 @@
   }
 }
 
-// Seção Principal do Erro
 .error-section {
   text-align: center;
   padding: 4rem 2rem;
@@ -127,7 +126,6 @@
   }
 }
 
-// Seção de Sugestões
 .suggestions-section {
   margin-bottom: 3rem;
   animation: slideInUp 0.8s ease-out 0.8s both;
@@ -193,7 +191,6 @@
   }
 }
 
-// Seção de Ajuda
 .help-section {
   margin-bottom: 3rem;
   animation: slideInUp 0.8s ease-out 1s both;
@@ -259,7 +256,6 @@
   }
 }
 
-// Seção de Busca
 .search-section {
   animation: slideInUp 0.8s ease-out 1.2s both;
 
@@ -339,7 +335,6 @@
   }
 }
 
-// Animações
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -383,7 +378,6 @@
   }
 }
 
-// Dark Mode Support
 @media (prefers-color-scheme: dark) {
   .not-found-container {
     .error-section {

@@ -109,11 +109,11 @@
       font-weight: 500;
       border-radius: 12px;
       margin-top: 0.5rem;
-      background-color: #8B4A5C !important; // Mesma cor do botão "Carrinho de Compras"
+      background-color: #8B4A5C !important;
       color: white !important;
 
       &:hover:not(:disabled) {
-        background-color: #7a4252 !important; // Tom mais escuro para hover
+        background-color: #7a4252 !important;
       }
 
       &:disabled {
@@ -129,7 +129,6 @@
   }
 }
 
-// Seletores mais específicos para sobrescrever Angular Material
 .login-container .login-card .login-form .login-button,
 .login-container .login-card .login-form button.login-button,
 .login-container .login-wrapper .login-card .login-form .login-button,
@@ -150,19 +149,16 @@ button.mat-mdc-raised-button.login-button,
     color: #666666 !important;
   }
 
-  // Sobrescrever estilos específicos do Angular Material
   .mat-mdc-button-persistent-ripple,
   .mdc-button__label {
     color: white !important;
   }
 
-  // Sobrescrever estilos do MDC (Material Design Components)
   .mdc-button {
     background-color: #8B4A5C !important;
     color: white !important;
   }
 
-  // Sobrescrever estilos específicos do Angular Material v15+
   .mat-mdc-button-base {
     background-color: #8B4A5C !important;
     color: white !important;
@@ -192,12 +188,12 @@ button.mat-mdc-raised-button.login-button,
   }
 
   .guest-section {
-    text-align: center; // Centralizar o botão
+    text-align: center;
 
     .guest-button {
       height: 44px;
       border-radius: 12px;
-      background-color: #8B4A5C !important; // Mesma cor do botão "Limpar Carrinho"
+      background-color: #8B4A5C !important;
       color: white !important;
       border-color: #8B4A5C !important;
 
@@ -206,14 +202,13 @@ button.mat-mdc-raised-button.login-button,
       }
 
       &:hover {
-        background-color: #7a4252 !important; // Tom mais escuro para hover
+        background-color: #7a4252 !important;
         border-color: #7a4252 !important;
       }
     }
   }
 }
 
-// Animações
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -234,7 +229,6 @@ button.mat-mdc-raised-button.login-button,
   }
 }
 
-// Responsividade
 @media (max-width: 480px) {
   .login-container {
     padding: 0.5rem;
@@ -260,7 +254,6 @@ button.mat-mdc-raised-button.login-button,
   }
 }
 
-// Tema escuro
 @media (prefers-color-scheme: dark) {
   .login-container {
     background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);

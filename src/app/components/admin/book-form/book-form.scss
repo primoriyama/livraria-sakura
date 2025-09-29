@@ -181,7 +181,6 @@
     }
   }
 
-  // Ações do Formulário
   .form-actions {
     display: flex;
     gap: 1rem;
@@ -205,7 +204,6 @@
     }
   }
 
-  // Responsividade
   @media (max-width: 768px) {
     padding: 1rem;
 
@@ -259,7 +257,6 @@
   }
 }
 
-// Tema escuro
 .dark-theme {
   .book-form-container {
     .form-header {

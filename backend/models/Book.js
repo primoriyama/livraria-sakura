@@ -137,7 +137,7 @@ const bookSchema = new mongoose.Schema({
   }
 }, {
   timestamps: true,
-  toJSON: { 
+  toJSON: {
     virtuals: true,
     transform: function(doc, ret) {
       delete ret.__v;
@@ -146,7 +146,6 @@ const bookSchema = new mongoose.Schema({
   }
 });
 
-// Índices para melhor performance
 bookSchema.index({ titulo: 'text', autor: 'text', descricao: 'text' });
 bookSchema.index({ categoria: 1 });
 bookSchema.index({ preco: 1 });
@@ -157,7 +156,6 @@ bookSchema.index({ vendas: -1 });
 bookSchema.index({ createdAt: -1 });
 bookSchema.index({ isbn: 1 }, { unique: true });
 
-// Virtual para calcular preço com desconto
 bookSchema.virtual('precoComDesconto').get(function() {
   if (this.promocao.ativo && this.promocao.desconto > 0) {
     const agora = new Date();
@@ -169,43 +167,36 @@ bookSchema.virtual('precoComDesconto').get(function() {
   return this.preco;
 });
 
-// Virtual para calcular média de avaliações
 bookSchema.virtual('mediaAvaliacoes').get(function() {
   if (this.avaliacoes.length === 0) return 0;
   const soma = this.avaliacoes.reduce((acc, avaliacao) => acc + avaliacao.nota, 0);
   return Math.round((soma / this.avaliacoes.length) * 10) / 10;
 });
 
-// Virtual para verificar se está em estoque
 bookSchema.virtual('emEstoque').get(function() {
   return this.estoque > 0;
 });
 
-// Virtual para verificar se está em promoção ativa
 bookSchema.virtual('emPromocao').get(function() {
   if (!this.promocao.ativo || this.promocao.desconto <= 0) return false;
-  
+
   const agora = new Date();
   const inicioValido = !this.promocao.dataInicio || agora >= this.promocao.dataInicio;
   const fimValido = !this.promocao.dataFim || agora <= this.promocao.dataFim;
-  
+
   return inicioValido && fimValido;
 });
 
-// Método para adicionar avaliação
 bookSchema.methods.adicionarAvaliacao = function(usuarioId, nota, comentario) {
-  // Verificar se o usuário já avaliou
   const avaliacaoExistente = this.avaliacoes.find(
     av => av.usuario.toString() === usuarioId.toString()
   );
-  
+
   if (avaliacaoExistente) {
-    // Atualizar avaliação existente
     avaliacaoExistente.nota = nota;
     avaliacaoExistente.comentario = comentario;
     avaliacaoExistente.data = new Date();
   } else {
-    // Adicionar nova avaliação
     this.avaliacoes.push({
       usuario: usuarioId,
       nota,
@@ -213,11 +204,10 @@ bookSchema.methods.adicionarAvaliacao = function(usuarioId, nota, comentario) {
       data: new Date()
     });
   }
-  
+
   return this.save();
 };
 
-// Método para remover avaliação
 bookSchema.methods.removerAvaliacao = function(usuarioId) {
   this.avaliacoes = this.avaliacoes.filter(
     av => av.usuario.toString() !== usuarioId.toString()
@@ -225,7 +215,6 @@ bookSchema.methods.removerAvaliacao = function(usuarioId) {
   return this.save();
 };
 
-// Método para decrementar estoque
 bookSchema.methods.decrementarEstoque = function(quantidade = 1) {
   if (this.estoque >= quantidade) {
     this.estoque -= quantidade;
@@ -235,13 +224,11 @@ bookSchema.methods.decrementarEstoque = function(quantidade = 1) {
   throw new Error('Estoque insuficiente');
 };
 
-// Método para incrementar estoque
 bookSchema.methods.incrementarEstoque = function(quantidade = 1) {
   this.estoque += quantidade;
   return this.save();
 };
 
-// Middleware para validar promoção
 bookSchema.pre('save', function(next) {
   if (this.promocao.ativo) {
     if (this.promocao.dataInicio && this.promocao.dataFim) {

@@ -26,7 +26,7 @@
 
       &.type-danger {
         background-color: rgba(244, 67, 54, 0.1);
-        
+
         mat-icon {
           color: #f44336;
         }
@@ -34,7 +34,7 @@
 
       &.type-warning {
         background-color: rgba(255, 152, 0, 0.1);
-        
+
         mat-icon {
           color: #ff9800;
         }
@@ -42,7 +42,7 @@
 
       &.type-info {
         background-color: rgba(33, 150, 243, 0.1);
-        
+
         mat-icon {
           color: #2196f3;
         }
@@ -82,7 +82,7 @@
 
     @media (max-width: 480px) {
       flex-direction: column-reverse;
-      
+
       button {
         width: 100%;
       }
@@ -114,7 +114,6 @@
   }
 }
 
-// Animação de entrada
 .confirm-dialog {
   animation: dialogEnter 0.3s ease-out;
 }
@@ -130,7 +129,6 @@
   }
 }
 
-// Dark Mode Support
 @media (prefers-color-scheme: dark) {
   .confirm-dialog {
     .dialog-header {

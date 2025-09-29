@@ -13,7 +13,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const authReq = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)
     });
-    
+
     return next(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401 && error.error?.code === 'INVALID_TOKEN') {
@@ -27,7 +27,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
               verticalPosition: 'top'
             }
           );
-          // Não propagar o erro para evitar toast duplo
           return EMPTY;
         }
         return throwError(() => error);

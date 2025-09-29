@@ -1,24 +1,18 @@
-<!-- Layout principal da aplicação -->
 <div class="app-container">
-  <!-- Header fixo -->
   <app-header></app-header>
-  
-  <!-- Conteúdo principal -->
+
   <main class="main-content">
     <router-outlet></router-outlet>
   </main>
-  
-  <!-- Footer -->
+
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
-        <!-- Seção Esquerda: Livraria Sakura -->
         <div class="footer-section footer-brand">
           <h1>{{ 'FOOTER.TITLE' | translate }}</h1>
           <p>{{ 'FOOTER.SUBTITLE' | translate }}</p>
         </div>
-        
-        <!-- Seção Centro: Links Úteis -->
+
         <div class="footer-section footer-links">
           <h4>{{ 'FOOTER.USEFUL_LINKS' | translate }}</h4>
           <ul>
@@ -27,16 +21,14 @@
             <li><a href="/cart">{{ 'FOOTER.CART' | translate }}</a></li>
           </ul>
         </div>
-        
-        <!-- Seção Direita: Contatos -->
+
         <div class="footer-section footer-contact">
           <h4>{{ 'FOOTER.CONTACT' | translate }}</h4>
           <p>{{ 'FOOTER.EMAIL' | translate }}</p>
           <p>{{ 'FOOTER.PHONE' | translate }}</p>
         </div>
       </div>
-      
-      <!-- Copyright centralizado abaixo -->
+
       <div class="footer-bottom">
         <p>{{ 'FOOTER.COPYRIGHT' | translate }}</p>
       </div>

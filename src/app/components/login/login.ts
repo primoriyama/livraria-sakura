@@ -59,13 +59,10 @@ export class LoginComponent {
 
       const { email, password, rememberMe } = this.loginForm.value;
 
-      // ===== CORREÇÃO APLICADA AQUI =====
-      // Alterado de 'senha: password' para 'password: password' para combinar com o backend
       this.authService.login({ email, password: password }).subscribe({
-      // ======================================================
         next: (response) => {
           this.isLoading.set(false);
-          
+
           if (this.authService.isAdmin()) {
             this.router.navigate(['/admin']);
           } else {

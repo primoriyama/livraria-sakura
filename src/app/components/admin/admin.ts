@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-
-// Angular Material
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,17 +20,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatNativeDateModule } from '@angular/material/core';
-
-// Services
 import { BookService } from '../../services/book.service';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { ConfirmDialogService } from '../../shared/services/confirm-dialog.service';
-
-// Models
 import { Book } from '../../models/book.model';
-
-// Pipes
 import { TranslateTitlePipe } from '../../pipes/translate-title.pipe';
 
 interface User {
@@ -84,8 +76,7 @@ interface DashboardStats {
   styleUrls: ['./admin.scss']
 })
 export class AdminComponent implements OnInit {
-  
-  // Signals para estado reativo
+
   loading = signal(false);
   books = signal<Book[]>([]);
   users = signal<User[]>([]);
@@ -98,15 +89,12 @@ export class AdminComponent implements OnInit {
     recentOrders: 0
   });
 
-  // Formulários
   bookForm!: FormGroup;
   editingBook = signal<Book | null>(null);
 
-  // Configurações da tabela
   bookColumns: string[] = ['imagemUrl', 'titulo', 'autor', 'categoria', 'preco', 'estoque', 'disponivel', 'actions'];
   userColumns: string[] = ['name', 'email', 'role', 'createdAt', 'lastLogin', 'actions'];
 
-  // Categorias disponíveis
   categories: string[] = [];
 
   constructor(
@@ -129,7 +117,6 @@ export class AdminComponent implements OnInit {
     this.loadUsers();
   }
 
-  // Inicializar categorias traduzidas
   private initializeCategories(): void {
     this.categories = [
       this.translate.instant('ADMIN.CATEGORY_FICTION'),
@@ -147,7 +134,6 @@ export class AdminComponent implements OnInit {
     ];
   }
 
-  // Inicializar formulário de livro
   private initializeBookForm(): void {
     this.bookForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.minLength(2)]],
@@ -165,23 +151,20 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Carregar dados do dashboard
   loadDashboardData(): void {
     this.loading.set(true);
-    
-    // Carregar estatísticas reais
+
     this.userService.getUserStats().subscribe({
       next: (userStats) => {
-        // Combinar com estatísticas de livros
         this.booksService.getBooks().subscribe({
           next: (books) => {
             const lowStockBooks = books.filter(book => book.estoque < 5).length;
-            
+
             this.stats.set({
               totalBooks: books.length,
               totalUsers: userStats.totalUsers,
-              totalOrders: 0, // TODO: Implementar quando houver serviço de pedidos
-              totalRevenue: 0, // TODO: Implementar quando houver serviço de pedidos
+              totalOrders: 0,
+              totalRevenue: 0,
               lowStockBooks: lowStockBooks,
               recentOrders: userStats.newUsersThisMonth
             });
@@ -201,7 +184,6 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Carregar livros
   loadBooks(): void {
     this.loading.set(true);
     this.booksService.getBooks().subscribe({
@@ -217,10 +199,9 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Carregar usuários
   private loadUsers(): void {
     this.loading.set(true);
-    
+
     this.userService.getUsers().subscribe({
       next: (response) => {
         this.users.set(response.users);
@@ -234,14 +215,12 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Adicionar/Editar livro
   onSubmitBook(): void {
     if (this.bookForm.valid) {
       this.loading.set(true);
       const bookData = this.bookForm.value;
-      
+
       if (this.editingBook()) {
-        // Editar livro existente
         this.booksService.updateBook(this.editingBook()!._id!, bookData).subscribe({
           next: () => {
             this.showMessage(this.translate.instant('ADMIN.BOOK_UPDATED_SUCCESS'));
@@ -255,7 +234,6 @@ export class AdminComponent implements OnInit {
           }
         });
       } else {
-        // Adicionar novo livro
         this.booksService.createBook(bookData).subscribe({
           next: () => {
             this.showMessage(this.translate.instant('ADMIN.BOOK_ADDED_SUCCESS'));
@@ -274,13 +252,11 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // Editar livro
   editBook(book: Book): void {
     this.editingBook.set(book);
     this.bookForm.patchValue(book);
   }
 
-  // Deletar livro
   deleteBook(book: Book): void {
     this.confirmDialog.confirmDelete(book.titulo).subscribe(confirmed => {
       if (confirmed) {
@@ -300,7 +276,6 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Reset do formulário
   resetBookForm(): void {
     this.bookForm.reset();
     this.bookForm.patchValue({ disponivel: true });
@@ -308,7 +283,6 @@ export class AdminComponent implements OnInit {
     this.loading.set(false);
   }
 
-  // Marcar todos os campos como tocados
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.keys(formGroup.controls).forEach(key => {
       const control = formGroup.get(key);
@@ -316,37 +290,35 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Obter mensagem de erro
   getErrorMessage(formGroup: FormGroup, fieldName: string): string {
     const field = formGroup.get(fieldName);
-    
+
     if (field?.hasError('required')) {
       return this.translate.instant('ADMIN.ERROR_REQUIRED');
     }
-    
+
     if (field?.hasError('minlength')) {
       const requiredLength = field.errors?.['minlength']?.requiredLength;
       return this.translate.instant('ADMIN.ERROR_MIN_LENGTH', { length: requiredLength });
     }
-    
+
     if (field?.hasError('min')) {
       const min = field.errors?.['min']?.min;
       return this.translate.instant('ADMIN.ERROR_MIN_VALUE', { value: min });
     }
-    
+
     if (field?.hasError('max')) {
       const max = field.errors?.['max']?.max;
       return this.translate.instant('ADMIN.ERROR_MAX_VALUE', { value: max });
     }
-    
+
     if (field?.hasError('pattern')) {
       return this.translate.instant('ADMIN.ERROR_INVALID_FORMAT');
     }
-    
+
     return '';
   }
 
-  // Formatar preço
   formatPrice(price: number): string {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -354,12 +326,10 @@ export class AdminComponent implements OnInit {
     }).format(price);
   }
 
-  // Formatar data
   formatDate(date: Date): string {
     return new Intl.DateTimeFormat('pt-BR').format(new Date(date));
   }
 
-  // Mostrar mensagem
   private showMessage(message: string): void {
     this.snackBar.open(message, this.translate.instant('ADMIN.CLOSE'), {
       duration: 3000,
@@ -368,11 +338,9 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Upload de imagem (simulado)
   onImageUpload(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      // Simular upload
       const reader = new FileReader();
       reader.onload = (e) => {
         this.bookForm.patchValue({
@@ -383,7 +351,6 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // Alternar disponibilidade do livro
   toggleBookAvailability(book: Book): void {
     this.confirmDialog.confirmToggleBookAvailability(book.titulo, book.disponivel).subscribe(confirmed => {
       if (confirmed) {
@@ -403,13 +370,12 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Gerenciar usuário (simulado)
   manageUser(user: User, action: 'activate' | 'deactivate' | 'promote' | 'demote'): void {
     const isCurrentlyActive = action === 'deactivate' || action === 'demote';
     this.confirmDialog.confirmToggleUserStatus(user.name, isCurrentlyActive).subscribe(confirmed => {
       if (confirmed) {
         let messageKey = '';
-        
+
         switch (action) {
           case 'activate':
             messageKey = 'ADMIN.USER_ACTIVATED_SUCCESS';
@@ -424,7 +390,7 @@ export class AdminComponent implements OnInit {
             messageKey = 'ADMIN.USER_DEMOTED_SUCCESS';
             break;
         }
-        
+
         this.showMessage(this.translate.instant(messageKey, { name: user.name }));
       }
     });

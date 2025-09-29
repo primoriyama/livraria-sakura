@@ -1,5 +1,5 @@
 <div class="checkout-container">
-  <!-- Cabeçalho -->
+
   <div class="checkout-header">
     <h1>
       <mat-icon>payment</mat-icon>
@@ -8,7 +8,6 @@
     <p>{{ 'CHECKOUT.SUBTITLE' | translate }}</p>
   </div>
 
-  <!-- Pedido concluído -->
   @if (orderCompleted()) {
     <div class="order-success">
       <mat-card class="success-card">
@@ -30,20 +29,17 @@
       </mat-card>
     </div>
   } @else {
-    <!-- Processo de checkout -->
     <div class="checkout-content">
-      <!-- Stepper -->
       <mat-stepper [selectedIndex]="currentStep()" orientation="horizontal" class="checkout-stepper">
-        <!-- Etapa 1: Endereço de Entrega -->
         <mat-step [completed]="addressForm.valid">
           <ng-template matStepLabel>{{ 'CHECKOUT.DELIVERY_ADDRESS' | translate }}</ng-template>
-          
+
           <mat-card class="step-card">
             <mat-card-header>
               <mat-card-title>{{ 'CHECKOUT.DELIVERY_DATA' | translate }}</mat-card-title>
               <mat-card-subtitle>{{ 'CHECKOUT.DELIVERY_SUBTITLE' | translate }}</mat-card-subtitle>
             </mat-card-header>
-            
+
             <mat-card-content>
               <form [formGroup]="addressForm" class="address-form">
                 <div class="form-row">
@@ -159,18 +155,16 @@
           </mat-card>
         </mat-step>
 
-        <!-- Etapa 2: Forma de Pagamento -->
         <mat-step [completed]="paymentForm.valid">
           <ng-template matStepLabel>{{ 'CHECKOUT.PAYMENT_METHOD' | translate }}</ng-template>
-          
+
           <mat-card class="step-card">
             <mat-card-header>
               <mat-card-title>{{ 'CHECKOUT.PAYMENT_DATA' | translate }}</mat-card-title>
               <mat-card-subtitle>{{ 'CHECKOUT.PAYMENT_SUBTITLE' | translate }}</mat-card-subtitle>
             </mat-card-header>
-            
+
             <mat-card-content>
-              <!-- Opções de entrega -->
               <div class="shipping-options">
                 <h3>{{ 'CHECKOUT.SHIPPING_OPTIONS' | translate }}</h3>
                 <mat-radio-group [value]="selectedShipping().id" (change)="selectShippingOption($event.value)">
@@ -196,7 +190,6 @@
 
               <mat-divider></mat-divider>
 
-              <!-- Métodos de pagamento -->
               <div class="payment-methods">
                 <h3>{{ 'CHECKOUT.PAYMENT_METHODS' | translate }}</h3>
                 <mat-radio-group [value]="selectedPayment().id" (change)="selectPaymentMethod($event.value)">
@@ -211,7 +204,6 @@
                 </mat-radio-group>
               </div>
 
-              <!-- Dados do cartão (se cartão selecionado) -->
               @if (selectedPayment().id === 'credit' || selectedPayment().id === 'debit') {
                 <form [formGroup]="paymentForm" class="payment-form">
                   <div class="form-row">
@@ -290,20 +282,18 @@
           </mat-card>
         </mat-step>
 
-        <!-- Etapa 3: Confirmação -->
         <mat-step>
           <ng-template matStepLabel>{{ 'CHECKOUT.CONFIRMATION' | translate }}</ng-template>
-          
+
           <mat-card class="step-card">
             <mat-card-header>
               <mat-card-title>{{ 'CHECKOUT.CONFIRM_ORDER' | translate }}</mat-card-title>
               <mat-card-subtitle>{{ 'CHECKOUT.REVIEW_DATA' | translate }}</mat-card-subtitle>
             </mat-card-header>
-            
+
             <mat-card-content>
               <div class="confirmation-content">
                 @defer (when cartItems().length > 0 && totalPrice() > 0) {
-                  <!-- Resumo dos itens -->
                   <div class="order-items">
                     <h3>{{ 'CHECKOUT.ORDER_ITEMS' | translate }}</h3>
                     @for (item of cartItems(); track item.book._id) {
@@ -323,7 +313,6 @@
 
                   <mat-divider></mat-divider>
 
-                  <!-- Resumo do pedido -->
                   <div class="order-summary">
                     <h3>{{ 'CHECKOUT.ORDER_SUMMARY' | translate }}</h3>
                     <div class="summary-line">
@@ -352,7 +341,6 @@
                   </div>
                 } @placeholder {
                   <div class="order-summary-skeleton">
-                    <!-- Skeleton para itens -->
                     <div class="skeleton-section">
                       <div class="skeleton-title"></div>
                       @for (item of [1,2,3]; track item) {
@@ -367,8 +355,7 @@
                         </div>
                       }
                     </div>
-                    
-                    <!-- Skeleton para resumo -->
+
                     <div class="skeleton-section">
                       <div class="skeleton-title"></div>
                       @for (line of [1,2,3]; track line) {
@@ -391,7 +378,6 @@
 
                 <mat-divider></mat-divider>
 
-                <!-- Endereço de entrega -->
                 <div class="delivery-info">
                   <h3>{{ 'CHECKOUT.DELIVERY_ADDRESS' | translate }}</h3>
                   <div class="address-details">
@@ -407,7 +393,6 @@
 
                 <mat-divider></mat-divider>
 
-                <!-- Forma de pagamento -->
                 <div class="payment-info">
                   <h3>{{ 'CHECKOUT.PAYMENT_METHOD' | translate }}</h3>
                   <div class="payment-details">
@@ -429,9 +414,9 @@
                 <mat-icon>arrow_back</mat-icon>
                 {{ 'CHECKOUT.BACK' | translate }}
               </button>
-              <button 
-                mat-raised-button 
-                color="primary" 
+              <button
+                mat-raised-button
+                color="primary"
                 (click)="completeOrder()"
                 [disabled]="loading()"
                 class="complete-order-btn"

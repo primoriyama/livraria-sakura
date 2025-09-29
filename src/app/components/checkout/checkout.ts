@@ -65,30 +65,24 @@ export class CheckoutComponent implements OnInit {
   private snackBar = inject(MatSnackBar);
   private translate = inject(TranslateService);
 
-  // Forms
   addressForm: FormGroup;
   paymentForm: FormGroup;
 
-  // Estado
   loading = signal(false);
   currentStep = signal(0);
   orderCompleted = signal(false);
 
-  // Dados do carrinho
   cartItems = this.cartService.cartItems;
   totalItems = this.cartService.itemCount;
   subtotal = this.cartService.total;
 
-  // Opções de entrega
   shippingOptions: ShippingOption[] = [];
   selectedShipping = signal<ShippingOption>({} as ShippingOption);
 
-  // Métodos de pagamento
   paymentMethods: PaymentMethod[] = [];
 
   selectedPayment = signal<PaymentMethod>(this.paymentMethods[0]);
 
-  // Opções de parcelamento
   installmentOptions = [
     { value: 1, label: '1x sem juros' },
     { value: 2, label: '2x sem juros' },
@@ -98,7 +92,6 @@ export class CheckoutComponent implements OnInit {
     { value: 6, label: '6x com juros' }
   ];
 
-  // Computed values
   shippingCost = computed(() => {
     const shipping = this.selectedShipping();
     return this.subtotal() >= 100 ? 0 : shipping.price;
@@ -131,30 +124,28 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Inicializar opções de entrega
     this.shippingOptions = [
-      { 
-        id: 'standard', 
-        name: this.translate.instant('CHECKOUT.SHIPPING_STANDARD'), 
-        price: 15.90, 
-        estimatedDays: this.translate.instant('CHECKOUT.SHIPPING_STANDARD_DAYS') 
+      {
+        id: 'standard',
+        name: this.translate.instant('CHECKOUT.SHIPPING_STANDARD'),
+        price: 15.90,
+        estimatedDays: this.translate.instant('CHECKOUT.SHIPPING_STANDARD_DAYS')
       },
-      { 
-        id: 'express', 
-        name: this.translate.instant('CHECKOUT.SHIPPING_EXPRESS'), 
-        price: 25.90, 
-        estimatedDays: this.translate.instant('CHECKOUT.SHIPPING_EXPRESS_DAYS') 
+      {
+        id: 'express',
+        name: this.translate.instant('CHECKOUT.SHIPPING_EXPRESS'),
+        price: 25.90,
+        estimatedDays: this.translate.instant('CHECKOUT.SHIPPING_EXPRESS_DAYS')
       },
-      { 
-        id: 'premium', 
-        name: this.translate.instant('CHECKOUT.SHIPPING_PREMIUM'), 
-        price: 35.90, 
-        estimatedDays: this.translate.instant('CHECKOUT.SHIPPING_PREMIUM_DAYS') 
+      {
+        id: 'premium',
+        name: this.translate.instant('CHECKOUT.SHIPPING_PREMIUM'),
+        price: 35.90,
+        estimatedDays: this.translate.instant('CHECKOUT.SHIPPING_PREMIUM_DAYS')
       }
     ];
     this.selectedShipping.set(this.shippingOptions[0]);
 
-    // Inicializar métodos de pagamento
     this.paymentMethods = [
       { id: 'credit', name: this.translate.instant('CHECKOUT.PAYMENT_CREDIT'), icon: 'credit_card' },
       { id: 'debit', name: this.translate.instant('CHECKOUT.PAYMENT_DEBIT'), icon: 'payment' },
@@ -163,32 +154,29 @@ export class CheckoutComponent implements OnInit {
     ];
     this.selectedPayment.set(this.paymentMethods[0]);
 
-    // Verificar se há itens no carrinho
     if (this.cartItems().length === 0) {
       this.snackBar.open(
-        this.translate.instant('CHECKOUT.EMPTY_CART'), 
-        this.translate.instant('CHECKOUT.CLOSE'), 
+        this.translate.instant('CHECKOUT.EMPTY_CART'),
+        this.translate.instant('CHECKOUT.CLOSE'),
         { duration: 3000 }
       );
       this.router.navigate(['/cart']);
       return;
     }
 
-    // Verificar se está autenticado
     if (!this.authService.isAuthenticated()) {
       this.snackBar.open(
-        this.translate.instant('CHECKOUT.LOGIN_REQUIRED'), 
-        this.translate.instant('CHECKOUT.LOGIN'), 
+        this.translate.instant('CHECKOUT.LOGIN_REQUIRED'),
+        this.translate.instant('CHECKOUT.LOGIN'),
         { duration: 4000 }
       ).onAction().subscribe(() => {
-        this.router.navigate(['/login'], { 
-          queryParams: { returnUrl: '/checkout' } 
+        this.router.navigate(['/login'], {
+          queryParams: { returnUrl: '/checkout' }
         });
       });
       return;
     }
 
-    // Pré-preencher dados do usuário
     this.prefillUserData();
   }
 
@@ -208,8 +196,7 @@ export class CheckoutComponent implements OnInit {
 
   onPaymentMethodChange(method: PaymentMethod): void {
     this.selectedPayment.set(method);
-    
-    // Atualizar validadores do formulário de pagamento
+
     this.updatePaymentValidators(method.id);
   }
 
@@ -233,13 +220,11 @@ export class CheckoutComponent implements OnInit {
     const cardExpiry = this.paymentForm.get('cardExpiry');
     const cardCvv = this.paymentForm.get('cardCvv');
 
-    // Limpar validadores
     cardNumber?.clearValidators();
     cardName?.clearValidators();
     cardExpiry?.clearValidators();
     cardCvv?.clearValidators();
 
-    // Adicionar validadores para cartão
     if (paymentMethod === 'credit' || paymentMethod === 'debit') {
       cardNumber?.setValidators([Validators.required, Validators.pattern(/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/)]);
       cardName?.setValidators([Validators.required, Validators.minLength(3)]);
@@ -247,7 +232,6 @@ export class CheckoutComponent implements OnInit {
       cardCvv?.setValidators([Validators.required, Validators.pattern(/^\d{3,4}$/)]);
     }
 
-    // Atualizar status dos campos
     cardNumber?.updateValueAndValidity();
     cardName?.updateValueAndValidity();
     cardExpiry?.updateValueAndValidity();
@@ -273,8 +257,8 @@ export class CheckoutComponent implements OnInit {
   completeOrder(): void {
     if (!this.addressForm.valid || !this.paymentForm.valid) {
       this.snackBar.open(
-        this.translate.instant('CHECKOUT.CHECK_DATA'), 
-        this.translate.instant('CHECKOUT.CLOSE'), 
+        this.translate.instant('CHECKOUT.CHECK_DATA'),
+        this.translate.instant('CHECKOUT.CLOSE'),
         { duration: 3000 }
       );
       return;
@@ -282,19 +266,17 @@ export class CheckoutComponent implements OnInit {
 
     this.loading.set(true);
 
-    // Simular processamento do pedido
     setTimeout(() => {
       this.loading.set(false);
       this.orderCompleted.set(true);
       this.cartService.clearCart();
-      
+
       this.snackBar.open(
-        this.translate.instant('CHECKOUT.ORDER_SUCCESS'), 
-        this.translate.instant('CHECKOUT.CLOSE'), 
+        this.translate.instant('CHECKOUT.ORDER_SUCCESS'),
+        this.translate.instant('CHECKOUT.CLOSE'),
         { duration: 5000 }
       );
-      
-      // Redirecionar após alguns segundos
+
       setTimeout(() => {
         this.router.navigate(['/']);
       }, 3000);
@@ -368,7 +350,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   refreshOrderSummary(): void {
-    // Força a recalculação dos valores do carrinho recarregando do localStorage
     const cartSnapshot = this.cartService.getCartSnapshot();
     console.log('Order summary refreshed:', cartSnapshot);
   }

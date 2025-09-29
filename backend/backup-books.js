@@ -22,10 +22,9 @@ async function backupBooks() {
     const allBooks = await Book.find({});
     console.log(`📚 Fazendo backup de ${allBooks.length} livros...`);
 
-    // Criar backup com timestamp
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const backupFile = `backup-books-${timestamp}.json`;
-    
+
     fs.writeFileSync(backupFile, JSON.stringify(allBooks, null, 2));
     console.log(`✅ Backup salvo em: ${backupFile}`);
 

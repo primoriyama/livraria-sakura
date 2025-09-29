@@ -117,7 +117,6 @@ export class ProfileComponent implements OnInit {
 
   loadOrders() {
     this.loading.set(true);
-    // Simulação de carregamento de pedidos
     setTimeout(() => {
       const mockOrders: Order[] = [
         {
@@ -175,13 +174,12 @@ export class ProfileComponent implements OnInit {
   onUpdateProfile() {
     if (this.profileForm.valid) {
       this.loading.set(true);
-      
-      // Simulação de atualização do perfil
+
       setTimeout(() => {
         this.loading.set(false);
         this.snackBar.open(
-          this.translate.instant('PROFILE.PROFILE_UPDATED_SUCCESS'), 
-          this.translate.instant('PROFILE.CLOSE'), 
+          this.translate.instant('PROFILE.PROFILE_UPDATED_SUCCESS'),
+          this.translate.instant('PROFILE.CLOSE'),
           {
             duration: 3000,
             horizontalPosition: 'center',
@@ -197,14 +195,13 @@ export class ProfileComponent implements OnInit {
   onChangePassword() {
     if (this.passwordForm.valid) {
       this.loading.set(true);
-      
-      // Simulação de alteração de senha
+
       setTimeout(() => {
         this.loading.set(false);
         this.passwordForm.reset();
         this.snackBar.open(
-          this.translate.instant('PROFILE.PASSWORD_CHANGED_SUCCESS'), 
-          this.translate.instant('PROFILE.CLOSE'), 
+          this.translate.instant('PROFILE.PASSWORD_CHANGED_SUCCESS'),
+          this.translate.instant('PROFILE.CLOSE'),
           {
             duration: 3000,
             horizontalPosition: 'center',
@@ -223,7 +220,6 @@ export class ProfileComponent implements OnInit {
   }
 
   viewOrderDetails(order: Order) {
-    // Implementar visualização de detalhes do pedido
     console.log('Ver detalhes do pedido:', order);
   }
 
@@ -282,8 +278,8 @@ export class ProfileComponent implements OnInit {
         return this.translate.instant('PROFILE.ERROR_INVALID_EMAIL');
       }
       if (control.errors['minlength']) {
-        return this.translate.instant('PROFILE.ERROR_MIN_LENGTH', { 
-          length: control.errors['minlength'].requiredLength 
+        return this.translate.instant('PROFILE.ERROR_MIN_LENGTH', {
+          length: control.errors['minlength'].requiredLength
         });
       }
       if (control.errors['pattern']) {
@@ -304,12 +300,12 @@ export class ProfileComponent implements OnInit {
   private passwordMatchValidator(form: FormGroup) {
     const newPassword = form.get('newPassword');
     const confirmPassword = form.get('confirmPassword');
-    
+
     if (newPassword && confirmPassword && newPassword.value !== confirmPassword.value) {
       confirmPassword.setErrors({ passwordMismatch: true });
       return { passwordMismatch: true };
     }
-    
+
     return null;
   }
 
@@ -317,7 +313,7 @@ export class ProfileComponent implements OnInit {
     Object.keys(formGroup.controls).forEach(key => {
       const control = formGroup.get(key);
       control?.markAsTouched();
-      
+
       if (control instanceof FormGroup) {
         this.markFormGroupTouched(control);
       }
