@@ -37,10 +37,8 @@ async function checkMissingBooks() {
     const missingBooks = [];
 
     for (const [englishTitle, portugueseTitle] of Object.entries(expectedBooks)) {
-      // Buscar por título em inglês
       let book = await Book.findOne({ titulo: englishTitle });
 
-      // Se não encontrou, buscar por título em português
       if (!book) {
         book = await Book.findOne({ titulo: portugueseTitle });
       }
